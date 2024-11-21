@@ -1,0 +1,107 @@
+#!/usr/bin/env python
+
+import os, sys
+import stat
+import time, datetime
+import pandas as pd
+import h5py
+import numpy as np
+from tqdm import tqdm
+
+#sys.path.append("/home/dlab/repo/RegtestWebsite/RegtestWebsite/regtestsite")
+sys.path.append("/home/dartsfn/pkgs/lib")
+from regtest.utils import Dinit
+from regtest.management import yamDb
+import glob, re
+
+from timeit import default_timer
+
+import click
+import Dutils.Dclick as Dclick
+
+from Dtest.regtest.processRegtestData import writeFilesToHDF5, sendEmailForRegtest
+
+
+@Dclick.cli.command()
+@click.pass_context
+@click.option("--regtest-path", multiple=True, help="Path to regtest.data file(s). Can be either a directory or a single filename.")
+@click.option("--regtest-host", type=str, default="goldstein", show_default=True, help="The lab machine that ran the regtests.")
+@click.option("--save-dir", type=str, default="/home/dlab3/repo/PKGBUILDS/ROAMSDshellPkg", show_default=True, help="Directory to save the HDF5 file")
+@click.option("--hdf5-filename", type=str, default="regtest.h5", show_default=True, help="Name of the HDF5 file")
+@click.option("--append/--overwrite", default=True, help="Append regtests or overwrite the entire file.")
+@click.option("--max-to-append", type=int, default=100000, show_default=True, help="Max number of regtests to append to HDF5 file.")
+@click.option("--from-date", type=str, default="", help="Add all regtests since this date. Date in the format YYYY-MM-DD")
+@click.option("--to-date", type=str, default="", help="Add all regtests until this date. Date in the format YYYY-MM-DD")
+@click.option("--newest-first/--oldest-first", default=True, help="Whether to append the newest or oldest regtest files first. Oldest-first is usually preferred when appending a large number of files to an empty HDF5 file.")
+@click.option("--email-html", is_flag=True, help="Send an email with the results of the regtest in HTML format. When regtest-path is a directory, it sends an email for the most recent test.")
+@click.option("--email-text", is_flag=True, help="Send an email with the results of the regtest in plain text format.")
+@click.option("--email-from", type=str, default="", help="The email address to send the regtest email from")
+@click.option("--email-to", type=str, default="", help="The email address to send the regtest email to")
+@click.option("--email-title", type=str, default="", help="The title of the email to be sent out, defaults to the name of the regtest file")
+def options(ctx, **kwargs):
+    Dclick.add_options("options", Dclick.cli.commands["options"], kwargs)
+
+# extract all the Dclick options
+cfgobj, ctxobj = Dclick.cli(standalone_mode=False)
+
+
+regtest_paths = cfgobj['options']['regtest_path']
+regtest_host = cfgobj['options']['regtest_host']
+save_dir = cfgobj['options']['save_dir']
+hdf5_filename = cfgobj['options']['hdf5_filename']
+append = cfgobj['options']['append']
+max_to_append = cfgobj['options']['max_to_append']
+from_date = cfgobj['options']['from_date']
+to_date = cfgobj['options']['to_date']
+newest_first = cfgobj['options']['newest_first']
+email_html = cfgobj['options']['email_html']
+email_text = cfgobj['options']['email_text']
+email_from = cfgobj['options']['email_from']
+email_to = cfgobj['options']['email_to']
+email_title = cfgobj['options']['email_title']
+
+all_regtest_filenames = []
+for regtest_path in regtest_paths:
+    if os.path.isdir(regtest_path):
+        regtest_filenames = [os.path.join(regtest_path, x) for x in os.listdir(regtest_path) if "regtest.data" in x]
+    else:
+        regtest_filenames = [regtest_path]
+
+    all_regtest_filenames += regtest_filenames
+
+# sort all the regtest filenames by date
+def sortFilesByDate(file1, file2):
+    # only want to look at the file name, not the directory they're a part of
+    filename1 = file1.split('/')[-1]
+    filename2 = file2.split('/')[-1]
+
+    if filename1 < filename2:
+        return -1
+    else:
+        return 1
+
+from functools import cmp_to_key
+sorted_regtest_filenames = sorted(all_regtest_filenames, key=cmp_to_key(sortFilesByDate), reverse=newest_first)
+
+
+# get the full hdf5 file path
+hdf5_path = os.path.join(save_dir, hdf5_filename)
+
+print('Writing to ', hdf5_path)
+# write file info the HDF5
+writeFilesToHDF5(hdf5_path, sorted_regtest_filenames, append, from_date, to_date, max_to_append)
+
+email_regtest_filename = sorted_regtest_filenames[0] if newest_first else sorted_regtest_filenames[-1]
+if email_html:
+    if email_to != "" and email_from != "":
+        sendEmailForRegtest(hdf5_path, email_regtest_filename, regtest_host=regtest_host, email_from=email_from, email_to=email_to, email_title=email_title, html=True)
+    else:
+        print("--email-to and --email-from need to be specified with --email-html!")
+        sys.exit(1)
+
+if email_text:
+    if email_to != "" and email_from != "":
+        sendEmailForRegtest(hdf5_path, email_regtest_filename, regtest_host=regtest_host, email_from=email_from, email_to=email_to, email_title=email_title, html=False)
+    else:
+        print("--email-to and --email-from need to be specified with --email-text!")
+        sys.exit(1)

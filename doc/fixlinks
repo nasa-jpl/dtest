@@ -1,0 +1,42 @@
+#!/bin/env python
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+
+import sys
+import os
+import fileinput
+import re
+
+path = os.path.dirname(os.path.abspath(sys.argv[1]))
+
+# The doxygen files are already relative, so ignore them
+if 'doxygen/html' in path:
+    sys.exit()
+
+print >> sys.stderr, '  --> Fixing ', sys.argv[1]
+
+# Figure out how many ../ we need in the relative link
+parts = path.partition('/<MODULE_NAME>/doc/build/html/')
+
+depth = 0
+if parts[2]:
+    depth = len(parts[2].split('/'))
+prefix = 'href="' + '../' * depth + 'doxygen/html/'
+
+# Replace any doxygen strings
+
+# NOTE: Any '+' characters in this regular expression need to be escaped
+# (precede with '\')
+r1 = re.compile(r'href=".*/<MODULE_NAME>/doc/build/html/doxygen/html/')
+
+# Updated PDF download links to include the type (so the browers will open it automatically)
+r2 = re.compile(r'a class="reference download internal" href="_downloads/([-a-zA-Z0-9_ ]+)\.pdf"')
+
+for line in fileinput.input(inplace=True):
+    line = r1.sub(prefix, line)
+    line = r2.sub('a class="reference download internal" type="application/pdf" href="_downloads/\\1.pdf"', line)
+    sys.stdout.write(line)
+
+# Note: To preserve original files, you may add argument to
+# fileinput.input: backup='.bak'

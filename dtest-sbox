@@ -1,0 +1,150 @@
+#!/usr/bin/env python
+"""Script for discovering and running tests in the entire sandbox."""
+
+import sys
+from Dtest.DtestCommon import *
+from functools import partial
+from typing import Dict, Any, Tuple
+from contextlib import contextmanager
+from copy import deepcopy
+from shlex import split
+
+@contextmanager
+def sysArgsContext(sys_args: List[str]):
+    """Temporarily change the system arguments. This is done in a context to ensure
+    they are changed back, even if errors occur."""
+
+    old_args = sys.argv
+    try:
+        sys.argv = old_args + sys_args
+        yield
+    finally:
+        sys.argv = old_args
+
+parser = Test.baseOptions()
+def testDirAndArgs(line: str) -> Tuple[str, Dict[str, Any]]:
+    """This function separates out the test directory from any additional arguments given on the line.
+
+    Parameters
+    ----------
+    line : str
+        A line from the regtest_directories.txt created with "make regtest-dir"
+
+    Returns
+    -------
+    Tuple[str, Dict[str,Any]]
+        The first value in tuple is the test directory. The second is a dictionary of 
+        any arguments present.
+    """
+
+    # Search for arguments in the line
+    idx = line.find(" --")
+    if idx < 0:
+        # The line only contains the test directory
+        test_dir = line.strip()
+        test_args_list = []
+    else:
+        # The line contains the test directory and arguments.
+
+        # The index points to the space. Add one so it points to the dashes.
+        idx += 1
+        test_dir = line[0:idx].strip()
+        test_args_list = split(line[idx:])
+
+    with sysArgsContext(test_args_list):
+        test_args = vars(parser.parse_args())
+
+    return (test_dir, test_args)
+
+
+if __name__ == '__main__':
+    # Process the options
+    _args = Test.processBaseArgsOptions()
+
+    # Modify the logger based on the arguments
+    modifyLogger(_args)
+
+    # Create reg test directory
+    yam_root = os.environ["YAM_ROOT"]
+    os.system(f"rm -f {yam_root}/regtest_directories.txt")
+    success = os.system(f"cd {yam_root} && make regtest-dir -j {_args.jobs}")
+    if not success == 0:
+        Test.red("Could not create regtest directories file.")
+        sys.exit(1)
+
+    with open(f"{yam_root}/regtest_directories.txt","r") as f:
+        test_dirs = [x.strip() for x in f.readlines()]
+
+    if _args.jobs > 1:
+        Test.parallel_mode = True
+    else:
+        Test.parallel_mode = False
+
+    arg_dict = dict(_args)
+
+    test_args: List[Test.DtestArgs] = []
+    for (test_dir,combined_args) in map(testDirAndArgs, test_dirs):
+        if os.path.isdir(test_dir):
+            try:
+                test_args.append(Test.DtestArgs(**combined_args, directory=test_dir, paths=[]))
+                # Call top_test_dir to ensure it runs without error.
+                # It could error if there are no DTESTDEFS.cfg defined at the
+                # top level.
+                test_args[-1].top_test_dir
+            except Exception as e:
+                # This was a bad test directory. Remove it from the list.
+                Test.red(str(e))
+                test_args.pop(-1)
+
+    run_fns: List[Optional[Callable]] = []
+    for iargs in test_args:
+        if _args.jobs > 1:
+            # This sets env variables and creates loggers for the args. 
+            setupEnvAndLogging(iargs)
+
+            # Use partials to bind iargs to the appropriate functions.
+            test_command_modifier = getTestModifier(iargs)
+            run_fns.append(partial(run, iargs, partial(dispatch, iargs, test_command_modifier)))
+
+        else:
+            run_fns.append(None)
+
+    # Create the pool if applicable. This must be done after the functions are created, or else 
+    # multiprocessing will throw an error.
+    if _args.jobs > 1:
+        pool = Pool(processes=_args.jobs)
+    else:
+        pool = None
+
+    dark = 0 # Exit code
+    # Wrap everything in a try to handle keyboard interrupts.
+    try:
+        # If running in serial, this will block. If running in parallel, it will
+        # return almost immedietly. We wait on the pool, which will join when all jobs are done.
+        for iargs, run_fn in zip(test_args,run_fns):
+            dark += runTests(iargs, pool, run_fn)
+        if pool is not None:
+            # This will wait until all jobs are done if running in parllel.
+            pool.close()
+            pool.join()
+    except KeyboardInterrupt:
+        if pool is not None:
+            pool.terminate()
+            pool.join()
+        sys.exit(1)
+
+    if Test.parallel_mode:
+        # If we are in parallel mode, then we have a failure_count. 
+        # Use this to determine the exit code.
+        if failure_count.value > 0:
+            sys.exit(2)
+        else:
+            sys.exit(0)
+    else:
+        # Otherwise, dark is an integer. 
+        if dark == 0:
+            # No errors
+            sys.exit(0)
+        else:
+            # There were errors somewhere along the way
+            sys.exit(2)

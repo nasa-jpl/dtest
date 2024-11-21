@@ -1,0 +1,54 @@
+#!/bin/bash
+# Compares two images using perceptualdiff and displays the results.
+
+temp=`mktemp --directory`
+diff_file="$temp/diff.png"
+strict_diff_file="$temp/strict_diff.png"
+
+cleanup0()
+{
+    rm -f "$diff_file"
+    rm -f "$strict_diff_file"
+    rmdir "$temp"
+}
+
+trap 'cleanup0' SIGINT
+
+if perceptualdiff -threshold 1 -verbose $1 $2 -output "$diff_file"
+then
+    cleanup0
+    exit 0
+fi
+
+# Exit if no diff image is produced.
+if ! [ -e "$diff_file" ]
+then
+    exit 1
+fi
+
+compare "$1" "$2" "$strict_diff_file"
+
+display -geometry +0+0 $1 &
+pid1=$!
+display -geometry +640+0 $2 &
+pid2=$!
+
+display -geometry +740-0 -title 'Strict diff (red pixels)' "$strict_diff_file" &
+pid3=$!
+
+cleanup1()
+{
+    kill $pid1 >& /dev/null
+    kill $pid2 >& /dev/null
+    kill $pid3 >& /dev/null
+}
+
+trap 'cleanup1' SIGINT
+
+# Sleep to make sure diff image gets focus.
+sleep .1
+
+display -geometry +100-0 -title 'Perceptual diff (blue pixels)' "$diff_file"
+
+cleanup1
+cleanup0 >& /dev/null

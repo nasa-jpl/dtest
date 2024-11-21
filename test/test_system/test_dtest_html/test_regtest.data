@@ -1,0 +1,47 @@
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+
+import datetime
+try:
+   regdata
+except:
+   regdata = {}
+
+newdata =  {'Dtest': {'end_time': datetime.datetime(2011, 6, 16, 16, 33, 27, 738593),
+           'root_dir': u'/home/atbe/dev/users/jmc/ROAMSDshellPkg-jmc01/src/Dtest/test',
+           'start_time': datetime.datetime(2011, 6, 16, 16, 33, 23, 758714),
+           'tests': {'test_Ddoctest': {'cmp': (1, 1),
+                                       'failed': 0,
+                                       'quarantined': False,
+                                       'run': (1, 1),
+                                       'success': 1,
+                                       'val': (0, 0)},
+                     'test_dictCompare': {'cmp': (1, 1),
+                                          'failed': 0,
+                                          'quarantined': False,
+                                          'run': (1, 1),
+                                          'success': 1,
+                                          'val': (0, 0)},
+                     'test_fileDictCompare': {'cmp': (1, 1),
+                                              'failed': 0,
+                                              'quarantined': False,
+                                              'run': (3, 3),
+                                              'success': 1,
+                                              'val': (0, 0)},
+                     u'test_genRegtestMail': {'cmp': (4, 4),
+                                             'failed': 0,
+                                             'quarantined': False,
+                                             'run': (4, 4),
+                                             'success': 1,
+                                             'val': (0, 0)},
+                     'test_truthfiles': {'cmp': (1, 1),
+                                         u'failed': 0,
+                                         'quarantined': False,
+                                         'run': (2, 2),
+                                         'success': 1,
+                                         'val': (0, 0)}},
+           'top_test_dir': '/home/atbe/dev/users/jmc/ROAMSDshellPkg-jmc01/src/Dtest/test'}}
+
+if len(newdata['Dtest']['tests']) > 0:
+   regdata.update(newdata)

@@ -1,0 +1,7 @@
+Skipping excluded /test_system/test_dtest_tags/tests/test_child_tags/test_blue test  [tags = blue]
+Skipping excluded /test_system/test_dtest_tags/tests/test_child_tags/test_green test  [tags = blue]
+Skipping excluded /test_system/test_dtest_tags/tests/test_child_tags/test_red test  [tags = blue]
+
+
+SUMMARY: Ran 0 tests, 0 succeeded, 0 failed (in Dtest)
+Tests completed in 0.34734 seconds

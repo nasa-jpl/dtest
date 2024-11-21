@@ -1,0 +1,59 @@
+#!/usr/bin/env python
+
+"""Custom unittest runner that returns a exit status to indicate comparison
+failure."""
+from __future__ import division
+from __future__ import print_function
+
+from __future__ import absolute_import
+
+import os
+import sys
+import unittest
+
+
+class CustomTestProgram(unittest.TestProgram):
+
+    """Custom unittest program that returns a exit status to indicate
+    comparison failure."""
+
+    def runTests(self):
+        """Override to return special exit status.
+
+        Based on code from CPython's "unittest/main.py".
+
+        """
+        if self.catchbreak:
+            unittest.signals.installHandler()
+        if self.testRunner is None:
+            self.testRunner = unittest.runner.TextTestRunner
+        if isinstance(self.testRunner, type):
+            try:
+                testRunner = self.testRunner(verbosity=self.verbosity,
+                                             failfast=self.failfast,
+                                             buffer=self.buffer)
+            except TypeError:
+                # didn't accept the verbosity, buffer or failfast arguments
+                testRunner = self.testRunner()
+        else:
+            # it is assumed to be a TestRunner instance
+            testRunner = self.testRunner
+        self.result = testRunner.run(self.test)
+        if self.exit:
+            if self.result.wasSuccessful():
+                sys.exit(0)
+            else:
+                sys.exit(1 if self.result.errors else 10)
+
+    def parseArgs(self, argv):
+        """Override to require at least one argument."""
+        if len(argv) == 1:
+            self.usageExit()
+        else:
+            # This is needed on JSC machines for some reason. Otherwise, the
+            # tested module isn't able to get imported.
+            sys.path.append(os.getcwd())
+
+            super(CustomTestProgram, self).parseArgs(argv)
+
+CustomTestProgram(None)

@@ -1,0 +1,34 @@
+#!/bin/bash
+#
+# Create an HTML report of the pylint output.
+
+if [ $# -lt 2 ]
+then
+    echo "Usage: dtest-pylint-html [python_directory] [html_output_directory]"
+    exit 1
+fi
+
+check_dir=$1
+output_dir=$2
+
+if [ -d "$check_dir" ]
+then
+    echo
+else
+    echo "ERROR: Python source directory $check_dir does not exist"
+    exit 1
+fi
+
+# Let local pylintrc override global one
+if [ -r './pylintrc' ]
+then
+    echo "Found local 'pylintrc' file in working directory '$PWD'"
+    rcfile='./pylintrc'
+else
+    resolved_file_path=$(readlink -f "$0")
+    dir_name=$(dirname "$resolved_file_path")
+    rcfile="$dir_name/pylintrc"
+fi
+
+mkdir -p "$output_dir"
+timeout 120 pylint-no-sandbox --rcfile="$rcfile" --disable=E1101,F0401 --output-format=html --report=yes `find "$check_dir" \( -name '*.py' \) -a -not -name '*_Py.py'` > "$output_dir/index.html"

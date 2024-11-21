@@ -1,0 +1,64 @@
+Skipping excluded /test_system/test_dtest_tags/tests/test_ignore test  [tags = ignore]
+Skipping quarantined /test_system/test_dtest_tags/tests/test_quarantine/test_green test(s)
+Skipping /test_system/test_dtest_tags/tests/test_skip/test_skip test(s)
+Skipping /test_system/test_dtest_tags/tests/test_skip/test_tags_skip test(s)  [tag = skip]
+Running test_blue test
+   test            exit status - True
+   output          comparison  - True
+ STATUS:     RUN: 1/1   CMP: 1/1  SUCCESS
+Running test_blue_children/test_blue_child1 test
+   test            exit status - True
+   output          comparison  - True
+ STATUS:     RUN: 1/1   CMP: 1/1  SUCCESS
+Running test_blue_children/test_blue_child2 test
+   test            exit status - True
+   output          comparison  - True
+ STATUS:     RUN: 1/1   CMP: 1/1  SUCCESS
+Running test_child_tags/test_blue test
+   test            exit status - True
+   output          comparison  - True
+ STATUS:     RUN: 1/1   CMP: 1/1  SUCCESS
+Running test_child_tags/test_green test
+   test            exit status - True
+   output          comparison  - True
+ STATUS:     RUN: 1/1   CMP: 1/1  SUCCESS
+Running test_child_tags/test_red test
+   test            exit status - True
+   output          comparison  - True
+ STATUS:     RUN: 1/1   CMP: 1/1  SUCCESS
+Running test_normal test
+   test            exit status - True
+   output          comparison  - True
+ STATUS:     RUN: 1/1   CMP: 1/1  SUCCESS
+Running test_quarantine/test_subtests/test_blue test
+   test            exit status - True
+   output          comparison  - True
+ STATUS:     RUN: 1/1   CMP: 1/1  SUCCESS
+Running test_quarantine/test_subtests/test_green test
+   test            exit status - True
+   output          comparison  - True
+ STATUS:     RUN: 1/1   CMP: 1/1  SUCCESS
+Running test_quarantine/test_tags_quarantined/test_green test
+   test            exit status - True
+   output          comparison  - True
+ STATUS:     RUN: 1/1   CMP: 1/1  SUCCESS
+Running test_quarantine/test_tags_quarantined/test_subtests/test_blue test
+   test            exit status - True
+   output          comparison  - True
+ STATUS:     RUN: 1/1   CMP: 1/1  SUCCESS
+Running test_quarantine/test_tags_quarantined/test_subtests/test_green test
+   test            exit status - True
+   output          comparison  - True
+ STATUS:     RUN: 1/1   CMP: 1/1  SUCCESS
+Running test_skip/test_subtests/test_blue test
+   test            exit status - True
+   output          comparison  - True
+ STATUS:     RUN: 1/1   CMP: 1/1  SUCCESS
+Running test_skip/test_subtests/test_skip test
+   test            exit status - True
+   output          comparison  - True
+ STATUS:     RUN: 1/1   CMP: 1/1  SUCCESS
+
+
+SUMMARY: Ran 14 tests, 14 succeeded, 0 failed (in Dtest)
+Tests completed in 1.159458 seconds

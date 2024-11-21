@@ -1,0 +1,60 @@
+#!/usr/bin/env python
+from __future__ import division
+
+
+from __future__ import absolute_import
+from __future__ import print_function
+
+import sys
+import re
+
+
+def processOptions():
+    from optparse import OptionParser
+    parser = OptionParser(
+        '%prog [options] <regtest-log-file>\n\n       Summarize regression test output')
+
+    parser.add_option('--all', action='store_true', default=False,
+                      help='Show all tests')
+
+    (opt, args) = parser.parse_args()
+
+    # Complain if the input file is not given
+    if len(args) != 1:
+        parser.print_usage()
+        sys.exit()
+
+    return (opt, args)
+
+# Process the arguments
+opts, args = processOptions()
+
+# Search for all test results
+r = re.compile(
+    r'^(Running|Running quarantined) ([^ ]+) test$.*? STATUS: [^FS]*(SUCCESS|FAILED)',
+    re.MULTILINE | re.DOTALL)
+
+test = {}
+
+for running, tname, result in r.findall(open(args[0]).read()):
+    test[tname] = (result == 'SUCCESS')
+
+nsuccess = len([t for t, r in test.items() if r == True])
+
+print('%d tests found: %d successful, %d failed' % (
+    len(test), nsuccess, len(test) - nsuccess))
+
+if opts.all:
+    print('')
+    print('TESTS:')
+    for t, r in sorted(test.items()):
+        print('PASSED' if r else 'FAILED', ' ', t)
+    print('')
+else:
+    print('')
+    print('FAILED TESTS:')
+    for t, r in sorted(test.items()):
+        if not r:
+            print('')
+            print('   ', t)
+    print('')

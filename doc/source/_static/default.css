@@ -1,0 +1,366 @@
+/*
+ * default.css_t
+ * ~~~~~~~~~~~~~
+ *
+ * Sphinx stylesheet -- default theme.
+ *
+ * :copyright: Copyright 2007-2010 by the Sphinx team, see AUTHORS.
+ * :license: BSD, see LICENSE for details.
+ *
+ */
+
+@import url("basic.css");
+
+/* -- page layout ----------------------------------------------------------- */
+
+body {
+    font-family: sans-serif;
+    font-size: 100%;
+    /* background-color: #11303d; */
+    background-color: #003;
+    color: #000;
+    margin: 0;
+    padding: 0;
+}
+
+div.document {
+    /* background-color: #1c4e63; */
+    background-color: #004;
+}
+
+div.documentwrapper {
+    float: left;
+    width: 100%;
+}
+
+div.bodywrapper {
+    margin: 0 0 0 230px;
+}
+
+div.body {
+    background-color: #ffffff;
+    color: #000000;
+    padding: 0 20px 30px 20px;
+}
+div.bodywrapper {
+    margin: 0 230px 0 0;
+}
+
+div.related {
+    /* background-color: #133f52; */
+    background-color: #006;
+    line-height: 30px;
+    color: #ffffff;
+}
+
+div.related a {
+    color: #ffffff;
+}
+
+div.footer {
+    color: #ffffff;
+    width: 100%;
+    padding: 9px 0 9px 0;
+    text-align: center;
+    font-size: 75%;
+}
+
+div.footer a {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+div.sphinxsidebar {
+    float: right;
+}
+
+div.sphinxsidebar h3 {
+    font-family: 'Trebuchet MS', sans-serif;
+    color: #ffffff;
+    font-size: 1.4em;
+    font-weight: normal;
+    margin: 0;
+    padding: 0;
+}
+
+div.sphinxsidebar h3 a {
+    color: #ffffff;
+}
+
+div.sphinxsidebar h4 {
+    font-family: 'Trebuchet MS', sans-serif;
+    color: #ffffff;
+    font-size: 1.3em;
+    font-weight: normal;
+    margin: 5px 0 0 0;
+    padding: 0;
+}
+
+div.sphinxsidebar p {
+    color: #ffffff;
+}
+
+div.sphinxsidebar p.topless {
+    margin: 5px 10px 10px 10px;
+}
+
+div.sphinxsidebar ul {
+    margin: 10px;
+    padding: 0;
+    color: #ffffff;
+}
+
+div.sphinxsidebar a {
+    /* color: #98dbcc; */
+    color: #7BF;
+}
+
+div.sphinxsidebar input {
+    border: 1px solid #98dbcc;
+    font-family: sans-serif;
+    font-size: 1em;
+}
+
+
+
+/* -- hyperlink styles ------------------------------------------------------ */
+
+a {
+    /* color: #355f7c; */
+    color: #226;
+    text-decoration: none;
+}
+
+a:visited {
+    /* color: #355f7c; */
+    color: #226;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+
+
+/* -- body styles ----------------------------------------------------------- */
+
+div.body h1,
+div.body h2,
+div.body h3,
+div.body h4,
+div.body h5,
+div.body h6 {
+    font-family: 'Trebuchet MS', sans-serif;
+    background-color: #f2f2f2;
+    font-weight: normal;
+    /* color: #20435c; */
+    color: #136;
+    border-bottom: 1px solid #ccc;
+    margin: 20px -20px 10px -20px;
+    padding: 3px 0 3px 10px;
+}
+
+div.body h1 { margin-top: 0; font-size: 200%; }
+div.body h2 { font-size: 160%; }
+div.body h3 { font-size: 140%; }
+div.body h4 { font-size: 120%; }
+div.body h5 { font-size: 110%; }
+div.body h6 { font-size: 100%; }
+
+a.headerlink {
+    color: #c60f0f;
+    font-size: 0.8em;
+    padding: 0 4px 0 4px;
+    text-decoration: none;
+}
+
+a.headerlink:hover {
+    background-color: #c60f0f;
+    color: white;
+}
+
+div.body p, div.body dd, div.body li {
+    text-align: justify;
+    line-height: 130%;
+}
+
+div.admonition p.admonition-title + p {
+    display: inline;
+}
+
+div.admonition p {
+    margin-bottom: 5px;
+}
+
+div.admonition pre {
+    margin-bottom: 5px;
+}
+
+div.admonition ul, div.admonition ol {
+    margin-bottom: 5px;
+}
+
+div.admonition-todo {
+    margin-top: 0px;
+    margin-bottom: 2px;
+    padding: 0px;
+}
+
+p.todo-num {
+    font-family: 'Trebuchet MS', sans-serif;
+    font-size: 125%;
+    font-weight: normal;
+    color: #20435c;
+    margin: 20px -20px 10px -20px;
+    padding: 3px 0 3px 10px;
+}
+
+p.todo-item {
+    margin-top: 0px;
+    margin-bottom: 2px;
+    padding: 0px;
+}
+
+div#to-do-items p.todo-item {
+    text-align: left;
+}
+
+
+div.note {
+    background-color: #EEDD82;
+    border: 1px solid #000;
+}
+
+div.seealso {
+    background-color: #ffc;
+    border: 1px solid #ff6;
+}
+
+div.topic {
+    background-color: #eee;
+}
+
+div.warning {
+    background-color: #ffe4e4;
+    border: 1px solid #f66;
+}
+
+p.admonition-title {
+    display: inline;
+}
+
+p.admonition-title:after {
+    content: ":";
+}
+
+pre {
+    padding: 5px;
+    background-color: #eeffcc;
+    color: #333333;
+    line-height: 120%;
+    border: 1px solid #ac9;
+    border-left: none;
+    border-right: none;
+}
+
+blockquote.highlights {
+    background-color: #FFFF00;
+    border: 1px solid #000;
+    margin: 10px;
+    padding: 10px 20px 10px 20px;
+}
+
+blockquote.highlights p {
+    text-align: left;
+    margin: 0px;
+    padding: 10px 0 5px 0;
+}
+
+
+tt {
+    background-color: #ecf0f3;
+    padding: 0 1px 0 1px;
+    font-size: 0.95em;
+}
+
+th {
+    background-color: #ede;
+}
+
+.warning tt {
+    background: #efc2c2;
+}
+
+.note tt {
+    background: #d6d6d6;
+}
+
+.viewcode-back {
+    font-family: sans-serif;
+}
+
+div.viewcode-block:target {
+    background-color: #f4debf;
+    border-top: 1px solid #ac9;
+    border-bottom: 1px solid #ac9;
+}
+
+div.highlight-rst div.highlight pre {
+    background-color: #CEF;
+    border: 1px solid #9AC;
+    border-left: none;
+    border-right: none;
+}
+
+
+table.docutils {
+    border: 2px solid #000;
+}
+
+div.schedule table.docutils td {
+    vertical-align: middle;
+    text-align: left;
+}
+
+div.schedule table.docutils td p {
+    vertical-align: middle;
+    text-align: left;
+}
+
+ul.simple li {
+    text-align: left;
+    margin-bottom: 3px;
+}
+
+
+div.admonition-question {
+    background-color: #FC8;
+    border: 1px solid #850;
+}
+
+div.admonition-question ol > li {
+    margin-bottom: 12px;
+}
+
+div.hint {
+    background-color: #FEB;
+    border: 1px solid #750;
+}
+
+.first {
+    margin: 0;
+}
+
+dl.class > dt {
+    background-color: #BBE;
+}
+
+dl.method > dt,
+dl.staticmethod > dt {
+    background-color: #DDF;
+}
+
+dl.staticmethod > dt > em.property {
+    color: #F00;
+}

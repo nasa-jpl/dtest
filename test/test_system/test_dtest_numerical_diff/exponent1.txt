@@ -1,0 +1,3 @@
+Try numbers with exponent: 20e1
+Try numbers with exponent: 2e2
+Try numbers with exponent: 2.001e2

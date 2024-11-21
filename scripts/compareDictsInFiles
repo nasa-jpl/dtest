@@ -1,0 +1,106 @@
+#!/usr/bin/env python
+from __future__ import division
+
+
+from __future__ import absolute_import
+from __future__ import print_function
+
+import sys
+import os
+from optparse import OptionParser
+
+try:
+    from Dutils.DCompareUtils import cmpDictsInFiles
+except:
+    # Must be running without Drun; find the Dutils library
+    fpath = os.path.abspath(os.path.dirname(__file__))
+    lpath_extra = '/lib/PYTHON'
+    while fpath != '' and not os.path.isdir(fpath + lpath_extra):
+        # Pop off the last directory (heading towards root)
+        fpath = '/'.join(fpath.split('/')[:-1])
+    fpath = fpath + lpath_extra
+    sys.path.append(fpath)
+    from Dutils.DCompareUtils import cmpDictsInFiles
+
+
+def processOptions():
+    """Set up command line parser object."""
+
+    usage = """
+
+The compareDictsInFiles command compares two order-independent Python
+dictionaries embedded in arbitrary source files.  The dictionaries to
+be compared should be delimited by a set of start/end tags, which are
+provided as input to the script in the form of regular expressions.
+
+    usage: %prog [options] <dict-file1> <dict-file2>
+"""
+
+    parser = OptionParser(usage=usage)
+
+    parser.add_option('--verbose', '-v', action='store_true',
+                      dest='verbose', default=False,
+                      help='Show the diffs. [Default: no]')
+
+    parser.add_option('--start_re', action='store',
+                      nargs=1, default='<START>',
+                      help="Regular exprssion immediately before the dictionary (on its own line).  [Default: '<START>'].")
+
+    parser.add_option('--end_re', action='store',
+                      nargs=1, default='<END>',
+                      help="Regular exprssion immediately the dictionary (on its own line).  [Default: '<END>'].")
+
+    parser.add_option('--wholeFile', action='store_true',
+                      dest='wholeFile', default=False,
+                      help='Assume each entire file is a single dictionary (without any start_re or end_re) [Default: no]')
+
+    parser.add_option('--abs_eps', action='store', type='float',
+                      nargs=1, default=-1,
+                      help='The absolute epsilon to be used in comparisons (defaults to 1.0e-12)')
+
+    parser.add_option('--rel_eps', action='store', type='float',
+                      nargs=1, default=-1,
+                      help='The relative epsilon to be used in comparisons (when numbers are not small, defaults to 1.0e-12)')
+
+    (opt, args) = parser.parse_args()
+
+    # Complain if two files are not given
+    if len(args) != 2:
+        print('')
+        parser.print_usage()
+        sys.exit()
+
+    # Process the eps values
+    if opt.abs_eps == -1:
+        opt.abs_eps = None
+    if opt.rel_eps == -1:
+        opt.rel_eps = None
+
+    return (opt, args)
+
+
+if __name__ == '__main__':
+    import sys
+
+    # Process the arguments
+    opt, args = processOptions()
+    filename1 = args[0]
+    filename2 = args[1]
+
+    # Compare the model files
+    okay = cmpDictsInFiles(
+        filename1,
+        filename2,
+        opt.start_re,
+        opt.end_re,
+        opt.wholeFile,
+        opt.verbose,
+        opt.abs_eps,
+        opt.rel_eps)
+
+    # Normal comparison mode for dtest, return the test results
+    # that dtest needs (0 for match, 1 for differences)
+    if okay:
+        sys.exit(0)
+    else:
+        sys.exit(1)

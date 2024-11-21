@@ -1,0 +1,168 @@
+[MESSAGES CONTROL]
+
+# Disable the message(s) with the given id(s).
+#
+# R0922: It warns about abstract class being only referenced once.
+# E1101: For member function call detection, which causes false positives for
+#        some reason.
+# R0903: For too few public methods. This generates false positives in the case
+#        of dummy classes.
+# W0710: Complains about exceptions that don't derive from Exception. This
+#        seems to cause false positives when there is indirect inheritance.
+# I0011: Complains about inline suppressions.
+# W0402: Generates false positves about string being deprecated. Some of string
+#        is deprecated, but not the constants (ascii_letters).
+# W0622: To support importing compatibility functions.
+# bad-continuation: Checker is not very good. The pep8 tool works much better.
+disable=R0922,E1101,R0201,E0611,W0232,R0903,W0710,I0011,W0402,E1103,W0622,bad-continuation,too-many-nested-blocks,redefined-variable-type
+
+
+[REPORTS]
+
+# set the output format. Available formats are text, parseable, colorized and
+# html
+output-format=text
+
+# Include message's id in output
+include-ids=yes
+
+# Put messages in a separate file for each module / package specified on the
+# command line instead of printing them on stdout. Reports (if any) will be
+# written in a file name "pylint_global.[txt|html]".
+files-output=no
+
+# Tells whether to display a full report or only the messages
+reports=no
+
+
+[BASIC]
+
+# Required attributes for module, separated by a comma
+required-attributes=
+
+# Regular expression which should only match correct module names
+module-rgx=(([A-Z][a-zA-Z0-9]*)|([a-z_][a-z0-9_]*))$
+
+# Regular expression which should only match correct module level names
+### This has been made weaker to avoid false positives. PyLint produces false positives due to an assumtion that all module level variables are constants.
+### The correct one is all caps.
+const-rgx=(([A-Z_][A-Z0-9_]*)|(__.*__)|(_?[a-z][a-z0-9_]*))$
+
+# Regular expression which should only match correct class names
+class-rgx=[A-Z][a-zA-Z0-9]*$
+
+# Regular expression which should only match correct function names
+function-rgx=(_{0,2}[a-z][a-zA-Z0-9]*|(_{0,2}[a-z][a-z0-9_]*))$
+
+# Regular expression which should only match correct method names
+method-rgx=((_{0,2}[a-z][a-zA-Z0-9]*)|(__.*__)|(_{0,2}[a-z][a-z0-9_]*))$
+
+# Regular expression which should only match correct instance attribute names
+attr-rgx=_{0,2}[a-z][a-z0-9_]*$
+
+# Regular expression which should only match correct argument names
+argument-rgx=([a-z][a-z0-9_]*|_+)$
+
+# Regular expression which should only match correct variable names
+variable-rgx=([a-z_][a-z0-9_]*|_+)$
+
+# Regular expression which should only match correct list comprehension /
+# generator expression variable names
+inlinevar-rgx=[a-z_][a-z0-9_]*$
+
+# Good variable names which should always be accepted, separated by a comma
+good-names=i,j,k,ex,Run,_
+
+# Bad variable names which should always be refused, separated by a comma
+bad-names=foo,bar,baz,toto,tutu,tata
+
+# List of builtins function names that should not be used, separated by a comma
+bad-functions=apply,input
+
+
+# checks for sign of poor/misdesign:
+# * number of methods, attributes, local variables...
+# * size, complexity of functions, methods
+#
+[DESIGN]
+
+# Maximum number of arguments for function / method
+max-args=20
+
+# Maximum number of locals for function / method body
+max-locals=40
+
+# Maximum number of return / yield for function / method body
+max-returns=12
+
+# Maximum number of branch for function / method body
+max-branchs=50
+
+# Maximum number of statements in function / method body
+max-statements=200
+
+# Maximum number of parents for a class (see R0901).
+max-parents=7
+
+# Maximum number of attributes for a class (see R0902).
+max-attributes=20
+
+# Minimum number of public methods for a class (see R0903).
+min-public-methods=1
+
+# Maximum number of public methods for a class (see R0904).
+max-public-methods=20
+
+
+# checks for
+# * external modules dependencies
+# * relative / wildcard imports
+# * cyclic imports
+# * uses of deprecated modules
+#
+[IMPORTS]
+
+# Deprecated modules which should not be used, separated by a comma
+deprecated-modules=regsub,string,TERMIOS,Bastion,rexec
+
+
+# checks for:
+# * warning notes in the code like FIXME, XXX
+# * PEP 263: source code with non ascii character but no encoding declaration
+#
+[MISCELLANEOUS]
+
+# List of note tags to take in consideration, separated by a comma.
+#notes=FIXME,XXX,TODO
+notes=
+
+
+# checks for :
+# * unauthorized constructions
+# * strict indentation
+# * line length
+# * use of <> instead of !=
+#
+[FORMAT]
+
+# Maximum number of characters on a single line.
+max-line-length=200
+
+# Maximum number of lines in a module
+max-module-lines=2000
+
+# String used as indentation unit. This is usually " " (4 spaces) or "\t" (1
+# tab).
+indent-string='    '
+
+
+[SIMILARITIES]
+
+# Minimum lines number of a similarity.
+min-similarity-lines=30
+
+# Ignore comments when computing similarities.
+ignore-comments=yes
+
+# Ignore docstrings when computing similarities.
+ignore-docstrings=yes

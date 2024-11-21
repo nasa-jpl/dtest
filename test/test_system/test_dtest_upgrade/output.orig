@@ -1,0 +1,6 @@
+CMP=dtest-diff 0 $ROOTDIR/common/regexp.lst,dtest-diff 1 $ROOTDIR/common/regexp.lst
+
+[RUN]
+
+    test=../../../$YAM_TARGET/FacadeLightUnitTests $YAM_ROOT/foo >& output
+    test1=python script1-lander.py >& output_lander

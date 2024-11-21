@@ -1,0 +1,65 @@
+#!/usr/bin/env python
+
+"""Custom doctest runner that returns a exit status to indicate comparison
+failure."""
+from __future__ import division
+from __future__ import print_function
+
+from __future__ import absolute_import
+
+import doctest
+import os
+import sys
+
+
+OPTION_FLAGS = doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS
+
+
+def main():
+    """Based on "doctest.py"."""
+    testfiles = [arg for arg in sys.argv[1:] if arg and arg[0] != '-']
+    if not testfiles:
+        name = os.path.basename(sys.argv[0])
+        if '__loader__' in globals():          # python -m
+            name, _ = os.path.splitext(name)
+        print("usage: {0} [-v] file ...".format(name))
+        return 2
+
+    failure_and_exception_counts = [0, 0]
+
+    class CustomDocTestRunner(doctest.DocTestRunner):
+
+        """DocTestRunner with methods overriden to store failure type."""
+
+        def report_failure(self, out, test, example, got):
+            failure_and_exception_counts[0] += 1
+
+        def report_unexpected_exception(self, out, test, example, exc_info):
+            failure_and_exception_counts[1] += 1
+
+    # HACK: Monkey patch the thing to pull out failure information.
+    doctest.DocTestRunner = CustomDocTestRunner
+
+    for filename in testfiles:
+        if filename.endswith(".py"):
+            # It is a module -- insert its dir into sys.path and try to
+            # import it. If it is part of a package, that possibly
+            # won't work because of package imports.
+            dirname, filename = os.path.split(filename)
+            sys.path.insert(0, dirname)
+            m = __import__(filename[:-3])
+            del sys.path[0]
+            doctest.testmod(m, optionflags=OPTION_FLAGS)
+        else:
+            doctest.testfile(filename, module_relative=False,
+                             optionflags=OPTION_FLAGS)
+
+    if failure_and_exception_counts[0]:
+        return 10
+    elif failure_and_exception_counts[1]:
+        return 1
+    else:
+        return 0
+
+
+sys.exit(main())

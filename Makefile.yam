@@ -1,0 +1,123 @@
+#------------------------------------------------------------------------------
+# DO NOT CHANGE OR MOVE THE LINES BELOW
+#
+# Include a file that provides much common functionality
+# be sure to include this *after* setting the MODULE_* variables
+# These lines should be the first thing in the makefile
+#------------------------------------------------------------------------------
+ifndef YAM_ROOT
+  include ../../etc/SiteDefs/mkHome/shared/overall.mk
+else
+  include $(YAM_ROOT)/etc/SiteDefs/mkHome/shared/overall.mk
+endif
+
+#------------------------------------------------------------------------------
+# START OF MODULE SPECIFIC CUSTOMIZATION (below)
+#------------------------------------------------------------------------------
+#
+# Uncomment and define the variables as appropriate
+#
+#------------------------------------------------------------------------------
+# specify any module specific variable definitions here
+#------------------------------------------------------------------------------
+
+ETC_MODULE_LINKS := scripts/regtest.css \
+                    setup.py
+
+BIN_LINKS := dtest \
+			 dtest-sbox \
+			 dtest-update-gpu-memory \
+             scripts/dtest-diff \
+             scripts/dtest-perceptual-diff \
+             scripts/dtest-numerical-diff \
+             scripts/dtest-cram \
+             scripts/dtest-doctest \
+             scripts/dtest-mail \
+             scripts/dtest-html \
+             scripts/dtest-unittest \
+             scripts/dtest-upgrade \
+             scripts/dtest-kwstyle \
+             scripts/dtest-kwstyle-html \
+             scripts/dtest-pylint \
+             scripts/dtest-pylint-html \
+             scripts/dtest-regtest-last-passed \
+             scripts/dtest-regtest-stats \
+             scripts/dtest-regtest-append \
+             scripts/cmp.prg \
+             scripts/compareCheckpointFiles \
+             scripts/compareDictsInFiles \
+             scripts/compareModelFiles \
+             scripts/genRegtestMail \
+             scripts/genRegtestHtml \
+             scripts/regsummary \
+             scripts/regupdate \
+             scripts/pylint-no-sandbox
+
+PYTHON_PKGS := Dtest Dutils
+
+PYTHON_LINKS_Dtest := python/DtestCommon.py \
+					  python/Test.py \
+                      python/TestMagic.py \
+                      python/TestModifiers.py \
+                      python/TestUtils.py \
+                      python/killableprocess.py \
+                      python/configobj.py \
+                      python/raises.py \
+                      python/dunit \
+                      python/regtest \
+                      test \
+					  DtestGpuMem_Py.py
+
+
+PYTHON_LINKS_Dutils := python/DCompareUtils.py \
+                       python/Ddoctest.py
+
+ifeq ($(HAVE_CUDA), true)
+  PROJ_LIBS += libDtestGpuMem
+  PROJ_PYTHON_MODULES += _DtestGpuMem_Py
+
+  CPLUSPLUS_SRC-libDtestGpuMem := gpu_mem.cc
+  CFLAGS-libDtestGpuMem := $(CUDA_INCS)
+  LIBS-libDtestGpuMem := $(CUDA_LIBS) -lnvidia-ml
+
+  CPLUSPLUS_SRC-_DtestGpuMem_Py := DtestGpuMem_swigwrap_Py.cc
+  CFLAGS-_DtestGpuMem_Py :=  $(PYTHON_INCDIR) $(CUDA_INCS)
+  LIBS-_DtestGpuMem_Py := -lDtestGpuMem
+
+  SWIG_WRAPPERS += DtestGpuMem
+  SWIG_IFILE_PYTHON-DtestGpuMem := swig/DtestGpuMem_swig.i
+endif
+
+DOXYGEN_DOCS := true
+SPHINX_DOCS := true
+
+DOC_GROUP := SphinxDocs
+DOC_GROUP_LINKS_SphinxDocs := doc/source/images \
+                              doc/source/main.rst \
+                              doc/source/dunit.rst \
+                              doc/source/usage.rst \
+                              doc/source/testing.rst \
+                              doc/source/images \
+                              doc/source/documents \
+                              doc/source/dunit \
+                              doc/source/regtests \
+                              test
+
+DCLICK_SOURCE := scripts/dtest-append-regtests \
+                 scripts/dtest-last-passed
+
+#------------------------------------------------------------------------------
+# Add any additional rules specific to the module
+#------------------------------------------------------------------------------
+
+# directory to run regtests from
+DTEST_TESTDIR := test
+
+#------------------------------------------------------------------------------
+# END OF MODULE SPECIFIC CUSTOMIZATION (below)
+#------------------------------------------------------------------------------
+# DO NOT CHANGE OR MOVE THE LINE BELOW
+#
+# include the "stdrules.mk" file that provides much common functionality.
+#------------------------------------------------------------------------------
+include $(YAM_ROOT)/etc/SiteDefs/makefile-yam-tail.mk

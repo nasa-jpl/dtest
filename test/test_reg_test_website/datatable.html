@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="//code.jquery.com/jquery.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsfive@0.3.10/dist/browser/hdf5.js"></script>
+</head>
+<body>
+    <table id="example" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Office</th>
+                <th>Extn.</th>
+                <th>Start date</th>
+                <th>Salary</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Office</th>
+                <th>Extn.</th>
+                <th>Start date</th>
+                <th>Salary</th>
+            </tr>
+        </tfoot>
+    </table>
+    <script>
+        function format(d) {
+            // `d` is the original data object for the row
+            return (
+                '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+                '<tr>' +
+                '<td>Full name:</td>' +
+                '<td>' +
+                d.name +
+                '</td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td>Extension number:</td>' +
+                '<td>' +
+                d.extn +
+                '</td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td>Extra info:</td>' +
+                '<td>And any further details here (images etc)...</td>' +
+                '</tr>' +
+                '</table>'
+            );
+        }
+        
+        $(document).ready(function () {
+            console.log("HI!")
+            fetch('test_new.h5').then(function(response) {
+                return response.arrayBuffer()
+            })
+            .then(function(buffer) {
+                var f = new hdf5.File(buffer, 'test_new.h5');
+
+                let d = f.get('regtestset');
+                console.log(d.attrs)
+                
+            });
+
+            // Add event listener for opening and closing details
+            $('#example').on('click', 'tbody td.dt-control', function () {
+                var tr = $(this).closest('tr');
+                var row = table.row(tr);
+        
+                if (row.child.isShown()) {
+                    // This row is already open - close it
+                    row.child.hide();
+                } else {
+                    // Open this row
+                    row.child(format(row.data())).show();
+                }
+            });
+        
+            $('#example').on('requestChild.dt', function (e, row) {
+                row.child(format(row.data())).show();
+            });
+        
+            var table = $('#example').DataTable({
+                ajax: 'data.json',
+                columns: [
+                    {
+                        className: 'dt-control',
+                        orderable: false,
+                        data: null,
+                        defaultContent: '',
+                    },
+                    { data: 'name' },
+                    { data: 'position' },
+                    { data: 'office' },
+                    { data: 'salary' },
+                ],
+                order: [[1, 'asc']],
+            });
+        });
+
+        // function format (rowData) {
+        //     var div = $('<div/>')
+        //         .addClass('loading')
+        //         .text('Loading...');
+
+        //     $.ajax({
+        //         url: ''
+        //     })
+        // }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,18 @@
+#!/bin/bash
+#
+# Upgrade deprecated syntax in dtest configuration files.
+
+if [ $# -ne 1 ]
+then
+    echo 'Usage: dtest-upgrade <test-directory>'
+    exit 1
+fi
+
+path="$1"
+
+find "$path" -name 'DTESTDEFS' -exec svn mv '{}' '{}.cfg' \;
+
+find "$path" -name 'DTESTDEFS.cfg' -exec sed --in-place='' 's/ ROOTDIR/ $ROOTDIR/g' '{}' \;
+find "$path" -name 'DTESTDEFS.cfg' -exec sed --in-place='' 's:/YAM_TARGET/:/$YAM_TARGET/:g' '{}' \;
+find "$path" -name 'DTESTDEFS.cfg' -exec sed --in-place='' 's: YAM_ROOT/: $YAM_ROOT/:g' '{}' \;
+find "$path" -name 'DTESTDEFS.cfg' -exec sed --in-place='' 's:Dmain.py --exitOnError --file :python :g' '{}' \;

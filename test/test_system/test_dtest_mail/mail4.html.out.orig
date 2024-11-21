@@ -1,0 +1,83 @@
+<html>
+  <head>
+  <style type="text/css">
+html {
+    background-color: #AAA;
+}
+body {
+    font-family:arial, helvetica, courier, sans-serif;
+    font-size:10pt;
+    background-color: #EEF;
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #99F;
+}
+h1, h2, h3 {
+    margin-top: 0;
+    padding-top: 0;
+}
+h1 {
+    font-size: 150%;
+}
+h2 {
+    font-size: 130%;
+    margin-top: 10px;
+}
+h3 {
+    font-size: 110%;
+}
+table {
+    cellspacing: 0;
+    cellpadding: 2;
+    background-color: black;
+}
+th, td {
+    padding-left: 4px;
+    padding-right: 4px;
+    background-color: #EEF;
+    text-align: center;
+}
+th {
+    font-size: 120%;
+    background-color: #BBF;
+    vertical-align: bottom;
+}
+th#left, td#left {
+    text-align: left;
+}
+th#right, td#right {
+    text-align: right;
+}
+td a {
+    color: blue;
+    text-decoration: none;
+}
+td a:visited { color: blue; }
+td a:hover { color: blue; text-decoration: underline; }
+tr.summary td {
+    background-color: #DDF;
+}
+div.genDate {
+    margin-top: 4px;
+    font-size: %80;
+    font-style: italic;
+}
+  </style>
+  </head>
+  <body>
+    <h1>Test HTML Output (6 tests, 66.7 % pass)</h1>
+    <table>
+      <thead>
+      <tr class="coltitles">
+         <th id="left">MODULE</th> <th>TOTAL</th> <th>SUCCESS</th> <th>FAILURES</th> <th id="right">PERCENT</th> <th id="right">OWNER</th>
+      </tr>
+      </thead>
+      <tbody>
+<tr><td id="left">Dtest</td> <td>4</td> <td>2</td> <td>2</td> <td id="right"> 50.0</td> <td id="right">John</td></tr>
+<tr><td id="left">BestModule</td> <td>2</td> <td>2</td> <td>0</td> <td id="right">100.0</td> <td id="right">TBD</td></tr>
+<tr class="summary"><td id="right"><b>OVERALL:</b></td> <td>6</td> <td>4</td> <td>2</td> <td id="right">66.7</td> <td></td></tr>
+      </tbody>
+    </table>
+  <div class="genDate">Generated: 2011-06-16 15:49:58.452508</div>
+  </body>
+</html>

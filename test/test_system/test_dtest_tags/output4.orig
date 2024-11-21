@@ -1,0 +1,13 @@
+Skipping excluded /test_system/test_dtest_tags/tests/test_child_tags/test_red test  [tags = red]
+Running test_blue test
+   test            exit status - True
+   output          comparison  - True
+ STATUS:     RUN: 1/1   CMP: 1/1  SUCCESS
+Running test_green test
+   test            exit status - True
+   output          comparison  - True
+ STATUS:     RUN: 1/1   CMP: 1/1  SUCCESS
+
+
+SUMMARY: Ran 2 tests, 2 succeeded, 0 failed (in Dtest)
+Tests completed in 0.147276 seconds

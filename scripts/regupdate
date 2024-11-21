@@ -1,0 +1,115 @@
+#!/bin/bash
+#
+# Process the regression test output files and assist the user in updating them
+
+
+CMP="cmp -s"
+suffix=orig
+help=0
+dirlevel=0
+
+atol=1e-10
+rtol=1e-10
+
+dirs=""
+rootdir=`pwd`
+
+
+while [ "$#" != "0" ]; do
+    arg=$1
+    shift
+    if [ "$arg" = "-s" ]; then
+        suffix=$1
+        shift
+    elif [ "$arg" = "-" ]; then
+        dirlevel=1
+    elif [ "$arg" = "-a" ]; then
+        atol=$1
+        shift
+    elif [ "$arg" = "-r" ]; then
+        rtol=$1
+        shift
+    elif [ "$arg" = "-cmp" ]; then
+        CMP=$1
+        shift
+    elif [ "$arg" = "-h" ]; then
+        help=1
+    else
+        dirs="$dirs $arg"
+    fi
+done
+
+if [ "$help" = "1" ]; then
+    echo "usage: `basename $0` [<options>] [dir1 dir2 ....]"
+    echo "where <options> can be:"
+    echo "  -h               get this help message"
+    echo "  -atol <atol>     set spiff's absolute tol threshold"
+    echo "  -rtol <rtol>     set spiff's relative tol threshold"
+    echo "  -h               get this help message"
+    echo "  -s <suffix>      file suffix for 'truth' output (default: 'orig')"
+    echo "  -cmp <script>    comparison program to use (default: 'cmp -s')"
+    echo ""
+    exit 2
+fi
+
+
+if [ "X$dirs" = "X" ]; then
+  dirs="."
+fi
+
+
+for dir in $dirs; do
+    cd $dir;
+    echo "=============================================";
+    echo "Checking \"$dir\"";
+    echo "=============================================";
+    files=*${suffix}
+    ff=""
+    for file in ${files} ;
+      do
+      if [ "$file" = "*${suffix}" ]; then
+         ff=""
+      else
+         ff="$ff $file"
+      fi
+      done;
+    if [ "X$ff" = "X" ]; then
+       echo "****** No files with \"$suffix\" suffix found *****"
+    fi
+
+    for file in $ff ;
+      do
+      echo "file=<$file>";
+	echo "-------------------------------------------------------------------";
+	newfile=`echo $file | sed "s/.$suffix//"`;
+	if test -f $newfile; then {
+	    echo "Comparing $newfile with $file";
+	    eval $CMP $newfile $file
+	    if [ "$?" = "0" ]; then {
+		echo "   No differences encountered... removing $newfile";
+		rm -f $newfile;
+	    } else {
+		echo "   Differences encountered in $newfile:";
+		echo "      Check the differences? (y=use tkdiff, d=use diff): c";
+		read ans;
+		if test "$ans" = "y"; then {
+		    tkdiff $newfile $file;
+                } elif test "$ans" = "d"; then {
+                    spiff -q -d -a $atol -r $rtol $newfile $file;
+		} fi;
+		echo "   Accept differences and update $file? (y or n): c";
+		read ans;
+		if test "$ans" = "y"; then {
+		    echo "   Moving $newfile to $file...";
+		    mv $newfile $file;
+		} else {
+		    echo "   Differences not accepted, no update performed for $file"
+		} fi;
+	    } fi;
+	} else {
+	    echo "Skipping $file ($newfile doesn't exist).";
+	} fi;
+    done;
+    echo "";
+    cd $rootdir;
+done

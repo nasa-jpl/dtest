@@ -1,0 +1,228 @@
+#!/usr/bin/env python
+from __future__ import absolute_import
+
+from __future__ import print_function
+from __future__ import division
+
+import datetime
+from optparse import OptionParser
+
+
+def processOptions():
+    """Set up command line parser object."""
+    parser = OptionParser(
+        'usage: %prog [options] -dataFile <regtest data file>')
+
+    parser.add_option('--data-file', '--dataFile', action='store',
+                      dest='dataFile', default='regtest.data',
+                      help='Regtest data file.')
+
+    parser.add_option('--css-url', '--cssURL', action='store',
+                      dest='cssURL', default=None,
+                      help='Full URL for CSS file')
+
+    parser.add_option('--title', action='store',
+                      dest='title', default='Regression test results',
+                      help='Title for regression test results HTML page.')
+
+    parser.add_option('--output', action='store',
+                      dest='output', default=False,
+                      help='Output file for generated HTML file (defaults to stdout)')
+
+    parser.add_option('--show-val', '--showVal', action='store_true',
+                      dest='showVal', default=False,
+                      help='Show the VAL outputs for regtests (defaults to False)')
+
+    parser.add_option('--summary', action='store_true',
+                      dest='summary', default=False,
+                      help='Recursively collect regtest.data files into one and process the result as input.')
+
+    (opt, args) = parser.parse_args()
+
+    return (opt, args)
+
+
+header = """<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+  <title>{title}</title>
+  <link href="{regtest_css}" type="text/css" rel="stylesheet">
+</head>
+<body>
+<h1>{title}</h1>
+<h2>Tests completed: {date}</h2>
+"""
+
+footer = """<div class="genDate">Generated: {date}</div>
+</body>
+</html>
+"""
+
+
+if __name__ == '__main__':
+    import sys
+
+    (opt, args) = processOptions()
+
+    # Create the summary data file if the summary option is selected
+    if opt.summary:
+        import os
+        import fnmatch
+        import shutil
+        import tempfile
+
+        file_matches = []
+
+        summary_data_file = tempfile.NamedTemporaryFile()
+
+        for root, dirnames, filenames in os.walk('src'):
+            if root.endswith('test'):
+                for filename in fnmatch.filter(filenames, 'regtest.data'):
+                    file_matches.append(os.path.join(root, filename))
+
+        for f in file_matches:
+            shutil.copyfileobj(open(f, 'rb'), summary_data_file)
+
+        summary_data_file.seek(0)
+        opt.dataFile = summary_data_file.name
+        exec(compile(open(summary_data_file.name).read(), summary_data_file.name, 'exec'))
+
+    # Open the output file
+    if opt.output:
+        fout = open(opt.output, 'w')
+    else:
+        fout = sys.stdout
+
+    # Load the regtest data (into 'regdata')
+    import os
+    if os.path.exists(opt.dataFile):
+        exec(compile(open(opt.dataFile).read(), opt.dataFile, 'exec'))
+    else:
+        print('')
+        print("ERROR: Data file '%s' does not exist!" % opt.dataFile)
+        print('')
+        sys.exit(1)
+
+    try:
+        # Collect the module names
+        modules = sorted(regdata.keys())
+    
+        # Scan through the modules to find the when the last doctest was run
+        end_time = datetime.datetime(2000, 1, 1, 0, 0, 0)
+        for mod in modules:
+            if regdata[mod]['end_time'] > end_time:
+                end_time = regdata[mod]['end_time']
+
+        # figure out where to put the CSS file
+        if opt.cssURL:
+            css_file_url = opt.cssURL
+        else:
+            css_file_url = 'regtest.css'
+
+        # Construct and write out the header
+        print(
+            header.format(
+                title=opt.title,
+                regtest_css=css_file_url,
+                date=end_time.strftime('%B %d, %Y: %I:%M:%S %p')),
+            file=fout)
+
+        # Generate the tables for the regtests
+        print('<table>', file=fout)
+
+        for module in modules:
+            print(
+                '\n<tr class="module"><th class="module" colspan="4">Module: <a name="%s">%s</a></th></tr>' % (
+                    module,
+                    module),
+                file=fout)
+            print('<tr class="coltitles">', file=fout)
+            print('     <th>Total</th>', file=fout)
+            print('     <th>Success</th>', file=fout)
+            print('     <th>Failures</th>', file=fout)
+            print('     <th class="failed">Failed tests</th>', file=fout)
+            print('</tr>', file=fout)
+
+            success = 0
+            successTests = []
+            failed = 0
+            failedTests = []
+            for test in sorted(regdata[module]['tests']):
+                tdata = regdata[module]['tests'][test]
+                success += tdata['success']
+                if tdata['success'] == 1:
+                    successTests.append(test)
+                failed += tdata['failed']
+                if tdata['failed'] != 0:
+                    failedTests.append(test)
+
+            total = success + failed
+            if failedTests:
+                print('<tr>', file=fout)
+            else:
+                print('<tr class="ok">', file=fout)
+            print('  <td>%d</td> <td>%d</td> <td>%d</td>' % (total,
+                  success, failed), file=fout)
+            if failedTests:
+                print('  <td>', file=fout)
+                for ftest in failedTests:
+                    ftdata = regdata[module]['tests'][ftest]
+                    print('<table class="failed"><tr>', file=fout)
+                    print(' <td><span>%s</span>&nbsp;&nbsp;' %
+                          ftest, end=' ', file=fout)
+                    print('RUN %d/%d&nbsp;&nbsp;' % (
+                        ftdata['run'][0], ftdata['run'][1]), end=' ', file=fout)
+                    print('CMP %d/%d&nbsp;&nbsp;' % (
+                        ftdata['cmp'][0], ftdata['cmp'][1]), end=' ', file=fout)
+
+                    if ftdata['timed_out'] == 1:
+                        timeOutFlag = '<b>**Timed Out**</b>'
+                    else:
+                        timeOutFlag = ''
+
+                    print('%s&nbsp;&nbsp;' % (
+                         timeOutFlag), end=' ', file=fout)
+                    print('</td></tr></table>', file=fout)
+                print('  </td>', file=fout)
+            else:
+                print('  <td>&nbsp;</td>', file=fout)
+            print('</tr>', file=fout)
+            if successTests:
+                print(
+                    '<tr><td class="passedList" colspan="4"><b>Passed Tests:</b> ',
+                    end=' ',
+                    file=fout)
+                for stest in successTests:
+                    print(stest, end=' ', file=fout)
+                print('</td></tr>', file=fout)
+            else:
+                print(
+                    '<tr><td class="noPassedList" colspan="4"><b>No Passed Tests</b></td></tr>',
+                    file=fout)
+
+            print(
+                '\n<tr class="blank_line"><td class="blank_line" colspan="4">',
+                file=fout)
+            print(
+                '  <span class="hideLeft">&nbsp;</span><span class="hideRight">&nbsp;</span>',
+                file=fout)
+            print('</td></tr>\n', file=fout)
+
+        print('</table>', file=fout)
+
+        # Construct and write out the footer
+        print(
+            footer.format(
+                date=datetime.datetime.now().strftime('%B %d, %Y: %I:%M:%S %p')),
+            file=fout)
+    except:
+        print('')
+        print("WARNING: Data file '%s' does not contain regdata." % opt.dataFile)
+        print('')
+
+    if opt.summary:
+        summary_data_file.close()
+
+    if fout != sys.stdout:
+        fout.close()

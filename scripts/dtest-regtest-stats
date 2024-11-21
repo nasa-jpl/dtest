@@ -1,0 +1,82 @@
+#!/usr/bin/env python
+
+import os, sys
+import stat
+import time, datetime
+import pandas as pd
+import h5py
+import numpy as np
+import collections
+import datetime
+
+import click
+import Dutils.Dclick as Dclick
+
+from Dtest.regtest.queryHDF5 import testStats, moduleStats, runStats
+
+@Dclick.cli.command()
+@click.pass_context
+@click.option("--hdf5-filename", type=str, default="/home/dlab3/repo/PKGBUILDS/ROAMSDshellPkg/regtest.h5", show_default=True, help="Name of HDF5 file that stores regtest data.")
+@click.option("--module-name", type=str, default="",show_default=True, help="The name of the module to print stats for.")
+@click.option("--test-name", type=str, default="", show_default=True, help="The name of the test to print stats for. Can either be the form \"<module name>/<test name>\" if --module_name is not provided, or can just be the test name if --module_name is used.")
+@click.option("--num-runs", type=int, default=5, show_default=True, help="Number of most recent runs to print information for.")
+@click.option("--verbose", is_flag=True, help="Prints more verbose output (usually not preferred since it is not as compact)")
+def options(ctx, **kwargs):
+    Dclick.add_options("options", Dclick.cli.commands["options"], kwargs)
+
+cfgobj, ctxobj = Dclick.cli(standalone_mode=False)
+
+hdf5_filename = cfgobj['options']['hdf5_filename']
+module_name = cfgobj['options']['module_name']
+test_name = cfgobj['options']['test_name']
+num_runs = cfgobj['options']['num_runs']
+verbose = cfgobj['options']['verbose']
+
+# decide which functionality to use based on user input
+# if module_name and test_name not specified, print run info
+if module_name == "" and test_name == "":
+
+    if not verbose:
+        print(f"\n\tSTART TIME\t\t\tPASSED\t\t\tFILENAME")
+        print(f"\t----------\t\t\t------\t\t\t--------")
+
+    run_infos = runStats(hdf5_filename, num_runs)
+    for run_info in run_infos:
+        if verbose:
+            print(f"\n{run_info}")
+        else:
+            print(f"\t{run_info.start_time}\t{run_info.num_tests_ok}/{run_info.num_tests} ({100*run_info.num_tests_ok/run_info.num_tests:.1f}%)\t{run_info.filename}")
+
+# if module name is specified and not test name, print module info
+elif module_name != "" and test_name == "":
+    if not verbose:
+        print(f"\nMODULE NAME: {module_name}")
+        print(f"\n\tSTART TIME\t\t\tPASSED\t\tRELEASE")
+        print(f"\t----------\t\t\t------\t\t-------")
+
+    module_infos = moduleStats(hdf5_filename, module_name, num_runs)
+    for module_info in module_infos:
+        if verbose:
+            print(f"\n{module_info}")
+        else:
+            print(f"\t{module_info.start_time}\t{module_info.num_tests_ok}/{module_info.num_tests}\t\t{module_info.release}")
+
+# if test_name is specified at all, print test info
+elif test_name != "":
+    # if module_name is not specified, get module name from test_name string
+    if module_name == "":
+        module_name = test_name.split('/')[0]
+        test_name = test_name.replace(module_name+'/', '')
+
+    if not verbose:
+        print(f"\nMODULE NAME: {module_name}")
+        print(f"TEST NAME: {test_name}")
+        print("\n\tSTART TIME\t\t\tPASSED\t\tRELEASE")
+        print("\t----------\t\t\t------\t\t-------")
+    
+    test_infos = testStats(hdf5_filename, module_name, test_name, num_runs)
+    for test_info in test_infos:
+        if verbose:
+            print(f"\n{test_info}")
+        else:
+            print(f"\t{test_info.start_time}\t{test_info.passed}\t\t{test_info.module_release}")

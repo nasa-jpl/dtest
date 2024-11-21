@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Let local pylintrc override global one
+if [ -r './pylintrc' ]
+then
+    echo "Found local 'pylintrc' file in working directory '$PWD'"
+    rcfile='./pylintrc'
+else
+    resolved_file_path=$(readlink -f "$0")
+    dir_name=$(dirname "$resolved_file_path")
+    rcfile="$dir_name/pylintrc"
+fi
+
+echo "pylint --rcfile='$rcfile' $@"
+pylint-no-sandbox --rcfile="$rcfile" "$@"

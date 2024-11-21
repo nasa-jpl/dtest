@@ -1,0 +1,90 @@
+#!/usr/bin/env python
+#
+import sys
+
+# modules to skip
+SKIP = []
+
+def processOptions():
+    from optparse import OptionParser
+    parser = OptionParser(
+        '%prog [options] <regtest-log-file>\n\n       Summarize regression test output')
+
+    parser.add_option('--all', action='store_true', default=False,
+                      help='Show all tests')
+
+    (opt, args) = parser.parse_args()
+
+    # Complain if the input file is not given
+    if len(args) != 1:
+       parser.print_usage()
+       print("      Example:")
+       print("         Drun make regtest >& out")
+       print("         Drun regsummary out")
+       sys.exit()
+ 
+    return (opt, args)
+   
+
+# Process the arguments
+opts, args = processOptions()
+f = open(args[0], 'r')
+
+modules = {}
+failed_tests  = []
+
+in_failed_tests = False
+firstline = None
+for line in f:
+    if firstline is None:
+        firstline = line
+    if 'SUMMARY: ' in line:
+        s = line.split()
+        succeeded = int(s[4])
+        failed = int(s[6])
+        module = s[9].split(')')[0].strip()
+        modules[module] = { 'succeeded' : succeeded, 'failed' : failed, 'failed_tests' : []}
+        continue
+    if 'Failed test(s):' in line:
+        failed_tests = []
+        in_failed_tests = True
+        continue
+    if in_failed_tests:
+        line = line.strip()
+        if line == '':
+            failed_tests = sorted(failed_tests)
+            modules[module]['failed_tests'] = failed_tests
+            in_failed_tests = False
+        else: 
+            failed_tests.append(line.strip())
+
+print( firstline )
+print( "" )
+print( "SUMMARY" )
+print( "         Module Name   Total   Passed   Failed" )
+print( "         -----------   -----   ------   ------" )
+ 
+keys = modules.keys()
+keys = sorted(keys)
+num_pass = 0
+num_failed = 0
+for module in keys:
+    if module in SKIP:
+        continue
+    print( "%20s     %2d      %2d      %2d" % (module, modules[module]['succeeded']+modules[module]['failed'], modules[module]['succeeded'], modules[module]['failed']) )
+    num_pass = num_pass + modules[module]['succeeded']
+    num_failed = num_failed + modules[module]['failed']
+
+print( "" )
+print( "TOTAL: %d (%d Pass, %d Failed)" % (num_pass+num_failed, num_pass, num_failed) )
+print( "FAILED TESTS" )
+
+for module in keys:
+    if module in SKIP:
+        continue
+    if modules[module]['failed'] > 0:
+        print( "    "+module + ":" )
+        for i in modules[module]['failed_tests']:
+            print( "        " + i )
+
+

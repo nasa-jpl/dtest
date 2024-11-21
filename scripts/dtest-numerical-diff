@@ -1,0 +1,169 @@
+#!/usr/bin/env python
+
+"""Compare files numerically."""
+from __future__ import absolute_import
+from __future__ import division
+
+from __future__ import print_function
+
+import argparse
+import difflib
+import re
+import sys
+
+
+def compare_word(a, b, absolute_error, relative_error):
+    """Return True if words are numerically equivalent."""
+    if a == b:
+        return True
+
+    try:
+        x = float(a)
+        y = float(b)
+    except ValueError:
+        return False
+
+    if abs(x - y) <= absolute_error:
+        return True
+
+    # This has to be the case since otherwise absolute tolerance check
+    # would have returned.
+    assert abs(x) >= 0. or abs(y) >= 0.
+
+    if x != 0.:
+        relative_delta = abs((x - y) / x)
+    else:
+        relative_delta = abs((y - x) / y)
+
+    return relative_delta <= relative_error
+
+    return False
+
+
+def filter_lines(lines, filters):
+    """Filter out lines.
+
+    Make sure to use re.match() to require the regular expression to match the
+    complete line. Using re.search() would result in overly aggressive
+    filtering. If the user wants to be lazy, they should be forced to be
+    explicit (as in ".*home.*").
+
+    """
+    for line in lines:
+        if line.strip() and not is_filtered(line, filters):
+            yield line
+
+
+def is_filtered(line, filters):
+    """Return True if line should be filtered."""
+    for _filter in filters:
+        if _filter.match(line + r'\Z'):
+            return True
+
+    return False
+
+
+def read_filter(filename):
+    """Yield compiled regular expressions from file."""
+    with open(filename) as filter_file:
+        for line in filter_file.readlines():
+            yield re.compile(line)
+
+
+def split(line, separator):
+    raw_words = re.split(separator, line)
+    words = []
+    for w in raw_words:
+        w = w.strip()
+        if w:
+            words.append(w)
+    return words
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        'dtest-numerical-diff',
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+
+    parser.add_argument('-a', '--absolute-error', type=float, default=0.,
+                        help='maximum absolute error')
+    parser.add_argument('-r', '--relative-error', type=float, default=0.,
+                        help='maximum relative error')
+    parser.add_argument('--filter-file',
+                        help='file with list of regular expressions; '
+                             'they are used to filter out complete lines '
+                             'prior to comparison',
+                        default='')
+    parser.add_argument('--separator', metavar='regex', default=r'[\s,()]+',
+                        help='split on this regular expression')
+    parser.add_argument('file1')
+    parser.add_argument('file2')
+
+    args = parser.parse_args()
+
+    if args.absolute_error < 0.:
+        parser.error('--absolute-error must be greater or equal to zero')
+
+    if args.relative_error < 0.:
+        parser.error('--relative-error must be greater or equal to zero')
+
+    filters = []
+    if args.filter_file:
+        filters = list(read_filter(args.filter_file))
+
+    try:
+        with open(args.file1) as file1, open(args.file2) as file2:
+            lines_1 = list(filter_lines(file1.readlines(), filters))
+            lines_2 = list(filter_lines(file2.readlines(), filters))
+    except IOError as exception:
+        print(exception, file=sys.stderr)
+        return 1
+
+    if len(lines_1) != len(lines_2):
+        print('Files differ in number of lines; '
+              'see --filter-file in --help',
+              file=sys.stderr)
+        print(''.join(difflib.unified_diff(lines_1, lines_2)),
+              file=sys.stderr)
+        return 2
+
+    for line_index in range(len(lines_1)):
+        line1 = lines_1[line_index]
+        line2 = lines_2[line_index]
+
+        if line1 != line2:
+            words1 = split(line1, args.separator)
+            words2 = split(line2, args.separator)
+
+            if len(words1) != len(words2):
+                print(
+                    'Line {}: different number of words'.format(
+                        line_index + 1),
+                    file=sys.stderr)
+                print('- {}'.format(words1), file=sys.stderr)
+                print('+ {}'.format(words2), file=sys.stderr)
+                return 2
+
+            for word_index in range(len(words1)):
+                a = words1[word_index]
+                b = words2[word_index]
+
+                if not compare_word(a,
+                                    b,
+                                    absolute_error=args.absolute_error,
+                                    relative_error=args.relative_error):
+                    print(
+                        'Line {}: numeric difference'.format(line_index + 1),
+                        file=sys.stderr)
+                    print('- {}'.format(a), file=sys.stderr)
+                    print('+ {}'.format(b), file=sys.stderr)
+
+                    return 2
+    return 0
+
+
+if __name__ == '__main__':
+    try:
+        sys.exit(main())
+    except KeyboardInterrupt:
+        pass

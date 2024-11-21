@@ -1,0 +1,8 @@
+Running test_env test
+   ctest           exit status - True
+   output          comparison  - True
+ STATUS:     RUN: 1/1   CMP: 1/1  SUCCESS
+
+
+SUMMARY: Ran 1 tests, 1 succeeded, 0 failed (in Dtest)
+Tests completed in 0.085125 seconds

@@ -1,0 +1,70 @@
+#!/usr/bin/env python
+from __future__ import division
+
+
+from __future__ import absolute_import
+from __future__ import print_function
+
+import sys
+import os
+from optparse import OptionParser
+
+
+try:
+    from Dutils.DCompareUtils import cmpModelFiles
+except:
+    # Must be running without Drun; find the Dutils library
+    fpath = os.path.abspath(os.path.dirname(__file__))
+    lpath_extra = '/lib/PYTHON'
+    while fpath != '' and not os.path.isdir(fpath + lpath_extra):
+        # Pop off the last directory (heading towards root)
+        fpath = '/'.join(fpath.split('/')[:-1])
+    fpath = fpath + lpath_extra
+    sys.path.append(fpath)
+    from Dutils.DCompareUtils import cmpModelFiles
+
+
+def processOptions():
+    """Set up command line parser object."""
+
+    usage = """
+
+The compareModelFiles command compares two model files.
+
+    usage: %prog [options] <model-file1> <model-file2>
+"""
+
+    parser = OptionParser(usage=usage)
+
+    parser.add_option('--verbose', '-v', action='store_true',
+                      dest='verbose', default=False,
+                      help='Show the diffs.')
+
+    (opt, args) = parser.parse_args()
+
+    # Complain if two files are not given
+    if len(args) != 2:
+        print('')
+        parser.print_usage()
+        sys.exit()
+
+    return (opt, args)
+
+
+if __name__ == '__main__':
+    import sys
+
+    # Process the arguments
+    opt, args = processOptions()
+    model_filename1 = args[0]
+    model_filename2 = args[1]
+
+    # Compare the model files
+    okay = cmpModelFiles(model_filename1, model_filename2, opt.verbose)
+
+    # Normal comparison mode for dtest, return the test results
+    # that dtest needs (0 for match, 1 for differences)
+    if okay:
+        sys.exit(0)
+    else:
+        sys.exit(1)

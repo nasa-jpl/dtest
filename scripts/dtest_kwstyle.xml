@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Description>
+<Project>Darts Lab</Project>
+<ProjectLogo>/home/dlab/pkgs/src/kwstyle/kwstyle-1.0.0/Web/images/logosmall.jpg</ProjectLogo>
+<KWStyleLogo>/home/dlab/pkgs/src/kwstyle/kwstyle-1.0.0/Web/images/logosmall.jpg</KWStyleLogo>
+
+<DeclarationOrder>
+   <public>0</public>
+   <protected>1</protected>
+   <private>2</private>
+</DeclarationOrder>
+
+<InternalVariables>
+   <regex>^[*&]?[_]?[a-z][a-zA-Z0-9_]+$|^[_A-Z0-9]+$</regex>
+   <alignment>0</alignment>
+</InternalVariables>
+
+<SemicolonSpace>1</SemicolonSpace>
+
+<? For MemberFunctions, the '^[A-Z][a-zA-Z0-9]+$' part is there only because KWStyle mistakes classes for member functions sometimes. ?>
+<? For MemberFunctions, the '^.*".*$' part is there only because KWStyle gets confused about strings with function names (for example "Foo::Bar"). ?>
+<? For MemberFunctions, the '^.*=.*$' part is there only because KWStyle gets confused about functions with '::' in the return type. ?>
+<? For MemberFunctions, the '^.*;.*$' part is there only because KWStyle gets confused about some code. ?>
+<? For MemberFunctions, the '^.*->.*$' part is there only because KWStyle gets confused about some code. ?>
+<? For MemberFunctions, the '^.*\..*$' part is there only because KWStyle gets confused about some code. ?>
+<? For MemberFunctions, the '^.*[a-zA-Z] [_a-zA-Z].*$' part is there only because KWStyle gets confused about functions with '::' in the return type. ?>
+<? For MemberFunctions, the '^.*_T...$' part is there only because KWStyle gets confused about methods of a template class. We are not using angle brackets because that confuses kwstyle when reading this file. ?>
+<? For MemberFunctions, the '^~.*$' part is there only because KWStyle gets confused about destructors. ?>
+<? For MemberFunctions, the '^.$' part is there only because KWStyle gets confused about &operator(). ?>
+<MemberFunctions>
+	<regex>^_?[a-z][a-zA-Z0-9_]*$|^[a-z0-9_]*$|^_?[a-z][a-zA-Z0-9]*_T$|^operator.+$|^[A-Z][a-zA-Z0-9]+$|^.*".*$|^.*=.*$|^.*;.*$|^.*->.*$|^.*\..*$|^.*[a-zA-Z] [_a-zA-Z].*$|^.*_T...$|^~.*$|^.$</regex>
+	<length>1000</length>
+</MemberFunctions>
+
+<Tabs>1</Tabs>
+
+<EmptyLines>2</EmptyLines>
+
+<Spaces>0</Spaces>
+
+<BadCharacters>true</BadCharacters>
+
+<LineLength>400</LineLength>
+
+</Description>

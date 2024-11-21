@@ -1,0 +1,7881 @@
+Tue Oct 22 12:25:14 2024  leake
+
+	* Revision tag: R1-15p
+
+	* "Removing GPU_MEM=0 and graphics tag."
+
+	  SVN revision: 165309
+	  M test/test_display/DTESTDEFS.cfg
+
+Wed Oct  9 12:54:19 2024  leake
+
+	* Revision tag: R1-15o
+
+	* FORMATTED
+
+	  SVN revision: 165154
+	  M python/Test.py
+
+Wed Oct  9 11:37:32 2024  elmquist
+
+	* Revision tag: R1-15n
+
+	* remove requirement to tag GPU_MEM to get display
+
+	  SVN revision: 165151
+	  M python/Test.py
+
+Tue Oct  8 08:45:00 2024  leake
+
+	* Revision tag: R1-15m
+
+	* FORMATTED
+
+	  SVN revision: 165107
+	  M python/Test.py
+
+Tue Oct  8 08:27:09 2024  elmquist
+
+	* Revision tag: R1-15l
+
+	* increase gpu reservation timeout, error if reservation not successful,
+	force gpu resource if display or gpu is needed
+
+	  SVN revision: 165080
+	  M test/test_display/DTESTDEFS.cfg
+	  M python/Test.py
+
+	* Adding lock to shared variable where it is needed.
+
+	  SVN revision: 165050
+	  M python/Test.py
+
+Wed Oct  2 14:41:00 2024  leake
+
+	* Revision tag: R1-15k
+
+	* Updating GPU_MEM.
+
+	  SVN revision: 165016
+	  A test/test_system/test_dtest/DTESTDEFS.cfg
+
+Wed Sep 25 16:26:33 2024  vsteyert
+
+	* Revision tag: R1-15j
+
+	* only import GpuMem if we have it
+
+	  SVN revision: 164869
+	  M python/DtestCommon.py
+
+Tue Sep 17 15:49:08 2024  leake
+
+	* Revision tag: R1-15i
+
+	* Adding GPU memory to tests. See https://dartsgitlab-
+	internal.jpl.nasa.gov/darts-lab/jpl-internal/all-
+	access/development/infrastructure/dtest/-/issues/11.
+
+	  SVN revision: 164560
+	  M test/test_system/test_dtest_truths_cmd/DTESTDEFS.cfg
+	  M test/test_display/DTESTDEFS.cfg
+	  M test/test_system/test_dtest_tags/DTESTDEFS.cfg
+	  M test/test_system/test_dtest_truths_env/DTESTDEFS.cfg
+
+	* Adding dry-run capability, so we can see what would change without
+	changing anything.
+
+	  SVN revision: 164547
+	  M dtest-update-gpu-memory
+
+Tue Sep 10 13:05:51 2024  leake
+
+	* Revision tag: R1-15h
+
+	* FORMATTED.
+
+	  SVN revision: 164462
+	  M gpu_mem.cc
+
+	* Updating GPU memory used.
+
+	  SVN revision: 164461
+	  M test/test_system/test_dtest_truths_env/DTESTDEFS.cfg
+	  M test/test_system/test_dtest_tags/DTESTDEFS.cfg
+
+	* Minor updates so things write in the correct places.
+
+	  SVN revision: 164460
+	  M dtest-update-gpu-memory
+
+	* Using the actual sizes rather than trying to convert to unsigned int.
+	The latter led to issues when we had large GPU usage (it was reporting a
+	value that was way too small). Now using unsigned long long everywhere,
+	which is what the nvml functions return.
+
+	  SVN revision: 164459
+	  M gpu_mem.cc
+
+	* Committing mergeinfo
+
+	  SVN revision: 164457
+	  M .
+
+	* Committing mergeinfo
+
+	  SVN revision: 164407
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-15e-leake
+
+	* Okay getting close on the cuda context issue. There is now one context
+	that polls the available GPU and puts that in a value. Workers just read
+	this value. The last problem I have is cleaning up resources. Checking
+	in what I have for now.
+
+	  SVN revision: 164364
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-15d-leake/dtest
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-15d-leake/python/DtestCommon.py
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-15d-leake/dtest-sbox
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-15d-leake/gpu_mem.cc
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-15d-leake/python/Test.py
+
+Mon Sep  9 12:12:18 2024  leake
+
+	* Revision tag: R1-15g
+
+	* FORMATTED
+
+	  SVN revision: 164447
+	  M gpu_mem.cc
+
+Mon Sep  9 11:38:49 2024  elmquist
+
+	* Revision tag: R1-15f
+
+	* move to nvidia management library for gpu monitoring rather than cuda
+
+	  SVN revision: 164436
+	  M swig/DtestGpuMem_swig.i
+	  M gpu_mem.cc
+	  M Makefile.yam
+
+Fri Sep  6 08:57:39 2024  leake
+
+	* Revision tag: R1-15e
+
+	* Moving tags before RESOURCES.
+
+	  SVN revision: 164378
+	  M test/test_display/DTESTDEFS.cfg
+
+Thu Sep  5 12:09:40 2024  leake
+
+	* Revision tag: R1-15d
+
+	* Syncing pyam.
+
+	  SVN revision: 164353
+	  M dtest
+	  M Makefile.yam
+	  M test/test_system/test_dtest_truths_env/DTESTDEFS.cfg
+	  M python/DtestCommon.py
+	  M dtest-sbox
+	  A dtest-update-gpu-memory
+	  M test/test_system/test_dtest_tags/DTESTDEFS.cfg
+	  M test/test_system/test_dtest_truths_cmd/DTESTDEFS.cfg
+	  M python/Test.py
+	  M test/test_display/DTESTDEFS.cfg
+
+	* Committing mergeinfo
+
+	  SVN revision: 164351
+	  M .
+
+	* FORMATTED.
+
+	  SVN revision: 164349
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-15b-leake/python/DtestCommon.py
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-15b-leake/python/Test.py
+
+	* Minor updates to make commiting better and bug-free.
+
+	  SVN revision: 164348
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-15b-leake/dtest-update-gpu-memory
+
+	* Updating GPU_MEM.
+
+	  SVN revision: 164347
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-15b-leake/test/test_system/test_dtest_truths_env/DTESTDEFS.cfg
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-15b-leake/test/test_system/test_dtest_tags/DTESTDEFS.cfg
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-15b-leake/test/test_system/test_dtest_truths_cmd/DTESTDEFS.cfg
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-15b-leake/test/test_display/DTESTDEFS.cfg
+
+	* Adding the ability to add and commit files automatically.
+
+	  SVN revision: 164346
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-15b-leake/dtest-update-gpu-memory
+
+	* Adding script to update GPU memory resource.
+
+	  SVN revision: 164345
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-15b-leake/Makefile.yam
+	  A Dshell/Modules/Dtest/featureBranches/Dtest-R1-15b-leake/dtest-update-gpu-memory
+
+	* Adding initial GPU memory poller.
+	* See https://dartsgitlab-internal.jpl.nasa.gov/darts-lab/jpl-internal/all-access/development/infrastructure/dtest/-/issues/11
+
+	  SVN revision: 164343
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-15b-leake/python/DtestCommon.py
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-15b-leake/python/Test.py
+
+	* Fixing list mode so it works even with SERIAL flag.
+
+	  SVN revision: 164325
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-15b-leake/python/DtestCommon.py
+
+	* Making the dispatcher more obvious. 
+	* Renaming functions to what they are.
+
+	  SVN revision: 164324
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-15b-leake/dtest
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-15b-leake/python/DtestCommon.py
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-15b-leake/dtest-sbox
+
+Fri Aug 30 08:26:24 2024  gaut
+
+	* Revision tag: R1-15c
+
+	* Fix setting of _eval_result for ResultSpecial
+
+	  SVN revision: 164305
+	  M python/dunit/DUnitFactoryResult.py
+
+Thu Aug 29 08:49:24 2024  leake
+
+	* Revision tag: R1-15b
+
+	* FORMATTED
+
+	  SVN revision: 164254
+	  M python/dunit/DUnitFactoryEvaluation.py
+	  M python/dunit/DUnitTest.py
+
+Thu Aug 29 08:19:23 2024  gaut
+
+	* Revision tag: R1-15a
+
+	* Handle numpy bools
+
+	  SVN revision: 164245
+	  M python/dunit/DUnitTest.py
+	  M python/dunit/DUnitFactoryEvaluation.py
+
+	* Committing mergeinfo
+
+	  SVN revision: 164234
+	  M .
+
+	* Committing mergeinfo
+
+	  SVN revision: 163041
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-14r-gaut
+
+	* Committing mergeinfo
+
+	  SVN revision: 161457
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-14n-gaut
+
+Sat Aug 17 08:41:59 2024  leake
+
+	* Revision tag: R1-15
+
+	* Now splitting with shlex and combinging args in sys.argv before parsing.
+	Shlex is more robust and makes parsing args simpler. Combinging and
+	parsing rather than parsing and combining means we don't have to try and
+	sort out defaults before combining.
+
+	  SVN revision: 164050
+	  M dtest-sbox
+
+Tue Aug 13 12:34:20 2024  leake
+
+	* Revision tag: R1-14z
+
+	* Calling logTee before we create the pool. We must modify values on Test
+	before this happens, otherwise, it seems the workers don't pick the
+	changes up.
+
+	  SVN revision: 163955
+	  M python/DtestCommon.py
+	  M dtest-sbox
+	  M dtest
+
+Mon Aug 12 13:17:00 2024  leake
+
+	* Revision tag: R1-14y
+
+	* FORMATTED.
+
+	  SVN revision: 163943
+	  M python/DtestCommon.py
+	  M dtest-sbox
+	  M python/Test.py
+
+	* Now using a shared variable to track GPU memory usage.
+	* See https://dartsgitlab-internal.jpl.nasa.gov/darts-lab/jpl-internal/all-access/development/infrastructure/dtest/-/issues/9
+
+	  SVN revision: 163942
+	  M python/DtestCommon.py
+	  M dtest-sbox
+	  M python/Test.py
+	  M dtest
+
+	* Getting rid of quiet global variable. Cleaning up functions as a result.
+	* See https://dartsgitlab-internal.jpl.nasa.gov/darts-lab/jpl-internal/all-access/development/infrastructure/dtest/-/issues/8
+
+	  SVN revision: 163941
+	  M test/test_unit/test_test/script.py
+	  M python/DtestCommon.py
+	  M dtest-sbox
+	  M python/Test.py
+	  M dtest
+
+	* Moving tests to Dtest args only. 
+	* See https://dartsgitlab-internal.jpl.nasa.gov/darts-lab/jpl-internal/all-access/development/infrastructure/dtest/-/issues/8
+
+	  SVN revision: 163940
+	  M python/Test.py
+
+Sat Aug 10 13:38:59 2024  leake
+
+	* Revision tag: R1-14x
+
+	* Bug fix. Should have been the intersection of two sets, not if both sets
+	contain values.
+
+	  SVN revision: 163908
+	  M python/Test.py
+
+Sat Aug 10 09:44:16 2024  leake
+
+	* Revision tag: R1-14w
+
+	* FORMATTED.
+
+	  SVN revision: 163893
+	  M python/DtestCommon.py
+	  M python/Test.py
+
+	* Fixing args combination so we don't get multiple instances of truth suffixes.
+	* Filtering out all "" from the truth suffixes.
+	* 2 commits ago, I should have mentioned that commit also fixes the issue where tests were showing up relative to the sbox main directory rather than individual module directory.
+
+	  SVN revision: 163892
+	  M dtest-sbox
+	  M python/Test.py
+
+	* Updating reg test due to function argument refactor in last commit.
+
+	  SVN revision: 163891
+	  M test/test_unit/test_test/script.py
+
+	* Now processing extra arguments from SiteDefs that come through the Makefiles. This allows different exclude_tags, run_only_tags, and truth_suffix to each test.
+	* Refactoring dtest-sbox dispatch so we use a partial rather than exec/eval.
+	* Removing some global variables from Dtest that are now placed on args directly.
+	* See https://dartsgitlab-internal.jpl.nasa.gov/darts-lab/jpl-internal/all-access/development/infrastructure/dtest/-/issues/8
+
+	  SVN revision: 163890
+	  M python/DtestCommon.py
+	  M dtest-sbox
+	  M python/Test.py
+	  M dtest
+
+Fri Aug  9 09:44:27 2024  leake
+
+	* Revision tag: R1-14v
+
+	* Improving exception handling so that dtest-sbox doesn't exit out
+	completely if one module fails.
+
+	  SVN revision: 163883
+	  M python/DtestCommon.py
+	  M python/Test.py
+	  M dtest-sbox
+
+	* Updating since dtest now reports a summary even if no tests ran.
+
+	  SVN revision: 163882
+	  M test/test_system/test_dtest_tags/output3.orig
+
+Fri Aug  9 06:37:00 2024  leake
+
+	* Revision tag: R1-14u
+
+	* FORMATTED.
+
+	  SVN revision: 163868
+	  M python/DtestCommon.py
+	  M python/Test.py
+
+	* Cleaning up typing. Removing system exit if no tests are found as this
+	will happen when we are running dtest-sbox.
+
+	  SVN revision: 163867
+	  M python/DtestCommon.py
+
+	* Making failure count available to scripts.
+	* Bug fix: setting ROOTDIR was missing for serial mode.
+	* Bug fix: fixing truth_suffix type.
+
+	  SVN revision: 163866
+	  M python/DtestCommon.py
+	  M dtest-sbox
+	  M python/Test.py
+	  M dtest
+
+	* Updating test since function arguments have changed.
+
+	  SVN revision: 163865
+	  M test/test_unit/test_test/script.py
+
+	* Adding some comments to make things clearer.
+
+	  SVN revision: 163864
+	  M python/DtestCommon.py
+
+	* Moving common functions to their own file. This avoids code duplication.
+
+	  SVN revision: 163859
+	  M Makefile.yam
+	  A python/DtestCommon.py
+	  M dtest-sbox
+	  M dtest
+
+	* Now, each test individually sets the $ROOTDIR environment variable. This
+	is so we can have the same Pool running tests in different modules, but
+	each test still gets the correct $ROOTDIR.
+
+	  SVN revision: 163857
+	  M dtest-sbox
+	  M dtest
+
+	* Using variables already on args rather than passing around extras.
+
+	  SVN revision: 163855
+	  M dtest-sbox
+	  M dtest
+
+	* Fixing how we remove the lock so it fires even if there are errors and works for each async pool correctly.
+	* Fixing bug in run() so we pass correct args when a SERIAL tag is encountered.
+
+	  SVN revision: 163853
+	  M dtest-sbox
+	  M dtest
+
+	* Adding dtest-sbox. This appears to be working and will run all tests
+	under the same pool.
+
+	  SVN revision: 163852
+	  M Makefile.yam
+	  A dtest-sbox
+	  M python/Test.py
+
+	* Missed one of the logging functions.
+
+	  SVN revision: 163851
+	  M dtest
+
+	* Now using a UUID for each *Args instance. This corresponds to a unique logger. This will allow us to log to a different file for each Args created.
+	* The log and logTee functions now each take a log number.
+
+	  SVN revision: 163850
+	  M python/Test.py
+	  M dtest
+
+	* Now using pydantic validators for the arguments. This simplifies some of the conditional logic and also makes it easy to use OOO to avoid duplicating options.
+	* Changing number of cores if < 0 to be number of cpu cores rather than 2 * number of cpu cores. This matches what the command line options says it does.
+
+	  SVN revision: 163849
+	  M python/Test.py
+	  M dtest
+
+	* Refactoring so that we create a pool external to adding the jobs. 
+	* See https://dartsgitlab-internal.jpl.nasa.gov/darts-lab/jpl-internal/all-access/development/infrastructure/dtest/-/issues/8
+
+	  SVN revision: 163838
+	  M python/Test.py
+	  M dtest
+
+Mon Jul 29 10:46:15 2024  vsteyert
+
+	* Revision tag: R1-14t
+
+	* apply patch from COMPASS
+
+	  SVN revision: 163556
+	  M python/dunit/DUnitTestRunner.py
+	  M python/dunit/DUnitFactoryResult.py
+	  M test/test_DUnit/script_soa.py
+	  M python/dunit/DUnitTest.py
+	  M scripts/dtest-html
+	  D test/test_DUnit/output-basic.orig
+	  D test/test_DUnit/output-soa.orig
+	  M test/test_DUnit/script_basic.py
+
+	* Committing mergeinfo
+
+	  SVN revision: 163354
+	  M .
+
+	* Committing mergeinfo
+
+	  SVN revision: 153186
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-13t-vsteyert3
+
+	* Updating so options are for soaeigen rather than fc38.
+
+	  SVN revision: 163473
+	  M Dshell/python/Test.py
+
+Mon Jul 15 07:51:17 2024  leake
+
+	* Revision tag: R1-14s
+
+	* Adding CUI tag to tests that require the dlab3 mount.
+
+	  SVN revision: 163268
+	  M test/test_reg_test_website/DTESTDEFS.cfg
+	  M test/test_regtest/DTESTDEFS.cfg
+
+Mon Jul  1 11:32:57 2024  leake
+
+	* Revision tag: R1-14r
+
+	* Updating conf.py with new version of extensions. See
+	https://dartsgitlab-internal.jpl.nasa.gov/darts-lab/jpl-internal/all-
+	access/team/infrastructure/housekeeping/-/issues/22#note_22887/
+
+	  SVN revision: 162894
+	  M doc/source/conf.py
+
+Wed Jun 19 22:22:26 2024  jain
+
+	* Revision tag: R1-14q
+
+	* Summary: Made into a literal string
+
+	  SVN revision: 162693
+	  M scripts/dtest-numerical-diff
+
+Wed May 22 06:03:04 2024  elmquist
+
+	* Revision tag: R1-14p
+
+	* add graphics smoke test to ensure opengl is provided by nvidia in
+	graphics regtest sandbox
+
+	  SVN revision: 162131
+	  A test/test_display/DTESTDEFS.cfg
+	  A test/test_display
+	  A test/test_display/output.orig
+
+Thu May  9 20:56:54 2024  jain
+
+	* Revision tag: R1-14o
+
+	* FORMATTED
+
+	  SVN revision: 161678
+	  M test/test_system/test_dtest_tags/tests/test_quarantine/test_subtests/test_green/script.py
+	  M python/TestModifiers.py
+	  M python/Ddoctest.py
+	  M test/test_DUnit/__init__.py
+	  M python/TestUtils.py
+	  M test/test_system/test_dtest_tags/tests/test_child_tags/test_blue/script.py
+	  M python/dunit/DUnitTestRunner.py
+	  M test/test_system/test_dtest_doctest/test_good.py
+	  M test/test_system/test_dtest_tags/tests/test_normal/script.py
+	  M test/test_system/test_dtest_tags/tests/test_child_tags/test_red/script.py
+	  M python/TestMagic.py
+	  M python/dunit/DUnitFactoryResult.py
+	  M python/dunit/xmlrunner.py
+	  M test/test_system/test_ddoctest/script.py
+	  M python/configobj.py
+	  M test/test_DUnit/script_basic.py
+	  M test/test_system/test_dtest_tags/tests/test_ignore/script.py
+	  M python/killableprocess.py
+	  M python/regtest/queryHDF5.py
+	  M test/test_system/test_dtest_tags/tests/test_child_tags/test_green/script.py
+	  M test/test_system/test_dict_compare/script.py
+	  M test/test_system/test_dtest_tags/tests/test_quarantine/test_tags_quarantined/test_green/script.py
+	  M test/test_system/test_dtest_doctest/test_bad.py
+	  M python/regtest/processRegtestData.py
+	  M test/test_system/test_dtest_tags/tests/test_quarantine/test_subtests/test_blue/script.py
+	  M test/test_system/test_dtest_tags/tests/test_quarantine/test_tags_quarantined/test_subtests/test_blue/script.py
+	  M test/test_system/test_dtest_tags/tests/test_skip/test_skip/script.py
+	  M python/dunit/DUnitFactoryEvaluation.py
+	  M test/test_system/test_dtest_tags/tests/test_skip/test_subtests/test_blue/script.py
+	  M test/test_system/test_dtest_tags/tests/test_skip/test_tags_skip/script.py
+	  M python/Test.py
+	  M test/test_system/test_dtest_tags/tests/test_quarantine/test_green/script.py
+	  M test/test_system/test_dtest_tags/tests/test_skip/test_subtests/test_skip/script.py
+	  M test/test_system/test_file_dict_compare/script.py
+	  M python/dunit/DUnitFactorySoa.py
+	  M test/test_system/test_dtest_tags/tests/test_blue/script.py
+	  M test/test_system/test_dtest_tags/tests/test_quarantine/test_tags_quarantined/script.py
+	  M test/test_system/test_dtest_tags/tests/test_blue_children/test_blue_child2/script.py
+	  M test/test_system/test_dtest_tags/tests/test_blue_children/test_blue_child1/script.py
+	  M test/test_system/test_dtest_tags/tests/test_quarantine/test_tags_quarantined/test_subtests/test_green/script.py
+
+Thu Apr 25 15:49:39 2024  leake
+
+	* Revision tag: R1-14n
+
+	* Fixing input.
+
+	  SVN revision: 161218
+	  M python/Test.py
+
+	* Adding convenience method for renaming orig files to fc38 and creating
+	new orig files. This will be used for the port to FC40.
+
+	  SVN revision: 161217
+	  M python/Test.py
+
+Tue Apr 23 15:12:58 2024  jain
+
+	* Revision tag: R1-14m
+
+	* FORMATTED
+
+	  SVN revision: 161164
+	  M python/regtest/cgi/regtest.py
+
+Tue Apr 23 13:54:29 2024  gaut
+
+	* Revision tag: R1-14l
+
+	* merge
+
+	  SVN revision: 161157
+	  A python/regtest/cgi
+
+	* Committing mergeinfo
+
+	  SVN revision: 161155
+	  M .
+
+	* Add elapsed time to test and module tables
+
+	  SVN revision: 161153
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-14j-gaut/python/regtest/cgi/regtest.py
+
+	* Put cgi script for regtest site under svn
+
+	  SVN revision: 161152
+	  A Dshell/Modules/Dtest/featureBranches/Dtest-R1-14j-gaut/python/regtest/cgi
+	  A Dshell/Modules/Dtest/featureBranches/Dtest-R1-14j-gaut/python/regtest/cgi/regtest.py
+
+Mon Apr 22 16:09:29 2024  jain
+
+	* Revision tag: R1-14k
+
+	* FORMATTED
+
+	  SVN revision: 161106
+	  M test/test_regtest/gen_email.py
+
+Mon Apr 22 12:28:56 2024  gaut
+
+	* Revision tag: R1-14j
+
+	* Compute elapsed time in a module if it is missing
+
+	  SVN revision: 161099
+	  M python/regtest/processRegtestData.py
+
+Mon Apr 22 11:56:45 2024  gaut
+
+	* Revision tag: R1-14i
+
+	* Uncomment connect and close calls
+
+	  SVN revision: 161092
+	  M python/regtest/processRegtestData.py
+
+Mon Apr 22 09:48:19 2024  gaut
+
+	* Revision tag: R1-14h
+
+	* Add API-level tests for regtest data processing lib
+
+	  SVN revision: 161085
+	  A test/test_regtest/DTESTDEFS.cfg
+	  A test/test_regtest
+	  A test/test_regtest/regtest.data-2024-04-22-06_05
+	  A test/test_regtest/gen_email.py
+	  A test/test_regtest/gen_hdf.py
+
+	* Add elapsed time to modules, include in email
+
+	  SVN revision: 161084
+	  M python/regtest/queryHDF5.py
+	  M python/regtest/processRegtestData.py
+
+	* Committing mergeinfo
+
+	  SVN revision: 160575
+	  M .
+
+	* Committing mergeinfo
+
+	  SVN revision: 159768
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-14f-gaut
+
+Fri Mar 29 11:30:12 2024  leake
+
+	* Revision tag: R1-14g
+
+	* FORMATTED.
+
+	  SVN revision: 160139
+	  M python/Test.py
+
+	* Adding the ability to specify GPU_MEM in the RESOURCES field of a DTESTDEFS.cfg file.
+	* See https://dartsgitlab-internal.jpl.nasa.gov/darts-lab/jpl-internal/all-access/development/infrastructure/dtest/-/issues/6
+
+	  SVN revision: 160138
+	  M python/Test.py
+
+	* Removing functions for Dtest memory storage. This doesn't work because
+	we will double count memory while the program is running.
+
+	  SVN revision: 160137
+	  M gpu_mem.cc
+
+	* Adding GPU memory inspection utilities. See https://dartsgitlab-
+	internal.jpl.nasa.gov/darts-lab/jpl-internal/all-
+	access/development/infrastructure/dtest/-/issues/6
+
+	  SVN revision: 160136
+	  M Makefile.yam
+	  A swig
+	  A swig/DtestGpuMem_swig.i
+	  A gpu_mem.cc
+
+Sun Mar  3 09:58:31 2024  jain
+
+	* Revision tag: R1-14f
+
+	* Fixed path to switch from dlab partition.
+
+	  SVN revision: 159513
+	  M test/test_reg_test_website/upload_regtests_to_hdf5_old.py
+	  M scripts/dtest-regtest-append
+	  M test/test_reg_test_website/DTESTDEFS.cfg
+	  M python/regtest/processRegtestData.py
+	  M test/test_code/test_pylint/script.bash
+	  M test/test_reg_test_website/create_ui.py
+	  M test/test_reg_test_website/upload_regtests_to_hdf5.py
+	  M test/test_reg_test_website/generate_h5_tables.py
+
+Tue Feb 27 11:48:29 2024  gaut
+
+	* Revision tag: R1-14e
+
+	* Add helper to check that an error is correctly raised
+
+	  SVN revision: 159395
+	  A python/raises.py
+	  M Makefile.yam
+
+	* Committing mergeinfo
+
+	  SVN revision: 158797
+	  M .
+
+Sun Jan 14 12:52:24 2024  jain
+
+	* Revision tag: R1-14d
+
+	* Updating.
+
+	  SVN revision: 158162
+	  M python/Test.py
+
+	* Updating to use the right letter.
+
+	  SVN revision: 158161
+	  M python/Test.py
+
+Mon Jan  8 14:14:51 2024  leake
+
+	* Revision tag: R1-14c
+
+	* FORMATTED.
+
+	  SVN revision: 158077
+	  M python/Test.py
+
+	* Adding soa_eigen shortcut for updating reg tests (changes made by
+	others, I'm just the one commiting it).
+
+	  SVN revision: 158076
+	  M python/Test.py
+
+	* Updating to work with SOAEigen.
+
+	  SVN revision: 158075
+	  M python/dunit/DUnitFactoryEvaluation.py
+
+Tue Nov  7 17:44:17 2023  jain
+
+	* Revision tag: R1-14b
+
+	* FORMATTED
+
+	  SVN revision: 156185
+	  M python/regtest/processRegtestData.py
+	  M python/regtest/queryHDF5.py
+
+Tue Nov  7 14:15:55 2023  stobin
+
+	* Revision tag: R1-14a
+
+	* Added critical failure symbol to last10 string
+
+	  SVN revision: 156166
+	  M python/regtest/processRegtestData.py
+
+Tue Nov  7 10:59:28 2023  stobin
+
+	* Revision tag: R1-14
+
+	* Added sandbox layer to HDF5 files and more info to emails and website
+
+	  SVN revision: 156127
+	  M python/regtest/processRegtestData.py
+	  M python/regtest/queryHDF5.py
+	  M scripts/dtest-regtest-append
+
+	* Committing mergeinfo
+
+	  SVN revision: 155669
+	  M .
+
+Sat Oct 28 00:21:47 2023  jain
+
+	* Revision tag: R1-13z
+
+	* Deleted obsolete orig files
+
+	  SVN revision: 155497
+	  D test/test_DUnit/output-basic.orig_fc36
+	  D test/test_DUnit/output-soa.orig_fc36
+
+Tue Oct 10 17:42:00 2023  jain
+
+	* Revision tag: R1-13y
+
+	* FORMATTED
+
+	  SVN revision: 154726
+	  M python/regtest/processRegtestData.py
+
+Mon Oct  9 23:41:26 2023  jain
+
+	* Revision tag: R1-13x
+
+	* Fixed location of key_modules.py file so that it is also accessible on
+	gibbs
+
+	  SVN revision: 154665
+	  M python/regtest/processRegtestData.py
+
+Mon Oct  9 09:37:12 2023  stobin
+
+	* Revision tag: R1-13w
+
+	* Synced up
+
+	  SVN revision: 154616
+	  M python/regtest/processRegtestData.py
+
+	* Committing mergeinfo
+
+	  SVN revision: 154614
+	  M .
+
+	* Emails no longer error out when only one entry in HDF5 file
+
+	  SVN revision: 154612
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-13u-stobin/python/regtest/processRegtestData.py
+
+	* Updated path for regtest files to work on FN machines
+
+	  SVN revision: 154579
+	  M Dshell/scripts/dtest-regtest-append
+
+Thu Oct  5 17:40:00 2023  jain
+
+	* Revision tag: R1-13v
+
+	* FORMATTED
+
+	  SVN revision: 154572
+	  M python/regtest/processRegtestData.py
+	  M python/regtest/queryHDF5.py
+
+Thu Oct  5 15:55:25 2023  stobin
+
+	* Revision tag: R1-13u
+
+	* Only show last passed results from the same sandbox.
+
+	  SVN revision: 154565
+	  M python/regtest/processRegtestData.py
+	  M python/regtest/queryHDF5.py
+	  M scripts/dtest-regtest-append
+
+Thu Aug  3 17:48:00 2023  jain
+
+	* Revision tag: R1-13t
+
+	* FORMATTED
+
+	  SVN revision: 153108
+	  M python/regtest/queryHDF5.py
+
+Thu Aug  3 08:31:09 2023  stobin
+
+	* Revision tag: R1-13s
+
+	* Added checks to make email sending faster
+
+	  SVN revision: 153075
+	  M python/regtest/processRegtestData.py
+	  M python/regtest/queryHDF5.py
+
+Tue Aug  1 15:49:51 2023  stobin
+
+	* Revision tag: R1-13r
+
+	* Added --regtest-host option to regtest-append script and fixed
+	test_reg_test_website
+
+	  SVN revision: 153041
+	  M test/test_reg_test_website/DTESTDEFS.cfg
+	  M python/regtest/processRegtestData.py
+	  M scripts/dtest-regtest-append
+
+Thu Jul 27 18:32:10 2023  jain
+
+	* Revision tag: R1-13q
+
+	* FORMATTED
+
+	  SVN revision: 153017
+	  M python/regtest/processRegtestData.py
+
+Wed Jul 26 15:58:25 2023  stobin
+
+	* Revision tag: R1-13p
+
+	* Fixed findLastPassed function
+
+	  SVN revision: 152986
+	  M scripts/dtest-regtest-last-passed
+	  M python/regtest/processRegtestData.py
+	  M python/regtest/queryHDF5.py
+
+Wed Jul 26 15:04:28 2023  stobin
+
+	* Revision tag: R1-13o
+
+	* Fixed last10 string in emails to use datetime in query
+
+	  SVN revision: 152979
+	  M python/regtest/processRegtestData.py
+
+Wed Jul 26 08:53:33 2023  stobin
+
+	* Revision tag: R1-13n
+
+	* Fixed email generation and added error emails
+
+	  SVN revision: 152966
+	  M python/regtest/processRegtestData.py
+	  M python/regtest/queryHDF5.py
+
+	* Committing mergeinfo
+
+	  SVN revision: 152963
+	  M .
+
+Tue Jul 25 18:34:54 2023  jain
+
+	* Revision tag: R1-13m
+
+	* FORMATTED
+
+	  SVN revision: 152946
+	  M python/regtest/queryHDF5.py
+
+Tue Jul 25 13:26:31 2023  stobin
+
+	* Revision tag: R1-13l
+
+	* Updated API to include functions used in regtest website.
+
+	  SVN revision: 152916
+	  M python/regtest/queryHDF5.py
+
+Tue Jul 18 18:01:41 2023  jain
+
+	* Revision tag: R1-13k
+
+	* FORMATTED
+
+	  SVN revision: 152734
+	  M python/regtest/processRegtestData.py
+
+Tue Jul 18 16:05:43 2023  stobin
+
+	* Revision tag: R1-13j
+
+	* Fixed merge conflicts
+
+	  SVN revision: 152728
+	  M python/regtest/processRegtestData.py
+	  M scripts/dtest-regtest-append
+
+	* Committing mergeinfo
+
+	  SVN revision: 152726
+	  M .
+
+	* Fixed truncated test names and save regtest.mail file and added --email-
+	title option
+
+	  SVN revision: 152724
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-13h-stobin/python/regtest/processRegtestData.py
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-13h-stobin/scripts/dtest-regtest-append
+
+Mon Jul 17 17:47:34 2023  jain
+
+	* Revision tag: R1-13i
+
+	* FORMATTED
+
+	  SVN revision: 152639
+	  M python/regtest/processRegtestData.py
+
+Mon Jul 17 16:14:08 2023  stobin
+
+	* Revision tag: R1-13h
+
+	* merged
+
+	  SVN revision: 152625
+	  M python/regtest/processRegtestData.py
+
+	* Committing mergeinfo
+
+	  SVN revision: 152623
+	  M .
+
+	* Last10 string fix and timed out support
+
+	  SVN revision: 152621
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-13f-stobin/python/regtest/processRegtestData.py
+
+Thu Jul 13 18:03:22 2023  jain
+
+	* Revision tag: R1-13g
+
+	* FORMATTED
+
+	  SVN revision: 152477
+	  M python/regtest/processRegtestData.py
+
+Thu Jul 13 16:02:38 2023  stobin
+
+	* Revision tag: R1-13f
+
+	* Fixed last 10 string in email
+
+	  SVN revision: 152471
+	  M python/regtest/processRegtestData.py
+
+Thu Jul 13 15:14:56 2023  stobin
+
+	* Revision tag: R1-13e
+
+	* Some tweaks to email formatting
+
+	  SVN revision: 152464
+	  M scripts/dtest-regtest-last-passed
+	  M scripts/dtest-regtest-stats
+	  M python/regtest/processRegtestData.py
+	  M python/regtest/queryHDF5.py
+
+	* Committing mergeinfo
+
+	  SVN revision: 152462
+	  M .
+
+	* Some formatting tweaks to emails
+
+	  SVN revision: 152460
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-13c-stobin/scripts/dtest-regtest-last-passed
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-13c-stobin/scripts/dtest-regtest-stats
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-13c-stobin/python/regtest/processRegtestData.py
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-13c-stobin/python/regtest/queryHDF5.py
+
+Wed Jul 12 17:57:00 2023  jain
+
+	* Revision tag: R1-13d
+
+	* FORMATTED
+
+	  SVN revision: 152347
+	  M python/regtest/processRegtestData.py
+	  M python/regtest/queryHDF5.py
+
+Wed Jul 12 15:39:26 2023  stobin
+
+	* Revision tag: R1-13c
+
+	* regtest HDF5 now has a field for when a test last passed which gets
+	updated during append
+
+	  SVN revision: 152339
+	  M python/regtest/processRegtestData.py
+	  M python/regtest/queryHDF5.py
+	  M scripts/dtest-regtest-append
+
+	* Committing mergeinfo
+
+	  SVN revision: 152231
+	  M .
+
+Mon Jul 10 17:56:25 2023  jain
+
+	* Revision tag: R1-13b
+
+	* FORMATTED
+
+	  SVN revision: 152113
+	  M test/test_reg_test_website/upload_regtests_to_hdf5_old.py
+	  M python/regtest/processRegtestData.py
+	  M test/test_reg_test_website/create_ui.py
+	  M test/test_reg_test_website/upload_regtests_to_hdf5.py
+	  M test/test_reg_test_website/regtest_last_passed.py
+	  M python/regtest/queryHDF5.py
+	  M test/test_reg_test_website/create_expandable_ui.py
+
+Mon Jul 10 07:08:36 2023  stobin
+
+	* Revision tag: R1-13a
+
+	* Updated API for interacting with regtests and HDF5.
+
+	  SVN revision: 152081
+	  M Makefile.yam
+	  A test/test_reg_test_website/create_expandable_ui.py
+	  A test/test_reg_test_website/data.json
+	  A scripts/dtest-regtest-append
+	  M test/test_reg_test_website/upload_regtests_to_hdf5.py
+	  A test/test_reg_test_website/regtest_last_passed.py
+	  A scripts/dtest-regtest-last-passed
+	  A test/test_reg_test_website/expandable_table.html
+	  A test/test_reg_test_website/upload_regtests_to_hdf5_old.py
+	  A test/test_reg_test_website/hierarchical_test.h5
+	  A python/regtest
+	  A scripts/dtest-regtest-stats
+	  M test/test_reg_test_website/create_ui.py
+	  A test/test_reg_test_website/datatable.html
+
+	* Committing mergeinfo
+
+	  SVN revision: 152079
+	  M .
+
+	* Created API for working with regtest data and interfacing with HDF5
+	file.
+
+	  SVN revision: 152077
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-12z-stobin1/Makefile.yam
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-12z-stobin1/test/test_reg_test_website/upload_regtests_to_hdf5.py
+	  A Dshell/Modules/Dtest/featureBranches/Dtest-R1-12z-stobin1/scripts/dtest-regtest-append
+	  A Dshell/Modules/Dtest/featureBranches/Dtest-R1-12z-stobin1/python/regtest/__init__.py
+	  A Dshell/Modules/Dtest/featureBranches/Dtest-R1-12z-stobin1/python/regtest/queryHDF5.py
+	  A Dshell/Modules/Dtest/featureBranches/Dtest-R1-12z-stobin1/python/regtest/processRegtestData.py
+	  A Dshell/Modules/Dtest/featureBranches/Dtest-R1-12z-stobin1/python/regtest
+	  A Dshell/Modules/Dtest/featureBranches/Dtest-R1-12z-stobin1/test/test_reg_test_website/hierarchical_test.h5
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-12z-stobin1/test/test_reg_test_website/create_ui.py
+	  A Dshell/Modules/Dtest/featureBranches/Dtest-R1-12z-stobin1/test/test_reg_test_website/data.json
+	  A Dshell/Modules/Dtest/featureBranches/Dtest-R1-12z-stobin1/test/test_reg_test_website/expandable_table.html
+	  A Dshell/Modules/Dtest/featureBranches/Dtest-R1-12z-stobin1/scripts/dtest-regtest-stats
+	  A Dshell/Modules/Dtest/featureBranches/Dtest-R1-12z-stobin1/scripts/dtest-regtest-last-passed
+	  A Dshell/Modules/Dtest/featureBranches/Dtest-R1-12z-stobin1/test/test_reg_test_website/datatable.html
+	  A Dshell/Modules/Dtest/featureBranches/Dtest-R1-12z-stobin1/test/test_reg_test_website/regtest_last_passed.py
+	  A Dshell/Modules/Dtest/featureBranches/Dtest-R1-12z-stobin1/test/test_reg_test_website/create_expandable_ui.py
+	  A Dshell/Modules/Dtest/featureBranches/Dtest-R1-12z-stobin1/test/test_reg_test_website/upload_regtests_to_hdf5_old.py
+
+Fri Jun 16 13:23:11 2023  jain
+
+	* Revision tag: R1-13
+
+	* FORMATTED
+
+	  SVN revision: 150879
+	  M test/test_reg_test_website/create_ui.py
+	  M python/Test.py
+
+Sat May 13 00:16:45 2023  jain
+
+	* Revision tag: R1-12z
+
+	* Replaced 'egrep' with 'grep -E'.
+
+	  SVN revision: 149465
+	  M scripts/dtest-diff
+
+	* Updated
+
+	  SVN revision: 149458
+	  A test/test_DUnit/output-basic.orig_fc36
+	  A test/test_DUnit/output-soa.orig_fc36
+
+	* Adding in full directory path rather than just file.
+
+	  SVN revision: 149450
+	  M python/Test.py
+
+	* Updating for FC38.
+
+	  SVN revision: 149445
+	  M test/test_DUnit/output-basic.orig
+	  M test/test_DUnit/output-soa.orig
+
+	* Trying to add fc36 file to version control automatically.
+
+	  SVN revision: 149431
+	  M python/Test.py
+
+	* Adding option to accept diffs and make old diffs an .orig_fc36 file.
+
+	  SVN revision: 149357
+	  M python/Test.py
+
+Tue May  2 23:51:56 2023  jain
+
+	* Revision tag: R1-12y
+
+	* Now open hdf5 file in read only mode
+
+	  SVN revision: 149190
+	  M test/test_reg_test_website/create_ui.py
+
+Fri Apr 28 15:14:55 2023  leake
+
+	* Revision tag: R1-12x
+
+	* FORMATTED.
+
+	  SVN revision: 149060
+	  M test/test_reg_test_website/create_ui.py
+	  M test/test_reg_test_website/upload_regtests_to_hdf5.py
+	  M test/test_reg_test_website/testing_ui.py
+	  M test/test_reg_test_website/generate_h5_tables.py
+
+	* Now a web browser doesn't open.
+
+	  SVN revision: 149059
+	  M test/test_reg_test_website/DTESTDEFS.cfg
+	  M test/test_reg_test_website/create_ui.py
+
+	* Adding reg test definition.
+	* Slight modifications so this works as standalone.
+
+	  SVN revision: 149058
+	  A test/test_reg_test_website/DTESTDEFS.cfg
+	  M test/test_reg_test_website/create_ui.py
+	  M test/test_reg_test_website/generate_h5_tables.py
+
+	* Intial commit of Shay Ma's files.
+
+	  SVN revision: 149051
+	  A test/test_reg_test_website/create_ui.py
+	  A test/test_reg_test_website/upload_regtests_to_hdf5.py
+	  A test/test_reg_test_website/testing_ui.py
+	  A test/test_reg_test_website
+	  A test/test_reg_test_website/generate_h5_tables.py
+
+Thu Feb 23 07:09:17 2023  leake
+
+	* Revision tag: R1-12w
+
+	* Adding missing return statement. Without this, the SERIAL tests get
+	added to the serial and parallel groups and are run twice (once in
+	serial and once in parallel).
+
+	  SVN revision: 147101
+	  M python/Test.py
+
+Wed Feb 22 11:05:04 2023  leake
+
+	* Revision tag: R1-12v
+
+	* FORMATTED.
+
+	  SVN revision: 147087
+	  M python/Test.py
+
+	* Updating to include the logic for processing the SERIAL tag.
+	* See https://dartsgitlab-internal.jpl.nasa.gov/darts-lab/jpl-internal/all-access/development/infrastructure/dtest/-/issues/5
+
+	  SVN revision: 147086
+	  M python/Test.py
+	  M dtest
+
+Fri Jan 27 18:30:00 2023  jain
+
+	* Revision tag: R1-12u
+
+	* FORMATTED
+
+	  SVN revision: 146118
+	  M scripts/docker_regtest.py
+
+Fri Jan 27 16:47:52 2023  cslim
+
+	* Revision tag: R1-12t
+
+	* SVN revision: 146110
+	  A scripts/docker_regtest.py
+
+	* Committing mergeinfo
+
+	  SVN revision: 142467
+	  M .
+
+Sun Jul 24 08:48:23 2022  jbonilla
+
+	* Revision tag: R1-12s
+
+	* Fixed zero division when running 0 tests
+
+	  SVN revision: 141252
+	  M scripts/dtest-mail
+
+	* Committing mergeinfo
+
+	  SVN revision: 140815
+	  M .
+
+Sun Jul  3 00:47:54 2022  jain
+
+	* Revision tag: R1-12r
+
+	* FORMATTED
+
+	  SVN revision: 140514
+	  M python/TestModifiers.py
+	  M test/test_code/test_commented_out_code/check_for_commented_out_code.py
+	  M test/test_system/test_dict_compare/script.py
+	  M python/Ddoctest.py
+	  M python/TestUtils.py
+	  M python/dunit/DUnitFactoryEvaluation.py
+	  M test/test_unit/test_test/script.py
+	  M test/test_DUnit/script_soa.py
+	  M python/Test.py
+	  M python/dunit/DUnitFactoryResult.py
+	  M python/TestMagic.py
+	  M python/dunit/xmlrunner.py
+	  M python/DCompareUtils.py
+	  M test/test_system/test_file_dict_compare/script.py
+	  M python/dunit/DUnitFactorySoa.py
+	  M python/configobj.py
+	  M scripts/python_diff.py
+	  M test/test_DUnit/script_basic.py
+	  M doc/source/conf.py
+	  M test/test_unit/test_test_modifiers/script.py
+	  M python/dunit/DUnitTest.py
+	  M python/killableprocess.py
+
+Tue Jun 28 07:43:29 2022  jain
+
+	* Revision tag: R1-12q
+
+	* Updated for SOAEigen.
+
+	  SVN revision: 140379
+	  M python/dunit/DUnitFactoryEvaluation.py
+
+Mon May 30 17:18:50 2022  jain
+
+	* Revision tag: R1-12p
+
+	* Repeat counts of success/failures in detailed section
+
+	  SVN revision: 139532
+	  M test/test_system/test_dtest_mail/mail1_quarantined.out.orig
+	  M test/test_system/test_dtest_mail/mail1.out.orig
+	  M test/test_system/test_dtest_mail/mail2.out.orig
+	  M test/test_system/test_dtest_mail/mail3.out.orig
+	  M test/test_system/test_dtest_mail/mail5.out.orig
+	  M scripts/dtest-mail
+
+Sat May 28 21:49:48 2022  jain
+
+	* Revision tag: R1-12o
+
+	* Removed Display column.
+	Now skip percent entry if it is 100% to reduce clutter.
+	Updated alignment of values for improved readability.
+
+	  SVN revision: 139525
+	  M test/test_system/test_dtest_mail/mail1_quarantined.out.orig
+	  M test/test_system/test_dtest_mail/mail1.out.orig
+	  M test/test_system/test_dtest_mail/mail2.out.orig
+	  M test/test_system/test_dtest_mail/mail3.out.orig
+	  M test/test_system/test_dtest_mail/mail5.out.orig
+
+	* Removed Display column.
+	Now skip percent entry if it is 100% to reduce clutter.
+	Updated alignment of values for improved readability.
+
+	  SVN revision: 139524
+	  M scripts/dtest-mail
+
+Fri May 27 09:02:50 2022  jbonilla
+
+	* Revision tag: R1-12n
+
+	* Added Dtest version to regtest email
+
+	  SVN revision: 139516
+	  M test/test_system/test_dtest_mail/regexp.lst
+	  M scripts/dtest-mail
+
+Fri May 27 04:28:12 2022  jbonilla
+
+	* Revision tag: R1-12m
+
+	* Updated truth files of test for new formatting
+
+	  SVN revision: 139508
+	  M test/test_system/test_dtest_mail/mail1_quarantined.out.orig
+	  M test/test_system/test_dtest_mail/mail1.out.orig
+	  M test/test_system/test_dtest_mail/mail2.out.orig
+	  M test/test_system/test_dtest_mail/mail3.out.orig
+	  M test/test_system/test_dtest_mail/mail5.out.orig
+
+	* Fixed formatting
+
+	  SVN revision: 139507
+	  M scripts/dtest-mail
+
+	* Committing mergeinfo
+
+	  SVN revision: 139505
+	  M .
+
+Thu May 26 23:00:08 2022  jain
+
+	* Revision tag: R1-12l
+
+	* Added subtotals for intermediate tables. Removed delta valuse if they
+	are 0. Messed up formatting
+
+	  SVN revision: 139501
+	  M scripts/dtest-mail
+
+Thu May 26 16:38:29 2022  jbonilla
+
+	* Revision tag: R1-12k
+
+	* Added missing files for test
+
+	  SVN revision: 139493
+	  A test/test_system/test_dtest_mail/mail5.out.orig
+	  A test/test_system/test_dtest_mail/test_prev_regtest.data
+
+	* Added tests for new dtest-mail functionality
+
+	  SVN revision: 139492
+	  M test/test_system/test_dtest_mail/DTESTDEFS.cfg
+
+	* Changed dtest-mail to support diff with previous regtest
+
+	  SVN revision: 139491
+	  M scripts/dtest-mail
+
+Wed Apr  6 16:58:59 2022  cslim
+
+	* Revision tag: R1-12j
+
+	* SVN revision: 138055
+	  A scripts/python_diff.py
+
+Sun Feb  6 15:49:06 2022  jain
+
+	* Revision tag: R1-12i
+
+	* Updated
+
+	  SVN revision: 136836
+	  M test/common/regexp.lst
+
+Wed Nov 17 13:18:05 2021  cslim
+
+	* Revision tag: R1-12h
+
+	* SVN revision: 135171
+	  M scripts/regsummary
+	  A scripts/regsummary.old
+
+Wed Jul 28 11:42:52 2021  cslim
+
+	* Revision tag: R1-12g
+
+	* SVN revision: 133052
+	  M python/Test.py
+
+Sun Jun 27 17:29:46 2021  jain
+
+	* Revision tag: R1-12f
+
+	* Updated
+
+	  SVN revision: 132129
+	  M test/test_system/test_dtest_mail/mail1_quarantined.out.orig
+	  M test/test_system/test_dtest_mail/mail1.out.orig
+	  M test/test_system/test_dtest_mail/mail2.out.orig
+	  M test/test_system/test_dtest_mail/mail3.out.orig
+
+Sat Jun 19 21:35:55 2021  jain
+
+	* Revision tag: R1-12e
+
+	* Added support for key modules table
+
+	  SVN revision: 131898
+	  M scripts/dtest-mail
+
+Fri Mar  5 00:03:32 2021  jain
+
+	* Revision tag: R1-12d
+
+	* Now report email subject line contains the total tests and perceentage
+	passing values.
+
+	  SVN revision: 128829
+	  M scripts/dtest-mail
+
+Sat Nov 28 22:30:02 2020  jain
+
+	* Revision tag: R1-12c
+
+	* Fixed up to handle missing RUN directive gracefully.
+
+	  SVN revision: 127015
+	  M python/Test.py
+
+Sun Nov  8 10:30:13 2020  jain
+
+	* Revision tag: R1-12b
+
+	* Enabled PYTHONUNBUFFERED environment variable for proper ordering of
+	output messages.
+
+	  SVN revision: 126231
+	  M scripts/dtest-cram
+
+	* Now enable PYTHONUNBUFFERED environment variable to get proper mix of
+	Python and C++ messages
+
+	  SVN revision: 126224
+	  M python/Test.py
+
+Sun Nov  1 13:48:20 2020  jain
+
+	* Revision tag: R1-12a
+
+	* Added a comment.
+
+	  SVN revision: 125753
+	  M scripts/dtest-cram
+
+Sat Sep  5 15:55:06 2020  jain
+
+	* Revision tag: R1-12
+
+	* Now propagate ENV values down the test hierarchy.
+
+	  SVN revision: 124189
+	  M python/Test.py
+
+Sun Jun 28 23:24:47 2020  jain
+
+	* Revision tag: R1-11z
+
+	* Updated
+
+	  SVN revision: 122671
+	  M python/Test.py
+
+	* Now diff message line includes the available suffix truth files if there
+	is more than one available.
+
+	  SVN revision: 122666
+	  M python/Test.py
+
+	* Made skipped value check more robust.
+
+	  SVN revision: 122665
+	  M python/DCompareUtils.py
+
+Sat May 30 18:13:47 2020  cslim
+
+	* Revision tag: R1-11y
+
+	* SVN revision: 121434
+	  M python/DCompareUtils.py
+
+Tue May 19 20:29:12 2020  jain
+
+	* Revision tag: R1-11x
+
+	* Updated.
+
+	  SVN revision: 120892
+	  M test/test_code/DTESTDEFS.cfg
+
+Wed May  6 21:32:21 2020  jain
+
+	* Revision tag: R1-11w
+
+	* Used 'make format' to format the code
+
+	  SVN revision: 120415
+	  M python/TestModifiers.py
+	  M python/Ddoctest.py
+	  M test/test_DUnit/__init__.py
+	  M python/TestUtils.py
+	  M test/test_system/test_dtest_kwstyle/bad.h
+	  M test/test_unit/test_test_modifiers/executable_script.py
+	  M setup.py
+	  M test/test_DUnit/script_soa.py
+	  M python/dunit/DUnitTestRunner.py
+	  M test/test_unit/test_test_magic/script.py
+	  M python/TestMagic.py
+	  M python/dunit/DUnitFactoryResult.py
+	  M python/dunit/xmlrunner.py
+	  M test/test_system/test_ddoctest/script.py
+	  M python/DCompareUtils.py
+	  M test/test_system/test_truthfiles/script.py
+	  M python/configobj.py
+	  M test/test_DUnit/script_basic.py
+	  M test/test_system/test_dtest_truths_env/tests/test_env/script.py
+	  M test/test_system/test_dtest_kwstyle/usual.h
+	  M python/killableprocess.py
+	  M test/test_code/test_commented_out_code/check_for_commented_out_code.py
+	  M test/test_system/test_dict_compare/script.py
+	  M python/dunit/DUnitFactoryEvaluation.py
+	  M test/test_system/test_dtest/script.py
+	  M test/test_unit/test_test/script.py
+	  M test/test_system/test_dtest_truths/script.py
+	  M python/Test.py
+	  M test/test_system/test_dtest_unittest/test_bad.py
+	  M test/test_system/test_dtest_mail/mod_own.py
+	  M test/test_system/test_file_dict_compare/script.py
+	  M python/dunit/DUnitFactorySoa.py
+	  M test/test_system/test_dtest_truths_cmd/tests2/test_cmd/script.py
+	  M test/test_system/test_dtest_unittest/test_good.py
+	  M test/test_system/test_dtest_truths_cmd/tests/test_env/script.py
+	  M doc/source/conf.py
+	  M test/test_unit/test_test_modifiers/script.py
+	  M python/dunit/DUnitTest.py
+	  M test/test_system/test_dtest_kwstyle/okay.h
+
+Wed Mar  4 17:02:33 2020  gaut
+
+	* Revision tag: R1-11v
+
+	* pep8
+
+	  SVN revision: 118947
+	  M python/Ddoctest.py
+
+	* Committing mergeinfo
+
+	  SVN revision: 118102
+	  M .
+
+	* Committing mergeinfo
+
+	  SVN revision: 117779
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-11t-gaut
+
+Fri Feb  7 23:08:09 2020  jain
+
+	* Revision tag: R1-11u
+
+	* Reverted OrderedDict changes made in the previous release.
+
+	  SVN revision: 117911
+	  M python/Ddoctest.py
+
+Wed Feb  5 20:34:14 2020  jain
+
+	* Revision tag: R1-11t
+
+	* Updated to handle OrderedDict output as well.
+
+	  SVN revision: 117715
+	  M python/Ddoctest.py
+
+Thu Jan 30 17:18:30 2020  gaut
+
+	* Revision tag: R1-11s
+
+	* Removed debug print
+
+	  SVN revision: 117240
+	  M python/Ddoctest.py
+	  M python/Test.py
+
+	* Renamed key in dictionary test case so that the dictionary order is
+	consistent in Python2/3
+
+	  SVN revision: 117239
+	  M test/test_system/test_ddoctest/output.orig
+	  M test/test_system/test_ddoctest/script.py
+
+	* pep8
+
+	  SVN revision: 117238
+	  M python/Test.py
+	  M python/DCompareUtils.py
+
+	* Added Python3 equivalent to (str, unicode) tuple
+
+	  SVN revision: 117237
+	  M python/dunit/DUnitTest.py
+
+	* Explicitly use .12g formatting when printing floats, which is the
+	default for Python2 but not Python3
+
+	  SVN revision: 117236
+	  M python/DCompareUtils.py
+
+	* Removed future imports
+
+	  SVN revision: 117235
+	  M test/test_system/test_dict_compare/checkpoint-000-mod3
+	  M test/test_system/test_dict_compare/checkpoint-000-mod4
+	  M test/test_system/test_dict_compare/checkpoint-000
+	  M test/test_system/test_dict_compare/checkpoint-000-mod
+	  M test/test_system/test_dict_compare/checkpoint-000-mod2
+
+	* Explicitly use bash to run tests
+
+	  SVN revision: 117234
+	  M python/Test.py
+
+	* Removed deprecated string join
+
+	  SVN revision: 117233
+	  M python/Ddoctest.py
+
+	* Fixed Python3 bug in 'vendorized' configobj
+
+	  SVN revision: 117227
+	  M python/configobj.py
+
+	* Removed future imports
+
+	  SVN revision: 117201
+	  M test/test_system/test_dtest_mail/mod_own.py
+
+	* Added future imports
+
+	  SVN revision: 117200
+	  M python/configobj.py
+	  M test/test_system/test_compare_checkpoint_files/alpha.checkpoint
+	  M python/Ddoctest.py
+	  M test/test_system/test_dtest_tags/tests/test_quarantine/test_tags_quarantined/script.py
+	  M test/test_system/test_dtest_mail/test_regtest.data
+	  M python/killableprocess.py
+	  M test/test_system/test_dtest_unittest/test_good.py
+	  M test/test_DUnit/script_basic.py
+	  M test/test_system/test_dtest_tags/tests/test_skip/test_subtests/test_skip/script.py
+	  M test/test_system/test_dtest_truths_cmd/tests/test_env/script.py
+	  M test/test_unit/test_test_modifiers/__init__.py
+	  M python/dunit/DUnitFactoryResult.py
+	  M test/test_unit/__init__.py
+	  M test/test_unit/test_test_magic/__init__.py
+	  M test/test_system/test_dtest_tags/tests/test_skip/test_tags_skip/script.py
+	  M doc/fixlinks
+	  M test/test_system/test_dtest_tags/tests/test_quarantine/test_tags_quarantined/test_green/script.py
+	  M test/test_system/test_dtest_truths/__init__.py
+	  M test/test_system/test_dict_compare/checkpoint-000-mod2
+	  M test/test_code/test_commented_out_code/check_for_commented_out_code.py
+	  M test/test_system/test_dict_compare/checkpoint-000-mod3
+	  M test/test_system/test_ddoctest/__init__.py
+	  M test/test_system/test_dtest_truths_env/tests/test_env/script.py
+	  M test/test_system/test_truthfiles/__init__.py
+	  M test/test_system/test_dict_compare/checkpoint-000-mod4
+	  M test/test_system/test_file_dict_compare/script.py
+	  M test/test_DUnit/script_soa.py
+	  M test/test_system/test_dtest_tags/tests/test_quarantine/test_tags_quarantined/test_subtests/test_blue/script.py
+	  M test/test_system/__init__.py
+	  M python/__init__.py
+	  M test/test_system/test_dtest_tags/tests/test_ignore/script.py
+	  M test/test_system/test_dtest_tags/tests/test_quarantine/test_tags_quarantined/test_subtests/test_green/script.py
+	  M test/test_system/test_dtest_tags/tests/test_blue_children/test_blue_child1/script.py
+	  M .pyam-old/hooks/pre-save
+	  M test/__init__.py
+	  M test/test_unit/test_test_modifiers/executable_script.py
+	  M scripts/dtest-cram
+	  M test/test_system/test_dict_compare/checkpoint-000
+	  M test/test_system/test_dtest_tags/tests/test_child_tags/test_blue/script.py
+	  M scripts/regsummary
+	  M test/test_system/test_dtest_tags/tests/test_quarantine/test_subtests/test_green/script.py
+	  M test/test_system/test_dtest_tags/tests/test_child_tags/test_red/script.py
+	  M scripts/dtest-html
+	  M test/test_system/test_dtest_doctest/test_good.py
+	  M scripts/dtest-doctest
+	  M test/test_unit/test_test/script.py
+	  M test/test_unit/test_test_magic/script.py
+	  M setup.py
+	  M test/test_system/test_dict_compare/script.py
+	  M scripts/compareModelFiles
+	  M python/dunit/DUnitTest.py
+	  M test/test_system/test_dtest_tags/tests/test_skip/test_subtests/test_blue/script.py
+	  M test/test_system/test_dtest_truths/script.py
+	  M test/test_system/test_dtest_truths_cmd/tests2/test_cmd/script.py
+	  M test/test_system/test_ddoctest/script.py
+	  M test/test_system/test_dtest_tags/tests/test_blue_children/test_blue_child2/script.py
+	  M test/test_system/test_dict_compare/checkpoint-000-mod
+	  M python/dunit/DUnitFactorySoa.py
+	  M python/TestMagic.py
+	  M scripts/dtest-kwstyle
+	  M test/test_system/test_dtest_unittest/test_bad.py
+	  M test/test_system/test_compare_checkpoint_files/one.checkpoint
+	  M test/test_system/test_file_dict_compare/__init__.py
+	  M test/test_system/test_dtest_html/test_regtest.data
+	  M test/test_unit/test_test_modifiers/foo
+	  M test/test_system/test_dtest_tags/tests/test_child_tags/test_green/script.py
+	  M test/test_system/test_dict_compare/__init__.py
+	  M scripts/compareCheckpointFiles
+	  M test/test_system/test_dtest_doctest/test_bad.py
+	  M doc/source/conf.py
+	  M test/test_system/test_compare_checkpoint_files/two.checkpoint
+	  M test/test_system/test_dtest_tags/tests/test_blue/script.py
+	  M test/test_system/test_dtest/script.py
+	  M scripts/dtest-unittest
+	  M python/TestUtils.py
+	  M python/dunit/xmlrunner.py
+	  M scripts/dtest-mail
+	  M test/test_system/test_dtest_mail/mod_own.py
+	  M scripts/compareDictsInFiles
+	  M python/dunit/DUnitFactoryEvaluation.py
+	  M test/test_system/test_dtest_tags/tests/test_quarantine/test_green/script.py
+	  M test/test_system/test_dtest_tags/tests/test_normal/script.py
+	  M python/dunit/__init__.py
+	  M test/test_DUnit/__init__.py
+	  M python/dunit/DUnitTestRunner.py
+	  M test/test_system/test_dtest_tags/tests/test_quarantine/test_subtests/test_blue/script.py
+	  M python/TestModifiers.py
+	  M scripts/dtest-numerical-diff
+	  M test/test_system/test_dtest_tags/tests/test_skip/test_skip/script.py
+	  M test/test_system/test_compare_checkpoint_files/beta.checkpoint
+	  M python/DCompareUtils.py
+	  M test/test_system/test_truthfiles/script.py
+	  M test/test_unit/test_test_modifiers/script.py
+
+Sat Jan 18 08:53:15 2020  jain
+
+	* Revision tag: R1-11r
+
+	* Updated interactive compare mode to allow specification of the visual
+	diff file explicitly via CMP instead of always using the built in default.
+
+	  SVN revision: 116595
+	  M python/Test.py
+
+Fri Jan 10 14:14:30 2020  gaut
+
+	* Revision tag: R1-11q
+
+	* Recover when trying to kill potentially lingering process that has
+	already been cleaned up (needed for Python3)
+
+	  SVN revision: 116376
+	  M python/Test.py
+
+Wed Dec 11 22:21:35 2019  jain
+
+	* Revision tag: R1-11p
+
+	* Remove error test
+
+	  SVN revision: 115407
+	  M test/test_system/test_dtest_cram/DTESTDEFS.cfg
+
+Mon Dec  2 12:38:35 2019  jmc
+
+	* Revision tag: R1-11o
+
+	* Deleted file that should not have been under version control
+
+	  SVN revision: 115033
+	  D doc/doxy-Dtest.tag
+
+Sun Nov 24 18:16:17 2019  jain
+
+	* Revision tag: R1-11n
+
+	* SVN revision: 114784
+	  M doc/doxy-Dtest.tag
+
+	* Enabled Doxygen documentation
+
+	  SVN revision: 114777
+	  M Makefile.yam
+
+Thu Nov 14 17:33:24 2019  jmc
+
+	* Revision tag: R1-11m
+
+	* Updated
+
+	  SVN revision: 114674
+	  M test/test_system/test_dtest_kwstyle/bad.h
+
+	* Code cleanup
+
+	  SVN revision: 114673
+	  M python/Test.py
+
+	* Slightly loosened up kwstyle checking for member variables
+
+	  SVN revision: 114672
+	  M scripts/dtest_kwstyle.xml
+
+Mon Nov  4 09:06:43 2019  jmc
+
+	* Revision tag: R1-11l
+
+	* Updated
+
+	  SVN revision: 114411
+	  M scripts/dtest_kwstyle.xml
+
+	* Committing mergeinfo
+
+	  SVN revision: 114409
+	  M .
+
+	* Relaxed member function name requirement; allow underscores in the
+	function name
+
+	  SVN revision: 114407
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-11j-jmc/scripts/dtest_kwstyle.xml
+
+Fri Nov  1 22:04:25 2019  jain
+
+	* Revision tag: R1-11k
+
+	* Added kill() call even after normal exit so that background processes
+	get cleaned up.
+
+	  SVN revision: 114374
+	  M python/Test.py
+
+Fri Nov  1 06:07:28 2019  jain
+
+	* Revision tag: R1-11j
+
+	* Now use shell=True in Popen call
+
+	  SVN revision: 114330
+	  M python/Test.py
+
+Sun Sep 29 06:59:08 2019  jain
+
+	* Revision tag: R1-11i
+
+	* Now set CRAM_NODEBUG environment variable to 1 when debug mode is off.
+	This is used to enable pyam log file generation if running in debug
+	mode, and to keep it off otherwise.
+
+	  SVN revision: 113439
+	  M scripts/dtest-cram
+
+	* No longer save script as a temp file.
+
+	  SVN revision: 113430
+	  M scripts/dtest-cram
+
+	* Added -d (debug) option
+
+	  SVN revision: 113426
+	  M scripts/dtest-cram
+
+Wed Sep 11 08:46:06 2019  jmc
+
+	* Revision tag: R1-11h
+
+	* Fix to deal with unit tests improperly failing
+
+	  SVN revision: 113187
+	  M python/dunit/DUnitFactoryResult.py
+
+Sun Sep  8 18:13:22 2019  jain
+
+	* Revision tag: R1-11g
+
+	* Added test directory name to error message to make it more informative.
+
+	  SVN revision: 112837
+	  M python/Test.py
+
+Mon Aug 26 11:46:38 2019  cslim
+
+	* Revision tag: R1-11f
+
+	* SVN revision: 112584
+	  M test/test_system/test_dtest_kwstyle/DTESTDEFS.cfg
+
+Wed Jun 12 13:36:40 2019  jain
+
+	* Revision tag: R1-11e
+
+	* Now throw an exception if no run command has been defined.
+
+	  SVN revision: 109941
+	  M python/Test.py
+
+Tue May 14 16:55:02 2019  cslim
+
+	* Revision tag: R1-11d
+
+	* Updated array comparison to ignore extra spaces. Fixed bug in which
+	arrays were not compared correctly.
+
+	  SVN revision: 108871
+	  M python/dunit/DUnitTest.py
+
+Mon Mar 25 10:06:11 2019  jmc
+
+	* Revision tag: R1-11c
+
+	* Updated regtest evaluation code to be more robust to variation in spaces
+	between sites
+
+	  SVN revision: 106219
+	  M python/dunit/DUnitTest.py
+
+Mon Mar 11 17:56:27 2019  jmc
+
+	* Revision tag: R1-11b
+
+	* Varius code cleanups. Fixed regtests.
+
+	  SVN revision: 105302
+	  M dtest
+	  M python/TestModifiers.py
+	  M test/test_code/test_pylint/script.bash
+	  M python/Test.py
+
+	* Updated
+
+	  SVN revision: 105301
+	  M test/test_system/test_ddoctest/output.orig
+
+Thu Feb  7 11:54:17 2019  jain
+
+	* Revision tag: R1-11a
+
+	* Renamed .pyam directory to disable prehook checks during module release
+
+	  SVN revision: 102647
+	  A .pyam-old
+	  D .pyam
+
+Mon Jul 23 08:53:19 2018  kevinhh
+
+	* Revision tag: R1-11
+
+	* fixed subcmp not capturing missing files
+
+	  SVN revision: 97186
+	  M python/Test.py
+
+Thu Jul 12 10:35:41 2018  kevinhh
+
+	* Revision tag: R1-10z
+
+	* added subtest information to regtest.data
+
+	  SVN revision: 96870
+	  M python/Test.py
+	  M test/test_unit/test_test/script.py
+	  M .
+
+Mon Jul  2 18:21:46 2018  jmc
+
+	* Revision tag: R1-10y
+
+	* Added support for comparision utilities to ignore filenames with a site-
+	specific list of prefixes
+
+	  SVN revision: 96565
+	  M python/DCompareUtils.py
+
+Sun Jun  3 18:56:01 2018  jain
+
+	* Revision tag: R1-10x
+
+	* Updates for style checking.
+
+	  SVN revision: 95346
+	  M python/DCompareUtils.py
+
+	* Updates for style checking.
+
+	  SVN revision: 95345
+	  M python/DCompareUtils.py
+
+Mon May 14 17:41:40 2018  jmc
+
+	* Revision tag: R1-10w
+
+	* Reverted cmpCheckPoint file behavior for verbose mode
+
+	  SVN revision: 94880
+	  M python/DCompareUtils.py
+
+	* Fixed to work again
+
+	  SVN revision: 94879
+	  M scripts/pylint-no-sandbox
+
+Thu May 10 11:27:11 2018  jmc
+
+	* Revision tag: R1-10v
+
+	* Updated
+
+	  SVN revision: 94838
+	  M test/test_system/test_dict_compare/script.py
+
+	* Updates to model comparision function to better handle paths, etc
+
+	  SVN revision: 94837
+	  M python/DCompareUtils.py
+
+Mon Apr 30 17:54:41 2018  jmc
+
+	* Revision tag: R1-10u
+
+	* Added work-around for dtest hanging in Python 3
+
+	  SVN revision: 94434
+	  M python/killableprocess.py
+
+Fri Apr 20 14:03:28 2018  jmc
+
+	* Revision tag: R1-10t
+
+	* Update to work on dirac
+
+	  SVN revision: 94216
+	  M test/test_code/test_pylint/script.bash
+
+Thu Apr 19 16:08:21 2018  gaut
+
+	* Revision tag: R1-10s
+
+	* merge
+
+	  SVN revision: 94207
+	  M python/Test.py
+	  M .
+
+	* Python3 compatability fix
+
+	  SVN revision: 94196
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-10q-gaut/python/Test.py
+
+Thu Apr 19 15:42:47 2018  jmc
+
+	* Revision tag: R1-10r
+
+	* Added pylint exception
+
+	  SVN revision: 94198
+	  M test/test_code/test_pylint/script.bash
+
+	* Added pylint exceptions to allow pylint to pass
+
+	  SVN revision: 94197
+	  M python/TestUtils.py
+
+Tue Apr  3 16:03:52 2018  dima
+
+	* Revision tag: R1-10q
+
+	* TestUtils harness: report more useful line numbers
+
+	I report all line numbers in an error call stack that are inside testing
+	infrastructure: "confirm...()" functions. This allows the user to fully trace
+	the source of an error
+
+	  SVN revision: 94076
+	  M python/TestUtils.py
+
+Thu Mar 29 16:24:10 2018  jmc
+
+	* Revision tag: R1-10p
+
+	* Fixed issue with model output comparision
+
+	  SVN revision: 94043
+	  M python/DCompareUtils.py
+
+Mon Mar 12 17:30:11 2018  jain
+
+	* Revision tag: R1-10o
+
+	* Now missing output file messages are included in parallel output.
+
+	  SVN revision: 93749
+	  M python/Test.py
+
+	* Fixed to print summary output line in red whenever there are any
+	failures.
+
+	  SVN revision: 93659
+	  M dtest
+
+Thu Mar  8 12:30:44 2018  dima
+
+	* Revision tag: R1-10n
+
+	* sligntly improved docs
+
+	  SVN revision: 93581
+	  M python/TestUtils.py
+
+Thu Mar  8 11:54:28 2018  jmc
+
+	* Revision tag: R1-10m
+
+	* Python code style cleanups
+
+	  SVN revision: 93577
+	  M python/TestModifiers.py
+	  M test/test_code/test_pylint/script.bash
+	  M python/TestUtils.py
+	  M python/Test.py
+	  M dtest
+
+Wed Mar  7 10:20:53 2018  dima
+
+	* Revision tag: R1-10l
+
+	* Added docstring to the test harness
+
+	  SVN revision: 93549
+	  M python/TestUtils.py
+
+Tue Mar  6 17:27:10 2018  dima
+
+	* Revision tag: R1-10k
+
+	* pyam: Reintegrate 'dima' back into main branch
+
+	  SVN revision: 93536
+	  M Makefile.yam
+	  A python/TestUtils.py
+	  M .
+
+Mon Feb 26 12:34:43 2018  jmc
+
+	* Revision tag: R1-10j
+
+	* Added/restructured regtests to verify behavior of TAGS, CHILD_TAGS,
+	TAGS=skip, TAGS=quarantined
+
+	  SVN revision: 93108
+	  A test/test_system/test_dtest_tags/tests/test_quarantine/test_subtests/test_green/script.py
+	  A test/test_system/test_dtest_tags/tests/test_quarantine/test_tags_quarantined/test_subtests/DTESTDEFS.cfg
+	  A test/test_system/test_dtest_tags/output4.orig
+	  A test/test_system/test_dtest_tags/output3.orig
+	  M test/test_system/test_dtest_tags/output2.orig
+	  M test/test_system/test_dtest_tags/output1.orig
+	  A test/test_system/test_dtest_tags/tests/test_child_tags/test_green
+	  A test/test_system/test_dtest_tags/tests/test_child_tags/test_blue/script.py
+	  A test/test_system/test_dtest_tags/tests/test_quarantine/test_tags_quarantined/test_green/output.orig
+	  A test/test_system/test_dtest_tags/tests/test_child_tags/test_red/script.py
+	  A test/test_system/test_dtest_tags/tests/test_quarantine/test_tags_quarantined/test_green
+	  A test/test_system/test_dtest_tags/tests/test_quarantine/test_tags_quarantined
+	  A test/test_system/test_dtest_tags/tests/test_skip/test_tags_skip/output.orig
+	  A test/test_system/test_dtest_tags/tests/test_child_tags/test_green/DTESTDEFS.cfg
+	  A test/test_system/test_dtest_tags/tests/test_quarantine/test_tags_quarantined/test_subtests/test_green/output.orig
+	  M test/test_system/test_dtest_tags/DTESTDEFS.cfg
+	  A test/test_system/test_dtest_tags/tests/test_child_tags/test_blue
+	  A test/test_system/test_dtest_tags/tests/test_quarantine/test_tags_quarantined/test_green/DTESTDEFS.cfg
+	  A test/test_system/test_dtest_tags/tests/test_child_tags
+	  A test/test_system/test_dtest_tags/tests/test_quarantine/test_tags_quarantined/test_subtests/test_green
+	  A test/test_system/test_dtest_tags/tests/test_skip/test_skip/script.py
+	  A test/test_system/test_dtest_tags/tests/test_child_tags/DTESTDEFS.cfg
+	  A test/test_system/test_dtest_tags/tests/test_quarantine/test_subtests/test_blue/script.py
+	  A test/test_system/test_dtest_tags/tests/test_skip/test_skip/DTESTDEFS.cfg
+	  A test/test_system/test_dtest_tags/tests/test_quarantine/test_subtests/test_blue/DTESTDEFS.cfg
+	  A test/test_system/test_dtest_tags/tests/test_skip/test_tags_skip/script.py
+	  A test/test_system/test_dtest_tags/tests/test_skip/test_skip/output.orig
+	  A test/test_system/test_dtest_tags/tests/test_quarantine/test_subtests/test_blue/output.orig
+	  A test/test_system/test_dtest_tags/tests/test_quarantine/test_green/script.py
+	  A test/test_system/test_dtest_tags/tests/test_quarantine/test_tags_quarantined/test_subtests/test_blue/output.orig
+	  A test/test_system/test_dtest_tags/tests/test_quarantine/test_tags_quarantined/test_subtests/test_blue/DTESTDEFS.cfg
+	  A test/test_system/test_dtest_tags/tests/test_quarantine/test_tags_quarantined/test_subtests/test_green/DTESTDEFS.cfg
+	  M test/test_system/test_dtest_tags/tests/test_quarantine/DTESTDEFS.cfg
+	  A test/test_system/test_dtest_tags/tests/test_skip/test_subtests/test_skip/script.py
+	  A test/test_system/test_dtest_tags/tests/test_skip/test_subtests/test_blue/DTESTDEFS.cfg
+	  A test/test_system/test_dtest_tags/tests/test_child_tags/test_red/output.orig
+	  A test/test_system/test_dtest_tags/tests/test_quarantine/test_subtests/test_green/DTESTDEFS.cfg
+	  A test/test_system/test_dtest_tags/tests/test_skip/test_subtests/test_blue
+	  A test/test_system/test_dtest_tags/tests/test_skip/test_subtests/DTESTDEFS.cfg
+	  A test/test_system/test_dtest_tags/tests/test_skip/test_subtests/test_skip
+	  A test/test_system/test_dtest_tags/tests/test_quarantine/test_tags_quarantined/output.orig
+	  A test/test_system/test_dtest_tags/tests/test_quarantine/test_green/output.orig
+	  A test/test_system/test_dtest_tags/tests/test_quarantine/test_subtests/DTESTDEFS.cfg
+	  A test/test_system/test_dtest_tags/tests/test_quarantine/test_tags_quarantined/DTESTDEFS.cfg
+	  A test/test_system/test_dtest_tags/tests/test_child_tags/test_red/DTESTDEFS.cfg
+	  M test/test_system/test_dtest_tags/tests/test_skip/DTESTDEFS.cfg
+	  A test/test_system/test_dtest_tags/tests/test_quarantine/test_subtests
+	  A test/test_system/test_dtest_tags/tests/test_quarantine/test_subtests/test_blue
+	  A test/test_system/test_dtest_tags/tests/test_child_tags/test_blue/output.orig
+	  A test/test_system/test_dtest_tags/tests/test_child_tags/test_blue/DTESTDEFS.cfg
+	  A test/test_system/test_dtest_tags/tests/test_quarantine/test_green
+	  A test/test_system/test_dtest_tags/tests/test_quarantine/test_tags_quarantined/test_subtests
+	  A test/test_system/test_dtest_tags/tests/test_skip/test_skip
+	  A test/test_system/test_dtest_tags/tests/test_skip/test_subtests
+	  A test/test_system/test_dtest_tags/tests/test_child_tags/test_green/script.py
+	  A test/test_system/test_dtest_tags/tests/test_quarantine/test_tags_quarantined/test_green/script.py
+	  A test/test_system/test_dtest_tags/tests/test_quarantine/test_green/DTESTDEFS.cfg
+	  A test/test_system/test_dtest_tags/tests/test_skip/test_tags_skip/DTESTDEFS.cfg
+	  A test/test_system/test_dtest_tags/tests/test_quarantine/test_tags_quarantined/test_subtests/test_blue/script.py
+	  A test/test_system/test_dtest_tags/tests/test_skip/test_subtests/test_blue/script.py
+	  A test/test_system/test_dtest_tags/tests/test_quarantine/test_subtests/test_green/output.orig
+	  A test/test_system/test_dtest_tags/tests/test_quarantine/test_subtests/test_green
+	  A test/test_system/test_dtest_tags/tests/test_skip/test_subtests/test_blue/output.orig
+	  A test/test_system/test_dtest_tags/tests/test_quarantine/test_tags_quarantined/test_subtests/test_blue
+	  A test/test_system/test_dtest_tags/tests/test_child_tags/test_green/output.orig
+	  A test/test_system/test_dtest_tags/tests/test_child_tags/test_red
+	  A test/test_system/test_dtest_tags/tests/test_quarantine/test_tags_quarantined/script.py
+	  A test/test_system/test_dtest_tags/tests/test_skip/test_subtests/test_skip/output.orig
+	  A test/test_system/test_dtest_tags/tests/test_skip/test_tags_skip
+	  A test/test_system/test_dtest_tags/tests/test_quarantine/test_tags_quarantined/test_subtests/test_green/script.py
+
+	* Deleted; moved into subdirectory
+
+	  SVN revision: 93107
+	  D test/test_system/test_dtest_tags/tests/test_skip/script.py
+	  D test/test_system/test_dtest_tags/tests/test_quarantine/script.py
+
+Sat Jan 20 17:20:51 2018  jain
+
+	* Revision tag: R1-10i
+
+	* Now export DTEST_CURDIR environment variable for use by the test run.
+	Currently it is used to write the usage info into the test directory.
+	This is needed for cases where the test commands cd into a different
+	directory to run the test.
+
+	  SVN revision: 92370
+	  M python/Test.py
+
+	* Now set DTEST_COMMAND environment variable to the test name. This name
+	can be used by the test being run in any way it chooses (currently we
+	are using it to uniquify the usage info output filename from the test
+	run).
+
+	  SVN revision: 92363
+	  M python/Test.py
+
+Thu Jan 11 23:15:09 2018  jain
+
+	* Revision tag: R1-10h
+
+	* Disabled code for checking DISPLAY environment variable and starting up
+	a new Xorg. This should be handled externally if desired
+
+	  SVN revision: 92129
+	  M dtest
+
+Sat Nov 18 22:50:44 2017  jain
+
+	* Revision tag: R1-10g
+
+	* Code scrubbing for style checking.
+
+	  SVN revision: 90788
+	  M python/Test.py
+	  M scripts/dtest-mail
+
+	* Updated
+
+	  SVN revision: 90787
+	  M test/test_system/test_dtest_mail/mail1_quarantined.out.orig
+	  M test/test_system/test_dtest_mail/mail1.out.orig
+	  M test/test_system/test_dtest_mail/mail2.out.orig
+	  M test/test_system/test_dtest_mail/mail3.out.orig
+	  M test/test_system/test_dtest_mail/test_regtest.data
+
+	* ## Lines starting with '## ' will be removed from the log message.
+	## File(s) to commit:
+	## dsCamera.cc
+	## dsFrame.cc
+	## dsFrame.h
+	## dsOffscreenRenderer.cc
+	## dsOverlayable.cc
+	Code scrubbing for style checking.
+
+	  SVN revision: 90786
+	  M python/Test.py
+
+	* Updated to put '**' for test cases that failed due to timeout. Also
+	added the amount of time they took.
+
+	  SVN revision: 90763
+	  M scripts/dtest-mail
+
+Tue Nov 14 13:26:39 2017  jain
+
+	* Revision tag: R1-10f
+
+	* Updated to work with comma separted CHILD_TAGS specification.
+
+	  SVN revision: 90760
+	  M python/Test.py
+
+Tue Nov 14 11:01:49 2017  jain
+
+	* Revision tag: R1-10e
+
+	* Updated so that CHILD_TAGS now accumulate down the test hierarchy.
+
+	  SVN revision: 90734
+	  M python/Test.py
+
+	* Now DTES_CHILD_TAGS has tags in sorted order.
+
+	  SVN revision: 90659
+	  M python/Test.py
+
+	* Fixed up setting of DTEST_CHILD_TAGS environment variable.
+
+	  SVN revision: 90648
+	  M python/Test.py
+
+	* Fixed up setting of DTEST_CHILD_TAGS environment variable.
+
+	  SVN revision: 90640
+	  M python/Test.py
+
+Tue Sep 26 12:05:03 2017  jmc
+
+	* Revision tag: R1-10d
+
+	* Updates sphinx math processing
+
+	  SVN revision: 89340
+	  M doc/source/conf.py
+
+Tue Aug 22 21:58:04 2017  jain
+
+	* Revision tag: R1-10c
+
+	* Updated to use count_nonzero.
+
+	  SVN revision: 88946
+	  M python/Ddoctest.py
+
+	* Updated to robustly handle array of 0's value.
+
+	  SVN revision: 88928
+	  M python/Ddoctest.py
+
+Thu Jun  8 13:31:17 2017  jmc
+
+	* Revision tag: R1-10b
+
+	* Fixed various sphinx issues
+
+	  SVN revision: 87180
+	  M doc/source/dunit/DUnitTestRunner.rst
+	  M doc/source/dunit/DUnitFactoryResult.rst
+	  M doc/source/dunit/DUnitTest.rst
+	  M doc/source/main.rst
+	  M doc/source/dunit/DUnitFactorySoa.rst
+	  M doc/source/dunit.rst
+	  M doc/source/dunit/DUnitFactoryEvaluation.rst
+
+	* Added missing files contributed by JSC
+
+	  SVN revision: 87179
+	  A doc/source/dunit/DUnitTestRunner.rst
+	  A doc/source/dunit/DUnitFactoryResult.rst
+	  A doc/source/dunit/DUnitTest.rst
+	  A doc/source/dunit
+	  M doc/source/conf.py
+	  A doc/source/dunit/DUnitFactorySoa.rst
+	  A doc/source/dunit/DUnitFactoryEvaluation.rst
+
+	* Fixed import issue to make pylint happy
+
+	  SVN revision: 87177
+	  M python/Test.py
+
+	* Minor doc updates.
+
+	  SVN revision: 87176
+	  M doc/source/usage.rst
+
+	* Fix dtest issue with setting child_tags environment variable with comma-
+	separated list of tags.
+
+	  SVN revision: 87175
+	  M python/Test.py
+
+Thu May 25 20:23:45 2017  jain
+
+	* Revision tag: R1-10a
+
+	* Cosmetic.
+
+	  SVN revision: 86637
+	  M dtest
+
+Tue May 16 22:28:49 2017  jain
+
+	* Revision tag: R1-10
+
+	* Now allow multiple --exclude-tags and --run-only-tags option values.
+
+	  SVN revision: 85532
+	  M dtest
+
+	* Now allow multiple --exclude-tags and --run-only-tags option values.
+
+	  SVN revision: 85531
+	  M python/Test.py
+
+Sun Apr 30 22:34:22 2017  jain
+
+	* Revision tag: R1-09z
+
+	* Now set the DTEST_TEST_TAGS environment variable based on the
+
+	value of CHILD_TAGS so that it is available to the run script.
+
+	  SVN revision: 85358
+	  M python/Test.py
+
+Thu Apr 27 17:26:54 2017  jmc
+
+	* Revision tag: R1-09y
+
+	* Various code cleanups
+
+	  SVN revision: 85301
+	  M dtest
+
+	* Various code cleanups
+
+	  SVN revision: 85299
+	  M python/dunit/DUnitTest.py
+	  M python/dunit/DUnitFactoryEvaluation.py
+	  M pylintrc
+	  M python/dunit/xmlrunner.py
+	  M dtest
+
+	* Added exceptions
+
+	  SVN revision: 85298
+	  M test/test_code/test_pep8/script.bash
+
+Thu Apr 27 16:02:13 2017  dima
+
+	* Revision tag: R1-09x
+
+	* merge
+
+	  SVN revision: 85288
+	  M dtest
+	  M .
+	  M doc/source/usage.rst
+	  M doc/source/dunit.rst
+	  M Makefile.yam
+	  M scripts/dtest-html
+
+	* dtest-html failures are now soft: we print a warning and continue
+
+	  SVN revision: 85285
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-09v-kogan1/scripts/dtest-html
+
+	* documentation updates: forgotten piece. These are from JSC
+
+	  SVN revision: 85260
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-09v-kogan1/Makefile.yam
+
+	* documentation updates
+
+	  SVN revision: 85259
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-09v-kogan1/doc/source/usage.rst
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-09v-kogan1/doc/source/dunit.rst
+
+	* dtest-html: handling timeouts
+
+	JSC patch
+
+	  SVN revision: 85250
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-09v-kogan1/scripts/dtest-html
+
+	* fixed typo in comment
+
+	  SVN revision: 85248
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-09v-kogan1/dtest
+
+	* reverted accidentlly-commited hunks
+
+	  SVN revision: 85246
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-09v-kogan1/dtest
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-09v-kogan1/scripts/dtest-html
+
+	* mergeinfo
+
+	  SVN revision: 85245
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-09v-kogan1/dtest
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-09v-kogan1
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-09v-kogan1/scripts/dtest-html
+
+Wed Apr 26 22:51:47 2017  jain
+
+	* Revision tag: R1-09w
+
+	* Updated handling of tags option.
+
+	  SVN revision: 85134
+	  M python/Test.py
+	  M dtest
+
+	* Now --exclude-tags and --run-only options take comma separated
+
+	list of tags.
+
+	  SVN revision: 85133
+	  M dtest
+
+	* Now --exclude-tags and --run-only options take comma separated
+
+	list of tags.
+
+	  SVN revision: 85132
+	  M python/Test.py
+
+	* Make exclude-tags and run-only-tags args accept multiple occurences of
+	the option.
+
+	  SVN revision: 85131
+	  M python/Test.py
+
+	* Add test tags
+
+	  SVN revision: 85120
+	  M test/test_code/DTESTDEFS.cfg
+
+Wed Oct 26 16:13:37 2016  jain
+
+	* Revision tag: R1-09v
+
+	* Remove
+
+	  SVN revision: 79084
+	  M test/DTESTDEFS.cfg
+
+Tue Oct 25 11:45:05 2016  jmc
+
+	* Revision tag: R1-09u
+
+	* Mod from JSC: Split tests to allow for not having SOA
+
+	  SVN revision: 79042
+	  M python/dunit/DUnitTest.py
+	  M python/dunit/DUnitFactoryEvaluation.py
+
+	* Added .orig files
+
+	  SVN revision: 79041
+	  A test/test_DUnit/output-soa.orig
+	  M test/test_DUnit/DTESTDEFS.cfg
+	  A test/test_DUnit/output-basic.orig
+
+	* Updated; Split to allow some regtests to work without SOA.
+
+	  SVN revision: 79040
+	  A test/test_DUnit/script_soa.py
+	  M test/test_DUnit/DTESTDEFS.cfg
+	  D test/test_DUnit/vDUnit.py
+	  D test/test_DUnit/output.orig
+	  A test/test_DUnit/script_basic.py
+
+Tue Sep 20 18:00:45 2016  jain
+
+	* Revision tag: R1-09t
+
+	* Changed behavior so that output files that match original are deleted
+	even if the test terminated with a time out or a seg fault.
+
+	  SVN revision: 77587
+	  M python/Test.py
+
+Mon May  2 18:40:38 2016  jmc
+
+	* Revision tag: R1-09s
+
+	* Updated
+
+	  SVN revision: 75721
+	  M doc/source/conf.py
+
+Mon Apr 18 15:28:43 2016  jmc
+
+	* Revision tag: R1-09r
+
+	* Fix to make loop more robust
+
+	  SVN revision: 75556
+	  M python/Test.py
+
+Fri Mar 25 10:17:36 2016  jmc
+
+	* Revision tag: R1-09q
+
+	* Minor sphinx docs fixes
+
+	  SVN revision: 75379
+	  M Makefile.yam
+	  M doc/source/dunit.rst
+	  M doc/source/usage.rst
+
+Thu Mar 24 14:45:55 2016  jmc
+
+	* Revision tag: R1-09p
+
+	* Summary: Updated PDF Download links to open in the browser
+
+	  SVN revision: 75372
+	  M doc/fixlinks
+
+Thu Mar 24 14:19:23 2016  jmc
+
+	* Revision tag: R1-09o
+
+	* Export sphinx files for global docs
+
+	  SVN revision: 75365
+	  M Makefile.yam
+
+Wed Mar 23 16:04:53 2016  jmc
+
+	* Revision tag: R1-09n
+
+	* Added Dtest Tags presentation to the sphinx docs
+
+	  SVN revision: 75355
+	  A doc/source/documents/Dtest-Tags-2016-04-08.pdf
+	  A doc/source/documents
+	  M doc/source/usage.rst
+
+Fri Mar 11 17:27:40 2016  jmc
+
+	* Revision tag: R1-09m
+
+	* Fixed issue with CHILD_TAGS
+
+	  SVN revision: 75298
+	  M python/Test.py
+
+Fri Mar 11 15:37:37 2016  jmc
+
+	* Revision tag: R1-09l
+
+	* Cosmetic
+
+	  SVN revision: 75291
+	  M python/Test.py
+
+	* Updated
+
+	  SVN revision: 75290
+	  M doc/source/index.rst
+	  A doc/source/testing.rst
+	  M doc/source/usage.rst
+	  A doc/source/dunit.rst
+	  M doc/source/main.rst
+
+	* Added test for CHILD_TAGS
+
+	  SVN revision: 75289
+	  A test/test_system/test_dtest_tags/tests/test_blue_children/test_blue_child2
+	  A test/test_system/test_dtest_tags/tests/test_blue_children/DTESTDEFS.cfg
+	  A test/test_system/test_dtest_tags/tests/test_blue_children/test_blue_child1/script.py
+	  A test/test_system/test_dtest_tags/tests/test_blue_children/test_blue_child2/script.py
+	  A test/test_system/test_dtest_tags/tests/test_blue_children
+	  M test/test_system/test_dtest_tags/tests/test_quarantine/DTESTDEFS.cfg
+	  M test/test_system/test_dtest_tags/output1.orig
+	  M test/test_system/test_dtest_tags/output2.orig
+	  M test/test_system/test_dtest_tags/tests/DTESTDEFS.cfg
+	  A test/test_system/test_dtest_tags/tests/test_blue_children/test_blue_child1/output.orig
+	  A test/test_system/test_dtest_tags/tests/test_blue_children/test_blue_child2/output.orig
+	  A test/test_system/test_dtest_tags/tests/test_blue_children/test_blue_child1
+
+	* Added support for CHILD_TAGS
+
+	  SVN revision: 75288
+	  M python/Test.py
+
+Tue Jan 26 23:46:55 2016  jain
+
+	* Revision tag: R1-09k
+
+	* Now mediumStatus output prints comparison failures in blue and exit
+	failures in red.
+
+	  SVN revision: 74736
+	  M dtest
+
+Mon Jan 25 22:57:34 2016  jain
+
+	* Revision tag: R1-09j
+
+	* Formatting.
+
+	  SVN revision: 74733
+	  M python/Test.py
+	  M dtest
+
+	* Formatting.
+
+	  SVN revision: 74732
+	  M python/Test.py
+	  M dtest
+
+	* Added test for parallel mode with medium verbosity output.
+
+	  SVN revision: 74731
+	  M test/test_system/test_dtest/script.py
+
+	* Added printing of summary line in new parallel mode output.
+
+	  SVN revision: 74730
+	  M dtest
+
+	* Changed parallel mode output to include test name in status output with
+	one line per status message. This allows us to know what is failing as
+	the tests progress.
+	Added --short-summary option to revert the parallel mode output to the
+	old behavior.
+
+	  SVN revision: 74729
+	  M python/Test.py
+	  M dtest
+
+Tue Dec 15 09:30:26 2015  jmc
+
+	* Revision tag: R1-09i
+
+	* Cosmetic
+
+	  SVN revision: 74113
+	  M dtest
+
+Thu Dec 10 14:48:27 2015  jmc
+
+	* Revision tag: R1-09h
+
+	* Fixed truth suffix environment variables to be space or comma separated
+
+	  SVN revision: 73997
+	  M python/Test.py
+
+	* Added test for environment variables with spaces
+
+	  SVN revision: 73996
+	  D test/test_system/test_dtest_truths_env/output.orig
+	  A test/test_system/test_dtest_truths_env/output1.orig
+	  A test/test_system/test_dtest_truths_env/output2.orig
+	  M test/test_system/test_dtest_truths_env/DTESTDEFS.cfg
+
+Thu Dec 10 10:52:13 2015  jmc
+
+	* Revision tag: R1-09g
+
+	* Updated
+
+	  SVN revision: 73987
+	  M python/Test.py
+
+Wed Dec  9 16:40:30 2015  jmc
+
+	* Revision tag: R1-09f
+
+	* Fixes for handling suffixes
+
+	  SVN revision: 73959
+	  M python/Test.py
+
+	* Updated
+
+	  SVN revision: 73958
+	  M .
+
+Wed Dec  9 16:10:04 2015  jain
+
+	* Revision tag: R1-09e
+
+	* Convert suffixes into a list if it is a tuple.
+
+	  SVN revision: 73950
+	  M python/Test.py
+
+Wed Dec  9 14:57:16 2015  jmc
+
+	* Revision tag: R1-09d
+
+	* Fixed problem with dtest --truth-suffix command line
+
+	  SVN revision: 73942
+	  M python/Test.py
+
+	* Added rule to cleanup
+
+	  SVN revision: 73941
+	  M test/test_system/test_dtest_truths_env/DTESTDEFS.cfg
+
+	* Added rule to cleanup
+
+	  SVN revision: 73940
+	  M test/test_system/test_dtest_truths_cmd/DTESTDEFS.cfg
+
+	* Added
+
+	  SVN revision: 73939
+	  A test/test_system/test_dtest_truths_cmd/output3.orig
+
+	* Added
+
+	  SVN revision: 73938
+	  A test/test_system/test_dtest_truths_cmd/tests2/test_cmd/output.truth2
+	  A test/test_system/test_dtest_truths_cmd/tests2/test_cmd/output.truth3
+	  A test/test_system/test_dtest_truths_cmd/tests2/test_cmd/script.py
+	  A test/test_system/test_dtest_truths_cmd/tests2
+	  A test/test_system/test_dtest_truths_cmd/tests2/test_cmd
+	  A test/test_system/test_dtest_truths_cmd/tests2/DTESTDEFS.cfg
+	  A test/test_system/test_dtest_truths_cmd/tests2/test_cmd/DTESTDEFS.cfg
+	  A test/test_system/test_dtest_truths_cmd/tests2/test_cmd/output.truth
+
+	* Updated
+
+	  SVN revision: 73937
+	  M test/test_system/test_dtest_truths_cmd/output1.orig
+	  M test/test_system/test_dtest_truths_cmd/output2.orig
+	  A test/test_system/test_dtest_truths_cmd/tests
+	  M test/test_system/test_dtest_truths_cmd/DTESTDEFS.cfg
+	  D test/test_system/test_dtest_truths_cmd/etests
+
+	* Renamed
+
+	  SVN revision: 73936
+	  A test/test_system/test_dtest_truths_cmd/etests
+	  M test/test_system/test_dtest_truths_cmd/output1.orig
+	  M test/test_system/test_dtest_truths_cmd/output2.orig
+	  D test/test_system/test_dtest_truths_cmd/tests
+
+Wed Dec  9 14:05:19 2015  jmc
+
+	* Revision tag: R1-09c
+
+	* Fix: --truth-suffix now adds to suffixes in DTESTDEFS files.
+
+	  SVN revision: 73925
+	  M python/Test.py
+
+	* Added
+
+	  SVN revision: 73924
+	  A test/test_system/test_dtest_truths_cmd/tests/test_env/output.truth
+	  A test/test_system/test_dtest_truths_cmd
+	  A test/test_system/test_dtest_truths_cmd/output1.orig
+	  A test/test_system/test_dtest_truths_cmd/tests/test_env/output.truth2
+	  A test/test_system/test_dtest_truths_cmd/output2.orig
+	  A test/test_system/test_dtest_truths_cmd/tests
+	  A test/test_system/test_dtest_truths_cmd/DTESTDEFS.cfg
+	  A test/test_system/test_dtest_truths_cmd/tests/test_env/script.py
+	  A test/test_system/test_dtest_truths_cmd/tests/DTESTDEFS.cfg
+	  A test/test_system/test_dtest_truths_cmd/tests/test_env
+
+Wed Dec  9 12:03:29 2015  jmc
+
+	* Revision tag: R1-09b
+
+	* Renamed 'original_filename' to 'truth_filename' to be a little
+	less ambiguous.
+
+	  SVN revision: 73914
+	  M python/Test.py
+
+	* Minor cleanups.
+
+	  SVN revision: 73913
+	  M python/Test.py
+
+	* Updated code for -c option.
+
+	  SVN revision: 73912
+	  M python/Test.py
+
+Tue Dec  8 17:13:15 2015  jmc
+
+	* Revision tag: R1-09a
+
+	* Add regtest for giving DTEST additional truth suffixes via environment
+	variables.
+
+	  SVN revision: 73892
+	  A test/test_system/test_dtest_truths_env/tests
+	  A test/test_system/test_dtest_truths_env/DTESTDEFS.cfg
+	  A test/test_system/test_dtest_truths_env/tests/test_env/script.py
+	  A test/test_system/test_dtest_truths_env/tests/DTESTDEFS.cfg
+	  A test/test_system/test_dtest_truths_env/tests/test_env
+	  A test/test_system/test_dtest_truths_env/tests/test_env/output.truth
+	  A test/test_system/test_dtest_truths_env/output.orig
+	  A test/test_system/test_dtest_truths_env
+	  A test/test_system/test_dtest_truths_env/tests/test_env/output.truth2
+
+Tue Dec  8 16:33:09 2015  jmc
+
+	* Revision tag: R1-09
+
+	* Support additional truth suffixes from environment variables.
+
+	  SVN revision: 73884
+	  M python/Test.py
+
+Tue Dec  8 15:38:58 2015  jmc
+
+	* Revision tag: R1-08z
+
+	* Improve suffix handling
+
+	  SVN revision: 73877
+	  M python/Test.py
+
+Tue Dec  8 15:10:26 2015  jmc
+
+	* Revision tag: R1-08y
+
+	* Another fix.
+
+	  SVN revision: 73870
+	  M python/Test.py
+
+	* Cosmetic
+
+	  SVN revision: 73869
+	  M test/test_unit/test_test/script.py
+
+	* Cosmetic.
+
+	  SVN revision: 73868
+	  M python/Test.py
+
+	* Updated.
+
+	  SVN revision: 73867
+	  M python/Test.py
+
+	* Fixed issue with stray files matching the COMPARE pattern (with no
+	truth versions).
+
+	  SVN revision: 73866
+	  M python/Test.py
+
+Tue Dec  8 10:21:05 2015  jmc
+
+	* Revision tag: R1-08x
+
+	* Updated for unfound COMPARE files
+
+	  SVN revision: 73858
+	  M python/Test.py
+
+	* Fixed issue with COMPARE branch.
+
+	  SVN revision: 73856
+	  M python/Test.py
+
+	* Support multiple truth file extensions
+
+	  SVN revision: 73855
+	  M python/Test.py
+
+	* Added tests for multiple truth files
+
+	  SVN revision: 73854
+	  M test/test_code/test_pylint/script.bash
+	  M test/test_unit/test_test/script.py
+
+	* Added new test for multiple truth files
+
+	  SVN revision: 73853
+	  A test/test_system/test_dtest_truths/output.truth
+	  A test/test_system/test_dtest_truths/__init__.py
+	  A test/test_system/test_dtest_truths/output.truth2
+	  A test/test_system/test_dtest_truths/script.py
+	  A test/test_system/test_dtest_truths
+	  A test/test_system/test_dtest_truths/DTESTDEFS.cfg
+
+Mon Oct 12 16:36:07 2015  jmc
+
+	* Revision tag: R1-08w
+
+	* Cosmetic
+
+	  SVN revision: 73210
+	  M dtest
+
+	* Added support for running only regtests with specified tags
+
+	  SVN revision: 73209
+	  M dtest
+	  M python/Test.py
+
+	* Added documentation for Dtest tagging
+
+	  SVN revision: 73208
+	  M doc/source/usage.rst
+
+	* Added test for --run-only-tags option
+
+	  SVN revision: 73207
+	  A test/test_system/test_dtest_tags/output2.orig
+	  M test/test_system/test_dtest_tags/DTESTDEFS.cfg
+	  A test/test_system/test_dtest_tags/tests/test_blue/script.py
+	  A test/test_system/test_dtest_tags/tests/test_blue/output.orig
+	  A test/test_system/test_dtest_tags/tests/test_blue
+	  A test/test_system/test_dtest_tags/tests/test_blue/DTESTDEFS.cfg
+	  M test/test_system/test_dtest_tags/output1.orig
+
+	* Added ability to exclude tests with specified tags
+
+	  SVN revision: 73205
+	  M dtest
+	  M python/Test.py
+
+	* Added exclusion for tags test
+
+	  SVN revision: 73204
+	  M test/common/regexp.lst
+
+	* Initial version
+
+	  SVN revision: 73203
+	  A test/test_system/test_dtest_tags/tests/test_skip
+	  A test/test_system/test_dtest_tags/tests/test_ignore/DTESTDEFS.cfg
+	  A test/test_system/test_dtest_tags/tests/test_quarantine/output
+	  A test/test_system/test_dtest_tags/tests/test_quarantine
+	  A test/test_system/test_dtest_tags/tests/test_ignore/script.py
+	  A test/test_system/test_dtest_tags/output1.orig
+	  A test/test_system/test_dtest_tags/DTESTDEFS.cfg
+	  A test/test_system/test_dtest_tags/tests/test_normal/script.py
+	  A test/test_system/test_dtest_tags/tests/test_ignore
+	  A test/test_system/test_dtest_tags/tests/DTESTDEFS.cfg
+	  A test/test_system/test_dtest_tags/tests/test_normal/output.orig
+	  A test/test_system/test_dtest_tags/tests/test_normal
+	  A test/test_system/test_dtest_tags/tests/test_skip/DTESTDEFS.cfg
+	  A test/test_system/test_dtest_tags/tests/test_quarantine/DTESTDEFS.cfg
+	  A test/test_system/test_dtest_tags
+	  A test/test_system/test_dtest_tags/tests
+	  A test/test_system/test_dtest_tags/tests/test_skip/script.py
+	  A test/test_system/test_dtest_tags/tests/test_quarantine/script.py
+
+Tue Oct  6 17:12:44 2015  jmc
+
+	* Revision tag: R1-08v
+
+	* Added command line options for blacklist and exclude
+
+	  SVN revision: 73062
+	  M scripts/dtest-kwstyle
+
+	* Added tests for exclude option for dtest-kwstyle
+
+	  SVN revision: 73061
+	  M test/test_system/test_dtest_kwstyle/DTESTDEFS.cfg
+
+Wed Sep 23 11:02:30 2015  jmc
+
+	* Revision tag: R1-08u
+
+	* Reverted changes
+
+	  SVN revision: 72789
+	  M python/Test.py
+
+	* Updates from JSC
+
+	  SVN revision: 72788
+	  M python/Test.py
+	  M scripts/dtest-mail
+
+	* Added
+
+	  SVN revision: 72783
+	  A test/test_DUnit/output.orig
+
+	* Updated
+
+	  SVN revision: 72782
+	  M test/test_DUnit/DTESTDEFS.cfg
+
+	* Cosmetic
+
+	  SVN revision: 72781
+	  M python/dunit/DUnitTestRunner.py
+	  M python/dunit/DUnitTest.py
+
+	* Ported DUnit from JSC
+
+	  SVN revision: 72780
+	  A test/test_DUnit
+	  A test/test_DUnit/vDUnit.py
+	  M Makefile.yam
+	  A python/dunit
+	  A test/test_DUnit/DTESTDEFS.cfg
+	  A python/dunit/DUnitFactoryResult.py
+	  A python/dunit/xmlrunner.py
+	  A test/test_DUnit/__init__.py
+	  A python/dunit/DUnitTestRunner.py
+	  A python/dunit/DUnitFactorySoa.py
+	  A python/dunit/__init__.py
+	  A python/dunit/DUnitFactoryEvaluation.py
+	  A python/dunit/DUnitTest.py
+	  M doc/source/main.rst
+
+Mon May 11 09:41:48 2015  myint
+
+	* Revision tag: R1-08t
+
+	* Format
+
+	  SVN revision: 70503
+	  M dtest
+	  M python/configobj.py
+
+Thu Feb 19 11:11:34 2015  myint
+
+	* Revision tag: R1-08s
+
+	* Document test structure
+
+	  SVN revision: 69597
+	  M doc/source/main.rst
+
+	* Document
+
+	  SVN revision: 69596
+	  M scripts/dtest-unittest
+
+Thu Feb 19 11:03:46 2015  myint
+
+	* Revision tag: R1-08r
+
+	* Apply Jonathan's fix to error seen at JSC
+
+	Somehow on JSC's machines it is not able to import the tested module
+	even though it works fine on DARTS machines.
+
+	  SVN revision: 69590
+	  M scripts/dtest-unittest
+
+Tue Feb 17 13:50:12 2015  myint
+
+	* Revision tag: R1-08q
+
+	* Clean up
+
+	  SVN revision: 69503
+	  M python/Test.py
+
+Tue Feb 17 13:47:36 2015  myint
+
+	* Revision tag: R1-08p
+
+	* Avoid scaling the timeout recursively
+
+	  SVN revision: 69497
+	  M python/Test.py
+
+Tue Dec  9 14:48:11 2014  myint
+
+	* Revision tag: R1-08o
+
+	* Run Python 3 first
+
+	  SVN revision: 68359
+	  M tox.ini
+
+	* Clean up
+
+	  SVN revision: 68358
+	  M scripts/dtest-mail
+
+Mon Nov  3 10:45:38 2014  myint
+
+	* Revision tag: R1-08n
+
+	* Add back Python 3 support
+
+	  SVN revision: 68292
+	  M scripts/dtest-unittest
+
+Tue Oct 21 09:22:46 2014  myint
+
+	* Revision tag: R1-08m
+
+	* Fix indentation
+
+	  SVN revision: 68172
+	  M README.rst
+
+Thu Oct  9 15:10:26 2014  myint
+
+	* Revision tag: R1-08l
+
+	* Show error early
+
+	  SVN revision: 67868
+	  M scripts/dtest-numerical-diff
+
+Mon Sep 29 14:57:51 2014  myint
+
+	* Revision tag: R1-08k
+
+	* Ignore whitespace
+
+	  SVN revision: 67627
+	  M scripts/dtest-doctest
+
+Mon Sep 29 11:02:09 2014  myint
+
+	* Revision tag: R1-08j
+
+	* Fix typo
+
+	  SVN revision: 67589
+	  M README.rst
+
+Mon Sep 29 10:58:07 2014  myint
+
+	* Revision tag: R1-08i
+
+	* Sync
+
+	  SVN revision: 67584
+	  M README.rst
+	  M test/test_doctest/DTESTDEFS.cfg
+	  M python/Test.py
+	  A test/test_system/test_dtest_doctest
+	  A scripts/dtest-doctest
+	  M .
+	  M Makefile.yam
+
+Fri Sep 26 08:47:08 2014  myint
+
+	* Revision tag: R1-08h
+
+	* Require at least one argument
+
+	  SVN revision: 67465
+	  M test/DTESTDEFS.cfg
+	  M test/test_system/test_dtest_unittest/DTESTDEFS.cfg
+	  M scripts/dtest-unittest
+
+	* Use "dtest-unittest"
+
+	  SVN revision: 67464
+	  A test/test_unit/DTESTDEFS.cfg
+
+	* Use "dtest-unittest"
+
+	  SVN revision: 67463
+	  D test/test_unit/test_test/output.orig
+	  D test/test_unit/test_test_magic/output.orig
+	  D test/test_unit/test_test_modifiers/output.orig
+
+Thu Sep 25 17:40:13 2014  myint
+
+	* Revision tag: R1-08g
+
+	* Update output to match name change
+
+	  SVN revision: 67456
+	  M test/test_system/test_dtest_mail/mail1.out.orig
+	  M test/test_system/test_dtest_mail/mail2.out.orig
+	  M test/test_system/test_dtest_mail/mail3.out.orig
+	  M test/test_system/test_dtest_mail/mail1_quarantined.out.orig
+
+	* Prepare for "dtest-unittest" usage
+
+	  SVN revision: 67453
+	  M scripts/dtest-mail
+
+Thu Sep 25 15:32:50 2014  myint
+
+	* Revision tag: R1-08f
+
+	* Implement "dtest-unittest"
+
+	It is like the "python -m unittest" runner, but it returns an exit
+	status of 10 upon comparison failure. This allows us to distinguish
+	between fatal errors and test assertion failures.
+
+	  SVN revision: 67447
+	  M Makefile.yam
+	  A test/test_system/test_dtest_unittest
+	  A test/test_system/test_dtest_unittest/DTESTDEFS.cfg
+	  A scripts/dtest-unittest
+	  M test
+	  A test/test_system/test_dtest_unittest/test_bad.py
+	  A test/test_system/test_dtest_unittest/test_good.py
+
+Tue Sep 23 15:01:59 2014  myint
+
+	* Revision tag: R1-08e
+
+	* Generalize
+
+	  SVN revision: 67286
+	  M scripts/pylint-no-sandbox
+
+Tue Sep 23 09:52:18 2014  myint
+
+	* Revision tag: R1-08d
+
+	* Add link
+
+	  SVN revision: 67239
+	  M Makefile.yam
+
+	* Add pylint wrapper
+
+	  SVN revision: 67236
+	  A scripts/dtest-pylint
+	  A scripts/dtest-pylint-html
+	  A scripts/pylintrc
+
+Mon Sep 22 16:51:45 2014  myint
+
+	* Revision tag: R1-08c
+
+	* Enable script
+
+	  SVN revision: 67184
+	  M Makefile.yam
+
+	* Clean up
+
+	  SVN revision: 67182
+	  M scripts/pylint-no-sandbox
+
+	* Add script to run pylint with modified PYTHONPATH
+
+	This is to avoid crashing pylint when it encounters SWIG stuff.
+
+	  SVN revision: 67181
+	  A scripts/pylint-no-sandbox
+
+Fri Sep 19 05:07:52 2014  myint
+
+	* Revision tag: R1-08b
+
+	* Sync
+
+	  SVN revision: 67008
+	  M .
+	  M pylintrc
+
+	* Suppress false positive
+
+	  SVN revision: 67005
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-07y-myint2/pylintrc
+
+	* Remove irrelevant item
+
+	  SVN revision: 66232
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-07y-myint2/TODO.rst
+
+	* Add item
+
+	  SVN revision: 66217
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-07y-myint2/TODO.rst
+
+Thu Sep 11 17:06:32 2014  myint
+
+	* Revision tag: R1-08a
+	Bugs: 0
+
+	* Ignore
+
+	  SVN revision: 66863
+	  M TODO.rst
+
+Thu Aug 28 11:50:53 2014  myint
+
+	* Revision tag: R1-08
+
+	* Sync
+
+	  SVN revision: 66598
+	  M README.rst
+	  M .
+
+	* Reword
+
+	  SVN revision: 66595
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-07x-myint2/README.rst
+
+Wed Aug 20 13:57:40 2014  jmc
+
+	* Revision tag: R1-07z
+
+	* Minor fixes for sphinx docs.
+
+	  SVN revision: 66360
+	  M Makefile.yam
+	  M doc/source/regtests/test_Ddoctest.rst
+	  M doc/source/regtests/test_dictCompare.rst
+
+Tue Jul  8 17:13:05 2014  myint
+
+	* Revision tag: R1-07y
+
+	* Handle unwritable directory gracefully
+
+	  SVN revision: 65396
+	  M dtest
+	  M python/Test.py
+
+Tue Jun  3 15:57:09 2014  myint
+
+	* Revision tag: R1-07x
+
+	* Use ISO date
+
+	  SVN revision: 64711
+	  M test/test_system/test_dtest_mail/mail3.out.orig
+	  M test/test_system/test_dtest_mail/mail4.html.out.orig
+	  M test/test_system/test_dtest_mail/mail1_quarantined.out.orig
+	  M scripts/dtest-mail
+	  M test/test_system/test_dtest_mail/mail1.out.orig
+	  M test/test_system/test_dtest_mail/mail2.out.orig
+
+	* Ignore
+
+	  SVN revision: 64202
+	  M test/test_code/test_pylint
+
+	* Test dtest-kwstyle
+
+	  SVN revision: 64201
+	  A test/test_system/test_dtest_kwstyle/DTESTDEFS.cfg
+	  M scripts/dtest_kwstyle.xml
+	  A test/test_system/test_dtest_kwstyle/okay.h
+	  A test/test_system/test_dtest_kwstyle/bad.h
+	  A test/test_system/test_dtest_kwstyle/usual.h
+	  A test/test_system/test_dtest_kwstyle
+
+	* Remove completed item
+
+	  SVN revision: 63505
+	  M TODO.rst
+
+Fri Apr 11 14:20:00 2014  myint
+
+	* Revision tag: R1-07w
+
+	* Record elapsed time per test in "regtest.data"
+
+	  SVN revision: 63499
+	  M pylintrc
+	  M test/test_unit/test_test/script.py
+	  M python/Test.py
+
+	* Add item
+
+	  SVN revision: 63479
+	  M TODO.rst
+
+Mon Apr  7 11:46:44 2014  myint
+
+	* Revision tag: R1-07v
+
+	* Format
+
+	  SVN revision: 63326
+	  M python/DCompareUtils.py
+	  M python/killableprocess.py
+	  M python/configobj.py
+
+Thu Apr  3 13:40:12 2014  myint
+
+	* Revision tag: R1-07u
+
+	* Format
+
+	  SVN revision: 63313
+	  M doc/fixlinks
+
+Thu Apr  3 13:38:05 2014  myint
+
+	* Revision tag: R1-07t
+
+	* Format
+
+	  SVN revision: 63306
+	  M python/Ddoctest.py
+
+Mon Mar 24 12:04:50 2014  myint
+
+	* Revision tag: R1-07s
+
+	* Mention module name if one exists
+
+	  SVN revision: 63117
+	  M dtest
+
+	* Clean up
+
+	  SVN revision: 63116
+	  M dtest
+	  M python/Test.py
+
+Wed Feb  5 09:32:05 2014  myint
+
+	* Revision tag: R1-07r
+
+	* Accomplish this in SiteDefs
+
+	  SVN revision: 62452
+	  M dtest
+
+Fri Jan 31 09:38:40 2014  myint
+
+	* Revision tag: R1-07q
+
+	* Do not spam user if display is meant to be up but is dead
+
+	  SVN revision: 62365
+	  M dtest
+
+Mon Jan 27 16:48:12 2014  myint
+
+	* Revision tag: R1-07p
+
+	* Fix incorrect logic
+
+	Output should be kept around in the case of a segmentation fault.
+
+	  SVN revision: 62301
+	  M python/Test.py
+
+Mon Jan 27 10:32:40 2014  myint
+
+	* Revision tag: R1-07o
+
+	* Generalize
+
+	  SVN revision: 62267
+	  M test/test_unit/test_test_modifiers/script.py
+
+	* Try to show a better stack trace on segfaults
+
+	Show demangled function names and try to show line numbers and
+	filenames.
+
+	  SVN revision: 62266
+	  M python/TestModifiers.py
+
+Tue Jan 21 09:45:55 2014  myint
+
+	* Revision tag: R1-07n
+
+	* Format
+
+	  SVN revision: 62182
+	  M dtest
+
+	* Use floating point when checking CPU saturation
+
+	  SVN revision: 62181
+	  M dtest
+
+	* Clean up
+
+	  SVN revision: 62180
+	  D Todo
+	  M scripts/dtest-mail
+	  A TODO.rst
+
+	* Modernize
+
+	  SVN revision: 62179
+	  M scripts/compareCheckpointFiles
+	  M scripts/dtest-cram
+	  M scripts/dtest-numerical-diff
+	  M scripts/compareDictsInFiles
+	  M scripts/compareModelFiles
+	  M scripts/regsummary
+
+Wed Dec 11 07:10:21 2013  myint
+
+	* Revision tag: R1-07m
+
+	* Use readable variable names
+
+	  SVN revision: 61510
+	  M python/Test.py
+
+	* Format
+
+	  SVN revision: 61509
+	  M python/Test.py
+	  M python/TestMagic.py
+	  M python/configobj.py
+	  M python/TestModifiers.py
+	  M python/Ddoctest.py
+	  M dtest
+	  M python/DCompareUtils.py
+
+	* Correct the order of the diff arguments
+
+	The correct order is (old, new) and not the other way around.
+
+	  SVN revision: 61508
+	  M python/Test.py
+
+Wed Nov 20 06:36:23 2013  myint
+
+	* Revision tag: R1-07l
+
+	* Rename
+
+	  SVN revision: 61065
+	  M MANIFEST.in
+	  M Makefile.yam
+	  A README.rst
+	  D Readme.rst
+
+	* Simplify
+
+	  SVN revision: 60461
+	  M scripts/dtest-kwstyle-html
+
+Fri Oct 25 14:28:46 2013  myint
+
+	* Revision tag: R1-07k
+
+	* Run on Python 3.3
+
+	  SVN revision: 60297
+	  M tox.ini
+
+Mon Oct 14 15:51:50 2013  myint
+
+	* Revision tag: R1-07j
+
+	* Fix broken "[r]epeat" in interactive mode
+
+	  SVN revision: 60233
+	  M python/Test.py
+
+Mon Sep 30 13:43:49 2013  myint
+
+	* Revision tag: R1-07i
+
+	* Just add "(" and ")" to the default separators
+
+	This should work in most cases.
+
+	  SVN revision: 59706
+	  M scripts/dtest-numerical-diff
+
+Sat Sep 28 09:46:55 2013  jain
+
+	* Revision tag: R1-07h
+
+	* Format.
+
+	  SVN revision: 59654
+	  M python/Ddoctest.py
+
+	* Format.
+
+	  SVN revision: 59653
+	  M python/Ddoctest.py
+	  M test/test_system/test_ddoctest/output.orig
+
+	* More verbose output when numeric comparison fails.
+
+	  SVN revision: 59652
+	  M python/Ddoctest.py
+
+Fri Sep 27 18:42:21 2013  jain
+
+	* Revision tag: R1-07g
+
+	* Updated.
+
+	  SVN revision: 59648
+	  M test/test_system/test_ddoctest/output.orig
+	  M python/Ddoctest.py
+
+	* Now print out absolute and relative errors when numeric values don't match.
+
+	  SVN revision: 59644
+	  M python/Ddoctest.py
+
+Mon Sep 23 10:17:30 2013  myint
+
+	* Revision tag: R1-07f
+
+	* Make this more specific
+
+	  SVN revision: 59270
+	  M test/test_code/test_pylint/script.bash
+
+Mon Sep 23 10:14:14 2013  myint
+
+	* Revision tag: R1-07e
+
+	* Disable false positives
+
+	  SVN revision: 59264
+	  M pylintrc
+	  D test/test_code/test_pylint/output.orig
+	  M test/test_code/test_pylint/script.bash
+	  M python/Test.py
+
+Wed Sep 11 12:54:49 2013  myint
+
+	* Revision tag: R1-07d
+
+	* Make temporary file group readable
+
+	This is only relevant if a test hangs and other people want to look at
+	the temporary shell script.
+
+	  SVN revision: 59055
+	  M scripts/dtest-cram
+
+	* Sync
+
+	  SVN revision: 58756
+	  M Readme.rst
+	  M .
+
+	* Add usage instructions
+
+	  SVN revision: 58701
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-07b-myint/Readme.rst
+
+Fri Aug 30 09:48:54 2013  myint
+
+	* Revision tag: R1-07c
+
+	* Ignore blank lines
+
+	  SVN revision: 58642
+	  M scripts/dtest-numerical-diff
+
+Mon Aug 26 14:23:11 2013  myint
+
+	* Revision tag: R1-07b
+
+	* Fix hanging problems
+
+	In MSL_Reconstruction for example, there was a test waiting for standard
+	input. We fix this by closing the standard input pipe.
+
+	  SVN revision: 58471
+	  M python/Test.py
+
+Wed Aug 14 09:12:29 2013  myint
+
+	* Revision tag: R1-07a
+
+	* Show diff when number of lines don't match
+
+	  SVN revision: 58160
+	  M scripts/dtest-numerical-diff
+
+Tue Jul 30 09:28:34 2013  myint
+
+	* Revision tag: R1-07
+
+	* Remove dependency on Dinit
+
+	The built-in "dict.update()" is superior to "Dinit.addDict()" anyway.
+
+	  SVN revision: 57894
+	  M dtest
+	  M test/test_system/test_dtest_mail/test_regtest.data
+	  M test/test_system/test_dtest_html/test_regtest.data
+
+Mon Jul 29 17:12:18 2013  myint
+
+	* Revision tag: R1-06z
+
+	* Make sure Unicode input works
+
+	  SVN revision: 57860
+	  M test/test_system/test_dtest_html/test_regtest.data
+
+	* Make sure Unicode works
+
+	  SVN revision: 57859
+	  M test/test_system/test_dtest_mail/test_regtest.data
+
+	* Modernize
+
+	  SVN revision: 57836
+	  M python/configobj.py
+
+	* Remove unused code
+
+	  SVN revision: 57835
+	  M python/configobj.py
+
+Tue Jul 23 19:44:54 2013  myint
+
+	* Revision tag: R1-06y
+
+	* Format
+
+	  SVN revision: 57820
+	  M python/configobj.py
+
+	* Use Unicode literals
+
+	  SVN revision: 57819
+	  M dtest
+	  M python/Test.py
+	  M python/configobj.py
+
+Tue Jul 23 15:02:11 2013  myint
+
+	* Revision tag: R1-06x
+
+	* Modernize file opening
+
+	  SVN revision: 57813
+	  M scripts/dtest-mail
+
+Tue Jul 23 14:48:33 2013  myint
+
+	* Revision tag: R1-06w
+
+	* Use Unicode throughout
+
+	  SVN revision: 57807
+	  M scripts/dtest-mail
+
+	* Use Unicode literals
+
+	  SVN revision: 57806
+	  M scripts/dtest-mail
+
+Tue Jul 23 09:16:16 2013  myint
+
+	* Revision tag: R1-06v
+
+	* Handle Unicode strings
+
+	  SVN revision: 57800
+	  M scripts/dtest-mail
+
+Mon Jul 22 11:54:22 2013  myint
+
+	* Revision tag: R1-06u
+
+	* Run sanity check before each test run
+
+	  SVN revision: 57779
+	  M dtest
+
+Mon Jul 22 10:33:20 2013  myint
+
+	* Revision tag: R1-06t
+
+	* Run sanity check before and after test run
+
+	  SVN revision: 57773
+	  M dtest
+
+Mon Jul 22 09:07:14 2013  myint
+
+	* Revision tag: R1-06s
+
+	* Decode output
+
+	  SVN revision: 57759
+	  M dtest
+
+	* Simplify
+
+	  SVN revision: 57756
+	  A test/test_unit/test_test_modifiers/foo
+	  M test/test_unit/test_test_modifiers/script.py
+	  M tox.ini
+
+	* Only test dtest
+
+	  SVN revision: 57755
+	  M tox.ini
+
+	* Format
+
+	  SVN revision: 57754
+	  M dtest
+
+	* Use argparse instead of deprecated optparse
+
+	  SVN revision: 57753
+	  M dtest
+	  M python/Test.py
+
+	* Remove deprecated alias
+
+	  SVN revision: 57752
+	  M python/Test.py
+
+	* Remove double negative
+
+	  SVN revision: 57751
+	  M dtest
+	  M python/Test.py
+
+	* Simplify
+
+	  SVN revision: 57750
+	  M python/Test.py
+
+	* Format
+
+	  SVN revision: 57749
+	  M python/configobj.py
+
+	* Enable doctests
+
+	  SVN revision: 57748
+	  M python
+	  A test/test_doctest
+	  A test/test_doctest/DTESTDEFS.cfg
+	  M python/configobj.py
+
+	* Run prerequisite check only if tests will run
+
+	  SVN revision: 57747
+	  M dtest
+
+	* Add more checks
+
+	  SVN revision: 57746
+	  M dtest
+
+	* Format
+
+	  SVN revision: 57745
+	  M python/configobj.py
+
+	* Flatten
+
+	  SVN revision: 57743
+	  M python/Test.py
+
+	* Flatten
+
+	  SVN revision: 57742
+	  M dtest
+
+	* Add parentheses
+
+	  SVN revision: 57741
+	  M dtest
+
+	* Clean up format() usage
+
+	  SVN revision: 57740
+	  M dtest
+
+	* Fix spelling
+
+	  SVN revision: 57739
+	  M scripts/dtest-numerical-diff
+
+	* Move prerequisite check
+
+	  SVN revision: 57738
+	  M dtest
+
+	* Unify wording
+
+	  SVN revision: 57737
+	  M python/Test.py
+
+	* Move test list generation to function
+
+	  SVN revision: 57736
+	  M dtest
+	  M pylintrc
+
+	* Move data writing to separate function
+
+	  SVN revision: 57735
+	  M dtest
+
+	* Split code into separate function
+
+	  SVN revision: 57734
+	  M dtest
+
+	* Move code into separate function
+
+	  SVN revision: 57733
+	  M dtest
+
+	* Factor out common code
+
+	  SVN revision: 57732
+	  M dtest
+
+	* Clean up before running
+
+	  SVN revision: 57731
+	  M dtest
+
+	* Simplify
+
+	  SVN revision: 57730
+	  M dtest
+	  M python/Test.py
+
+	* Add "--prerequisite-imports"
+
+	  SVN revision: 57729
+	  M dtest
+	  M python/Test.py
+
+	* Make temporary files readable by others
+
+	  SVN revision: 57677
+	  M python/Test.py
+
+	* Format
+
+	  SVN revision: 57675
+	  M doc/source/conf.py
+	  M python/Ddoctest.py
+	  M python/DCompareUtils.py
+	  M python/Test.py
+	  M python/configobj.py
+	  M python/TestModifiers.py
+
+	* Make safer
+
+	  SVN revision: 57674
+	  M dtest
+
+	* Add sanity check
+
+	  SVN revision: 57632
+	  M dtest
+
+Tue Jul 16 10:22:09 2013  myint
+
+	* Revision tag: R1-06r
+
+	* Show timeout on failure
+
+	  SVN revision: 57599
+	  M python/killableprocess.py
+	  M python/Test.py
+
+	* Check for timeout properly
+
+	This is closer to what is done in Python 3.3.
+
+	  SVN revision: 57598
+	  M python/killableprocess.py
+	  M python/Test.py
+
+Mon Jul 15 10:49:10 2013  myint
+
+	* Revision tag: R1-06q
+
+	* Write temporary file in text mode
+
+	  SVN revision: 57567
+	  M tox.ini
+	  M scripts/dtest-cram
+
+Sun Jul 14 21:20:50 2013  myint
+
+	* Revision tag: R1-06p
+
+	* Remove garbage
+
+	  SVN revision: 57519
+	  M python/configobj.py
+
+	* Modernize
+
+	  SVN revision: 57477
+	  M python/Test.py
+	  M setup.py
+	  M test/test_unit/test_test_modifiers/script.py
+	  M python/TestMagic.py
+	  M python/configobj.py
+	  M test/test_code/test_commented_out_code/check_for_commented_out_code.py
+	  M test/test_system/test_dtest/script.py
+	  M doc/source/conf.py
+	  M python/Ddoctest.py
+	  M dtest
+	  M python/DCompareUtils.py
+	  M python/killableprocess.py
+	  M test/test_unit/test_test/script.py
+	  M test/test_unit/test_test_magic/script.py
+
+Thu Jul 11 10:38:51 2013  myint
+
+	* Revision tag: R1-06o
+
+	* Modernize
+
+	  SVN revision: 57308
+	  M python/Test.py
+	  M python/configobj.py
+
+	* Format
+
+	  SVN revision: 57307
+	  M test/test_system/test_ddoctest/output.orig
+	  M test/test_system/test_ddoctest/script.py
+
+Fri Jun 21 14:46:25 2013  myint
+
+	* Revision tag: R1-06n
+
+	* Fix grammar
+
+	  SVN revision: 57145
+	  M scripts/dtest-numerical-diff
+
+	* Modify message about mismatching number of lines
+
+	Mention "--filter-file".
+
+	  SVN revision: 57144
+	  M scripts/dtest-numerical-diff
+
+Wed Jun 19 16:10:08 2013  myint
+
+	* Revision tag: R1-06m
+
+	* Test the "Dmain.py" replacement
+
+	  SVN revision: 57120
+	  M test/test_system/test_dtest_upgrade/input
+	  M test/test_system/test_dtest_upgrade/output.orig
+
+	* Add an additional replacement
+
+	"Dmain.py --exitOnError --file" becomes "python ".
+
+	  SVN revision: 57119
+	  M scripts/dtest-upgrade
+
+Tue Jun 18 13:53:58 2013  myint
+
+	* Revision tag: R1-06l
+
+	* Move patch here from "/home/dlab/pkgs/bin"
+
+	  SVN revision: 57073
+	  A patches/kwstyle_member_function_bug.patch
+	  A patches
+
+Tue Jun 18 13:31:49 2013  myint
+
+	* Revision tag: R1-06k
+
+	* Move this here too
+
+	  SVN revision: 57061
+	  A scripts/dtest-kwstyle-html
+	  M Makefile.yam
+
+Tue Jun 18 12:39:59 2013  myint
+
+	* Revision tag: R1-06j
+
+	* Handle nonexistent files gracefully
+
+	  SVN revision: 57053
+	  M scripts/dtest-numerical-diff
+
+	* Use UTF-8 encoding
+
+	  SVN revision: 57012
+	  M scripts/dtest_kwstyle.xml
+
+	* Move here from "/home/dlab/pkgs/bin"
+
+	  SVN revision: 57011
+	  A scripts/dtest-kwstyle
+	  A scripts/dtest_kwstyle.xml
+
+Mon Jun 17 10:17:22 2013  myint
+
+	* Revision tag: R1-06i
+
+	* Simplify
+
+	  SVN revision: 56931
+	  M scripts/dtest-numerical-diff
+	  M test/test_system/test_dtest_numerical_diff/DTESTDEFS.cfg
+
+Thu Jun 13 17:48:25 2013  myint
+
+	* Revision tag: R1-06h
+
+	* Allow user to specify neither absolute nor relative
+
+	This results in a strict textual diff.
+
+	  SVN revision: 56876
+	  M scripts/dtest-numerical-diff
+	  M test/test_system/test_dtest_numerical_diff/DTESTDEFS.cfg
+
+	* Optimize
+
+	  SVN revision: 56875
+	  M scripts/dtest-numerical-diff
+
+Thu Jun 13 17:39:24 2013  myint
+
+	* Revision tag: R1-06g
+
+	* Allow specifying just one (absolute or relative)
+
+	  SVN revision: 56857
+	  M scripts/dtest-numerical-diff
+	  M test/test_system/test_dtest_numerical_diff/DTESTDEFS.cfg
+
+Thu Jun 13 16:23:01 2013  myint
+
+	* Revision tag: R1-06f
+
+	* Format
+
+	  SVN revision: 56808
+	  M test/test_system/test_dtest/script.py
+	  M dtest
+	  M python/DCompareUtils.py
+	  M test/test_system/test_file_dict_compare/script.py
+	  M python/killableprocess.py
+	  M test/test_unit/test_test/script.py
+	  M test/test_unit/test_test_magic/script.py
+	  M python/Test.py
+	  M test/test_unit/test_test_modifiers/script.py
+	  M python/TestMagic.py
+	  M python/configobj.py
+	  M test/test_code/test_commented_out_code/check_for_commented_out_code.py
+
+Thu Jun 13 15:12:14 2013  myint
+
+	* Revision tag: R1-06e
+
+	* Add "--separator"
+
+	  SVN revision: 56751
+	  M scripts/dtest-numerical-diff
+
+Wed Jun 12 14:52:49 2013  myint
+
+	* Revision tag: R1-06d
+
+	* Require explicit specification of absolute and relative error
+
+	  SVN revision: 56701
+	  M scripts/dtest-numerical-diff
+	  M test/test_system/test_dtest_numerical_diff/DTESTDEFS.cfg
+
+Wed Jun 12 14:32:06 2013  myint
+
+	* Revision tag: R1-06c
+
+	* Got back to whitespace-based split for now
+
+	The regular expression was too aggressive on exponents. This needs to be
+	improved.
+
+	  SVN revision: 56685
+	  M scripts/dtest-numerical-diff
+	  M test/test_system/test_dtest_numerical_diff/DTESTDEFS.cfg
+	  A test/test_system/test_dtest_numerical_diff/exponent0.txt
+	  A test/test_system/test_dtest_numerical_diff/exponent1.txt
+
+	* Add item
+
+	  SVN revision: 56585
+	  M Todo
+
+Fri Jun  7 17:54:24 2013  myint
+
+	* Revision tag: R1-06b
+
+	* Ignore whitespace changes in dtest-numerical-diff
+
+	Also make messages more understandable to humans.
+
+	  SVN revision: 56572
+	  A test/test_system/test_dtest_numerical_diff/close0.txt
+	  M test/test_system/test_dtest_numerical_diff/DTESTDEFS.cfg
+	  A test/test_system/test_dtest_numerical_diff/close1.txt
+	  M scripts/dtest-numerical-diff
+
+Thu Jun  6 10:19:20 2013  myint
+
+	* Revision tag: R1-06a
+
+	* Show default options
+
+	  SVN revision: 56373
+	  M scripts/dtest-numerical-diff
+
+	* Remove completed item
+
+	  SVN revision: 56372
+	  M Todo
+
+Thu Jun  6 10:15:11 2013  myint
+
+	* Revision tag: R1-06
+
+	* Split numbers out more intelligently
+
+	This extracts out all numbers from text. Previously, we just split on
+	whitespace.
+
+	  SVN revision: 56366
+	  M scripts/dtest-numerical-diff
+
+Wed Jun  5 09:59:00 2013  myint
+
+	* Revision tag: R1-05z
+
+	* Modify wording
+
+	  SVN revision: 56305
+	  M Todo
+
+	* Add to-do note
+
+	  SVN revision: 56304
+	  M Todo
+
+Tue Jun  4 16:31:03 2013  myint
+
+	* Revision tag: R1-05y
+
+	* Require full line to be matched when filtering
+
+	  SVN revision: 56297
+	  M scripts/dtest-numerical-diff
+
+Tue May 28 16:52:24 2013  myint
+
+	* Revision tag: R1-05x
+
+	* Move URL
+
+	  SVN revision: 56047
+	  M scripts/dtest-cram
+
+	* Add license
+
+	  SVN revision: 56046
+	  M scripts/dtest-cram
+
+	* Ignore temporary files
+
+	  SVN revision: 56043
+	  M test/test_system/test_dtest_cram
+
+	* Always use bash
+
+	  SVN revision: 56042
+	  M python/Test.py
+	  M scripts/dtest-cram
+
+	* Simplify
+
+	  SVN revision: 55864
+	  M scripts/dtest-numerical-diff
+
+	* Add more filtering test cases
+
+	  SVN revision: 55863
+	  M test/test_system/test_dtest_numerical_diff/DTESTDEFS.cfg
+	  M test/test_system/test_dtest_numerical_diff/filter.txt
+	  D test/test_system/test_dtest_numerical_diff/bar
+	  A test/test_system/test_dtest_numerical_diff/foo1
+	  A test/test_system/test_dtest_numerical_diff/foo2
+
+	* Add support for filtering lines in "dtest-numerical-diff"
+
+	This filter is purposely stricter than "cmp.prg" to avoid overly
+	aggressive filtering. The regular expression must match the complete
+	line. This also avoids the bad behavior of "cmp.prg" with respect to
+	lines with only whitespace.
+
+	  SVN revision: 55862
+	  M scripts/dtest-numerical-diff
+	  A test/test_system/test_dtest_numerical_diff/filter.txt
+	  A test/test_system/test_dtest_numerical_diff/foo
+	  M test/test_system/test_dtest_numerical_diff/DTESTDEFS.cfg
+	  A test/test_system/test_dtest_numerical_diff/bar
+
+	* Test error too
+
+	  SVN revision: 55817
+	  M test/test_system/test_dtest_cram/DTESTDEFS.cfg
+	  A test/test_system/test_dtest_cram/error.t
+
+	* Test failure too
+
+	  SVN revision: 55816
+	  M test/test_system/test_dtest_cram/DTESTDEFS.cfg
+	  A test/test_system/test_dtest_cram/fail.t
+
+	* Add more
+
+	  SVN revision: 55815
+	  M test/test_system/test_dtest_cram/script.t
+
+	* Add test for "dtest-cram"
+
+	  SVN revision: 55814
+	  A test/test_system/test_dtest_cram/script.t
+	  A test/test_system/test_dtest_cram
+	  A test/test_system/test_dtest_cram/DTESTDEFS.cfg
+
+	* Add "dtest-cram"
+
+	  SVN revision: 55813
+	  M Makefile.yam
+
+	* Customize to use 4-space indentation by default
+
+	  SVN revision: 55812
+	  M scripts/dtest-cram
+
+	* Add cram
+
+	  SVN revision: 55811
+	  A scripts/dtest-cram
+
+	* Correct the documentation
+
+	  SVN revision: 55759
+	  M python/killableprocess.py
+
+	* Handle negative arguments gracefully
+
+	  SVN revision: 55752
+	  M scripts/dtest-numerical-diff
+
+Mon May  6 15:20:29 2013  myint
+
+	* Revision tag: R1-05w
+
+	* Treat absolute and relative options correctly
+
+	It should pass if either are within tolerance. Forcing both is not
+	useful. Absolute is useful for the near zero case where relative blows
+	up.
+
+	  SVN revision: 55744
+	  M scripts/dtest-numerical-diff
+	  M test/test_system/test_dtest_numerical_diff/DTESTDEFS.cfg
+
+	* Fix grammar
+
+	  SVN revision: 55734
+	  M Readme.rst
+
+Mon May  6 12:04:04 2013  myint
+
+	* Revision tag: R1-05v
+
+	* Add more instructions
+
+	  SVN revision: 55666
+	  M Readme.rst
+
+	* Expand instructions
+
+	  SVN revision: 55665
+	  M Readme.rst
+
+	* Give temporary output file a readable name
+
+	  SVN revision: 55664
+	  M python/Test.py
+
+	* Make usage message more specific
+
+	  SVN revision: 55647
+	  M scripts/dtest-upgrade
+
+	* Add syntax fix suggestion
+
+	  SVN revision: 55646
+	  M python/Test.py
+
+	* Handle "YAM_ROOT" too
+
+	  SVN revision: 55645
+	  M test/test_system/test_dtest_upgrade/input
+	  M test/test_system/test_dtest_upgrade/output.orig
+	  M scripts/dtest-upgrade
+
+	* Use long options
+
+	  SVN revision: 55487
+	  M test/test_system/test_dtest_numerical_diff/DTESTDEFS.cfg
+
+	* Update options
+
+	  SVN revision: 55486
+	  M test/test_system/test_dtest_numerical_diff/DTESTDEFS.cfg
+
+	* Convert to Python
+
+	  SVN revision: 55485
+	  M scripts/dtest-numerical-diff
+
+Thu Apr 25 17:59:49 2013  jmc
+
+	* version R1-05u
+
+	* Updated.
+
+	  SVN revision: 55421
+	  M .
+
+	* Updated to ignore models in checkpoint files if absent.
+
+	  SVN revision: 55417
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-05r-jmc/python/DCompareUtils.py
+
+	* Updated to ignore models in checkpoint files if absent.
+
+	  SVN revision: 55420
+	  M python/DCompareUtils.py
+
+Thu Apr 25 11:45:05 2013  myint
+
+	* version R1-05t
+
+	* Generate PDF documentation
+
+	  SVN revision: 55408
+	  M .
+	  M Makefile.yam
+
+	* Fix spelling errors
+
+	  SVN revision: 55407
+	  M python/configobj.py
+
+	* Mention "dtest-upgrade"
+
+	  SVN revision: 55406
+	  M Readme.rst
+
+Thu Apr 25 10:17:57 2013  myint
+
+	* version R1-05s
+
+	* Add test for "dtest-upgrade"
+
+	  SVN revision: 55387
+	  A test/test_system/test_dtest_upgrade/input
+	  A test/test_system/test_dtest_upgrade/output.orig
+	  A test/test_system/test_dtest_upgrade
+	  A test/test_system/test_dtest_upgrade/DTESTDEFS.cfg
+
+	* Upgrade "YAM_TARGET" syntax
+
+	  SVN revision: 55386
+	  M scripts/dtest-upgrade
+
+	* Remove invalid doctests
+
+	  SVN revision: 55385
+	  M python/configobj.py
+
+	* Add upgrade script
+
+	  SVN revision: 55384
+	  A test/test_system/test_dtest_mail/DTESTDEFS.cfg
+	  A test/test_system/test_dtest_html/DTESTDEFS.cfg
+	  D test/test_system/test_dtest_mail/DTESTDEFS
+	  A test/test_system/test_file_dict_compare/DTESTDEFS.cfg
+	  D test/test_system/test_dtest_html/DTESTDEFS
+	  A test/test_system/test_truthfiles/DTESTDEFS.cfg
+	  D test/test_system/test_file_dict_compare/DTESTDEFS
+	  A scripts/dtest-upgrade
+	  D test/test_system/test_truthfiles/DTESTDEFS
+	  M Makefile.yam
+	  A test/test_system/test_compare_checkpoint_files/DTESTDEFS.cfg
+	  D test/test_system/test_compare_checkpoint_files/DTESTDEFS
+
+Mon Apr 22 13:03:07 2013  myint
+
+	* version R1-05r
+
+	* Format
+
+	  SVN revision: 55307
+	  M python/Test.py
+
+	* Use utcnow() instead of now() to match timestamp
+
+	  SVN revision: 55306
+	  M python/Test.py
+
+	* Decrease minimum time
+
+	  SVN revision: 55270
+	  M python/Test.py
+
+Thu Apr  4 18:02:34 2013  myint
+
+	* version R1-05q
+
+	* Document that the epsilon is relative
+
+	  SVN revision: 54822
+	  M scripts/dtest-numerical-diff
+
+	* Add another test
+
+	  SVN revision: 54821
+	  M test/test_system/test_dtest_numerical_diff/DTESTDEFS.cfg
+	  A test/test_system/test_dtest_numerical_diff/fourth
+
+	* Add note
+
+	  SVN revision: 54812
+	  M Todo
+	  M .
+
+Fri Mar 29 10:25:27 2013  myint
+
+	* version R1-05p
+
+	* Handle error gracefully
+
+	  SVN revision: 54798
+	  M dtest
+	  M python/Test.py
+
+Wed Mar 27 16:21:46 2013  myint
+
+	* version R1-05o
+
+	* Print context
+
+	  SVN revision: 54758
+	  M python/Test.py
+
+	* Rename
+
+	  SVN revision: 54757
+	  M dtest
+	  M python/Test.py
+
+	* Format
+
+	  SVN revision: 54756
+	  M test/test_system/test_dtest/script.py
+	  M doc/source/conf.py
+	  M python/DCompareUtils.py
+	  M test/test_system/test_file_dict_compare/script.py
+	  M test/test_system/test_ddoctest/script.py
+	  M test/test_system/test_dict_compare/script.py
+	  M test/test_unit/test_test/script.py
+	  M test/test_unit/test_test_magic/script.py
+	  M test/test_unit/test_test_modifiers/script.py
+	  M test/test_code/test_commented_out_code/check_for_commented_out_code.py
+
+	* Update to match change in exception types
+
+	  SVN revision: 54755
+	  M dtest
+
+	* Avoid stack traces
+
+	  SVN revision: 54754
+	  M dtest
+	  M python/Test.py
+
+	* Warn on finding suspicious syntax
+
+	  SVN revision: 54753
+	  M python/Test.py
+
+	* Format
+
+	  SVN revision: 54712
+	  M python/Ddoctest.py
+	  M python/killableprocess.py
+	  M python/Test.py
+	  M python/configobj.py
+	  M python/TestModifiers.py
+
+Tue Mar 19 15:15:03 2013  myint
+
+	* version R1-05n
+
+	* Add another test case
+
+	  SVN revision: 54561
+	  A test/test_system/test_dtest_numerical_diff/third
+	  M test/test_system/test_dtest_numerical_diff/DTESTDEFS.cfg
+
+Tue Mar 19 15:11:56 2013  myint
+
+	* version R1-05m
+
+	* Add test for dtest-numerical-diff
+
+	  SVN revision: 54555
+	  D test/test_system/test_dtest_numerical_diff/blank
+	  M test/test_system/test_dtest_numerical_diff/first
+	  M test/test_system/test_dtest_numerical_diff/second
+	  A test/test_system/test_dtest_numerical_diff
+	  M test/test_system/test_dtest_numerical_diff/DTESTDEFS.cfg
+	  D test/test_system/test_dtest_numerical_diff/filter
+
+Tue Mar 19 14:58:25 2013  myint
+
+	* version R1-05l
+
+	* Do not default to hard-coded program
+
+	  SVN revision: 54548
+	  M python/Test.py
+
+	* Require epsilon
+
+	  SVN revision: 54547
+	  M scripts/dtest-numerical-diff
+
+	* Modify to work non-interactively
+
+	  SVN revision: 54546
+	  M scripts/dtest-numerical-diff
+
+	* Rename to match convention
+
+	  SVN revision: 54491
+	  M python/Test.py
+	  D scripts/dperceptualdiff
+	  A scripts/dtest-numerical-diff
+	  D scripts/dtest-numeric-diff
+	  A scripts/dtest-perceptual-diff
+	  M Makefile.yam
+
+	* Add documentation
+
+	  SVN revision: 54459
+	  D Readme
+	  M test/DTESTDEFS.cfg
+	  A Readme.rst
+
+	* Rename
+
+	  SVN revision: 54446
+	  A test/test_system/test_dtest_diff
+	  M test/test_system/test_dtest_diff/DTESTDEFS.cfg
+	  D test/test_system/test_dtest_compare
+
+	* Add script that diffs numbers with an epsilon
+
+	  SVN revision: 54445
+	  A scripts/dtest-numeric-diff
+
+	* Rename
+
+	  SVN revision: 54444
+	  M Makefile.yam
+	  M test/DTESTDEFS.cfg
+
+	* Rename
+
+	  SVN revision: 54443
+	  M scripts/cmp.prg
+	  D scripts/dtest-compare
+	  A scripts/dtest-diff
+
+	* Copy all scripts
+
+	  SVN revision: 54244
+	  M setup.py
+
+	* Rename for consistency
+
+	  SVN revision: 54243
+	  M scripts/cmp.prg
+	  M test/test_system/test_dtest_compare/DTESTDEFS.cfg
+	  A scripts/dtest-compare
+	  D test/test_system/test_cmp
+	  D scripts/cmp.bash
+	  M Makefile.yam
+	  A test/test_system/test_dtest_compare
+
+	* Simplify use of literal_eval()
+
+	  SVN revision: 54215
+	  M scripts/dtest-mail
+
+	* Set ignore
+
+	  SVN revision: 54214
+	  M test/test_unit/test_test_modifiers
+	  M test/test_system/test_dtest
+
+	* Move
+
+	  SVN revision: 54213
+	  M test/test_system/test_dtest_mail/mod_own.py
+	  R scripts/genRegtestMail
+	  M Makefile.yam
+	  R scripts/genRegtestHtml
+	  A test/test_system/test_dtest_mail
+	  A test/test_system/test_dtest_html
+	  D test/test_system/test_gen_regtest_mail
+	  A scripts/dtest-mail
+	  D test/test_system/test_gen_regtest_html
+	  M test/test_system/test_dtest_mail/DTESTDEFS
+	  A scripts/dtest-html
+	  M test/test_system/test_dtest_html/DTESTDEFS
+
+	* Restrict catchsegv to binaries and Python
+
+	  SVN revision: 54212
+	  M test/test_unit/test_test_modifiers/script.py
+	  M python/TestModifiers.py
+
+	* Generalize catchsegv modifier
+
+	  SVN revision: 54211
+	  M test/test_unit/test_test_modifiers/script.py
+	  M python/TestModifiers.py
+
+	* Allow use of catchsegv on python too
+
+	  SVN revision: 54210
+	  M python/TestModifiers.py
+
+Sun Mar 10 15:34:54 2013  myint
+
+	* version R1-05k
+
+	* Remove unused parameter
+
+	  SVN revision: 54198
+	  M python/TestModifiers.py
+
+	* Add option to run under catchsegv
+
+	  SVN revision: 54196
+	  M python/Test.py
+	  M test/test_unit/test_test_modifiers/script.py
+	  M python/TestModifiers.py
+	  M dtest
+
+	* Clean up
+
+	  SVN revision: 54191
+	  M setup.py
+
+	* Set ignore
+
+	  SVN revision: 54190
+	  M .
+
+	* Add tox
+
+	  SVN revision: 54189
+	  D utils
+	  M Makefile.yam
+	  A scripts
+	  M setup.py
+	  A tox.ini
+	  A MANIFEST.in
+
+Sun Mar 10 11:59:51 2013  myint
+
+	* version R1-05j
+
+	* Remove unnecessary comparison
+
+	  SVN revision: 54181
+	  D test/test_system/test_dtest/output.orig
+
+	* Format
+
+	  SVN revision: 54180
+	  M python/configobj.py
+
+	* Format
+
+	  SVN revision: 54179
+	  M python/configobj.py
+
+Sun Mar 10 11:03:17 2013  myint
+
+	* version R1-05i
+
+	* Use ast.literal_eval() instead of exec
+
+	  SVN revision: 54163
+	  M utils/genRegtestMail
+
+	* Use non-deprecated form of sorting
+
+	  SVN revision: 54162
+	  M utils/genRegtestMail
+
+	* Add Python 3 support
+
+	  SVN revision: 54161
+	  M utils/genRegtestHtml
+	  M utils/compareCheckpointFiles
+	  M python/DCompareUtils.py
+	  M python/Test.py
+	  M utils/compareDictsInFiles
+	  M utils/compareModelFiles
+	  M utils/genRegtestMail
+
+	* Avoid deprecated method
+
+	  SVN revision: 54160
+	  M test/test_unit/test_test_modifiers/script.py
+
+	* Add Python 3 support
+
+	  SVN revision: 54159
+	  M dtest
+	  M test/test_unit/test_test/script.py
+	  M python/Test.py
+	  M python/configobj.py
+
+	* Modernize
+
+	  SVN revision: 54158
+	  M python/configobj.py
+
+	* Format
+
+	  SVN revision: 54157
+	  M python/configobj.py
+
+	* Update import
+
+	  SVN revision: 54156
+	  M test/test_unit/test_test/script.py
+
+	* Format
+
+	  SVN revision: 54155
+	  M python/configobj.py
+
+	* Modernize
+
+	  SVN revision: 54154
+	  M python/configobj.py
+
+	* Vendorize configobj
+
+	  SVN revision: 54153
+	  M Makefile.yam
+	  M python/Test.py
+	  A python/configobj.py
+
+	* Fix misspellings
+
+	  SVN revision: 54143
+	  M pylintrc
+
+	* Ignore old locks
+
+	  SVN revision: 54140
+	  M python/Test.py
+
+	* Ignore any removal error
+
+	  SVN revision: 54139
+	  M python/Test.py
+
+	* Set ignore
+
+	  SVN revision: 53870
+	  M test/test_system/test_dict_compare
+
+	* Remove empty directory
+
+	  SVN revision: 53869
+	  D test/test_doctest
+
+	* Move back
+
+	  SVN revision: 53868
+	  D test/test_system/test_dict_compare/output.orig
+	  A test/test_system/test_dict_compare
+	  D test/test_doctest/test_dict_compare
+	  R test/test_system/test_dict_compare/script.py
+
+	* Add note about purposeful failures
+
+	  SVN revision: 53867
+	  A test/test_system/test_ddoctest/DTESTDEFS.cfg
+
+	* Move back
+
+	  SVN revision: 53866
+	  A test/test_system/test_ddoctest
+	  D test/test_doctest/test_ddoctest
+
+	* Move back
+
+	  SVN revision: 53865
+	  R test/test_system/test_file_dict_compare/script.py
+	  M test/test_doctest/test_dict_compare/script.py
+	  A test/test_system/test_file_dict_compare
+	  D test/test_doctest/test_dict_compare/output.orig
+	  D test/test_doctest/test_file_dict_compare
+
+	* Exit properly
+
+	  SVN revision: 53864
+	  M test/test_doctest/test_file_dict_compare/script.py
+
+	* Set ignore
+
+	  SVN revision: 53863
+	  M test/test_doctest/test_file_dict_compare
+	  M test/test_system/test_truthfiles
+	  M test/test_doctest/test_ddoctest
+	  M test/test_doctest/test_dict_compare
+	  M test/test_doctest
+
+	* Move
+
+	  SVN revision: 53862
+	  A test/test_system/test_truthfiles
+	  D test/test_doctest/test_truthfiles
+	  M test/test_system/test_truthfiles/output.truth
+	  M test/test_system/test_truthfiles/script.py
+	  A test/test_doctest/DTESTDEFS.cfg
+
+	* MOve
+
+	  SVN revision: 53861
+	  A test/test_doctest
+	  D test/test_system/test_file_dict_compare
+	  A test/test_doctest/test_file_dict_compare
+	  D test/test_system/test_ddoctest
+	  D test/test_system/test_dict_compare
+	  D test/test_system/test_truthfiles
+	  A test/test_doctest/test_ddoctest
+	  A test/test_doctest/test_dict_compare
+	  A test/test_doctest/test_truthfiles
+
+Wed Feb 20 12:07:39 2013  myint
+
+	* version R1-05h
+
+	* Add test for cmp
+
+	  SVN revision: 53855
+	  A test/test_system/test_cmp
+	  A test/test_system/test_cmp/DTESTDEFS.cfg
+	  A test/test_system/test_cmp/filter
+	  A test/test_system/test_cmp/blank
+	  A test/test_system/test_cmp/first
+	  A test/test_system/test_cmp/second
+	  M utils/cmp.bash
+
+	* Error out if filter file has blank lines
+
+	Blank lines will result in everything getting filtered out, which makes
+	the output comparison useless.
+
+	  SVN revision: 53854
+	  M utils/cmp.bash
+
+	* Add link for compatibility
+
+	  SVN revision: 53853
+	  M Makefile.yam
+	  A utils/cmp.prg
+
+	* Rename
+
+	  SVN revision: 53852
+	  D utils/cmp.prg
+	  A utils/cmp.bash
+
+	* Remove unnecessary line
+
+	  SVN revision: 53833
+	  M Makefile.yam
+
+	* Format
+
+	  SVN revision: 53826
+	  M Makefile.yam
+
+	* Remove useless header file
+
+	  SVN revision: 53825
+	  M Makefile.yam
+
+	* Format
+
+	  SVN revision: 53814
+	  M Readme
+
+	* Remove verbose output
+
+	  SVN revision: 53813
+	  M test/test_system/test_truthfiles/output.truth
+	  M test/test_system/test_file_dict_compare/script.py
+	  M test/test_system/test_ddoctest/script.py
+	  M test/test_system/test_truthfiles/script.py
+	  M test/test_system/test_ddoctest/output.orig
+
+	* Format
+
+	  SVN revision: 53812
+	  M test/test_system/test_dict_compare/script.py
+	  M test/test_unit/test_test_modifiers/script.py
+	  M test/test_system/test_dict_compare/output.orig
+
+	* Format
+
+	  SVN revision: 53810
+	  M utils/compareDictsInFiles
+	  M utils/genRegtestHtml
+
+Thu Feb 14 11:54:03 2013  myint
+
+	* version R1-05g
+
+	* Remove use of global "no_delete"
+
+	Pass into function instead.
+
+	  SVN revision: 53723
+	  M dtest
+
+	* Only force "no_delete" on segfault
+
+	The segfault is just a guess based on error code.
+
+	  SVN revision: 53722
+	  M python/Test.py
+
+Tue Feb 12 17:19:28 2013  myint
+
+	* version R1-05f
+
+	* Check status here too
+
+	  SVN revision: 53676
+	  M python/Test.py
+
+Tue Feb 12 15:49:27 2013  myint
+
+	* version R1-05e
+
+	* Do not remove output if there are failures
+
+	We can't tell what is happening otherwise.
+
+	  SVN revision: 53669
+	  M python/Test.py
+
+Thu Feb  7 22:13:37 2013  myint
+
+	* version R1-05d
+
+	* Improve spacing
+
+	  SVN revision: 53643
+	  M test/test_system/test_gen_regtest_mail/mail3.out.orig
+	  M utils/genRegtestMail
+	  M test/test_system/test_gen_regtest_mail/mail1_quarantined.out.orig
+	  M test/test_system/test_gen_regtest_mail/mail1.out.orig
+	  M test/test_system/test_gen_regtest_mail/mail2.out.orig
+
+Thu Feb  7 21:34:05 2013  myint
+
+	* version R1-05c
+
+	* Mark run-time errors with asterisks
+
+	  SVN revision: 53636
+	  M test/test_system/test_gen_regtest_mail/mail1_quarantined.out.orig
+	  M test/test_system/test_gen_regtest_mail/test_regtest.data
+	  M test/test_system/test_gen_regtest_mail/mail1.out.orig
+	  M test/test_system/test_gen_regtest_mail/mail2.out.orig
+	  M test/test_system/test_gen_regtest_mail/mail3.out.orig
+	  M utils/genRegtestMail
+
+	* Clean up
+
+	  SVN revision: 53635
+	  M utils/genRegtestMail
+
+	* Strip output
+
+	  SVN revision: 53555
+	  M python/TestMagic.py
+
+	* Dereference symbolic links
+
+	  SVN revision: 53547
+	  M python/TestMagic.py
+
+	* Remove dependency on magic module
+
+	  SVN revision: 53546
+	  M python/TestMagic.py
+
+	* Use alternate syntax for ANSI escape
+
+	  SVN revision: 53512
+	  M python/Test.py
+
+Sun Feb  3 19:21:01 2013  myint
+
+	* version R1-05b
+
+	* Send email in Unicode
+
+	  SVN revision: 53504
+	  M utils/genRegtestMail
+
+	* Show strict diff in addition to perceptual diff
+
+	  SVN revision: 53497
+	  M utils/dperceptualdiff
+
+Sat Feb  2 16:15:23 2013  myint
+
+	* version R1-05a
+
+	* Fix missing "r" literal for raw strings
+
+	Also suppress pylint false positives.
+
+	  SVN revision: 53475
+	  M python/Test.py
+	  M dtest
+
+Sun Jan 20 16:28:17 2013  myint
+
+	* version R1-05
+
+	* Format
+
+	  SVN revision: 52839
+	  M python/killableprocess.py
+
+Fri Dec 21 19:45:55 2012  myint
+
+	* version R1-04z
+
+	* Format
+
+	  SVN revision: 52832
+	  M dtest
+
+	* Simplify and remove "*"
+
+	Just color error in red. The asterisk makes it harder to copy and paste
+	the path.
+
+	  SVN revision: 52831
+	  M dtest
+
+Fri Dec 21 19:19:43 2012  myint
+
+	* version R1-04y
+
+	* Highlight run-time failures
+
+	  SVN revision: 52822
+	  M dtest
+
+	* Format title
+
+	  SVN revision: 52821
+	  M utils/genRegtestMail
+
+	* Move stuff into function
+
+	  SVN revision: 52818
+	  M dtest
+
+Thu Dec 20 21:52:59 2012  myint
+
+	* version R1-04x
+
+	* Kill process quietly
+
+	  SVN revision: 52772
+	  M utils/dperceptualdiff
+
+	* Avoid printing out termination message
+
+	  SVN revision: 52771
+	  M utils/dperceptualdiff
+
+Wed Dec 19 15:00:08 2012  myint
+
+	* version R1-04w
+
+	* Collapse regular expressions
+
+	  SVN revision: 52697
+	  M test/common/regexp.lst
+	  M test/test_system/test_gen_regtest_mail/regexp.lst
+
+Wed Dec 19 14:52:20 2012  myint
+
+	* version R1-04v
+
+	* Show name of host in report
+
+	  SVN revision: 52688
+	  A test/test_system/test_gen_regtest_mail/regexp.lst
+	  M utils/genRegtestMail
+	  M test/test_system/test_gen_regtest_mail/DTESTDEFS
+
+Tue Dec 18 17:04:36 2012  myint
+
+	* version R1-04u
+
+	* Sync
+
+	  SVN revision: 52618
+	  M setup.py
+	  M test/test_unit/test_test_modifiers/script.py
+	  M utils/genRegtestMail
+	  M test/test_system/test_gen_regtest_mail/mail1_quarantined.out.orig
+	  M utils/genRegtestHtml
+	  M .
+	  M test/test_system/test_gen_regtest_mail/mail1.out.orig
+	  M test/test_system/test_gen_regtest_mail/mail2.out.orig
+	  M test/test_system/test_gen_regtest_mail/mail3.out.orig
+	  M doc/source/regtests/test_Ddoctest.rst
+	  M doc/source/regtests/test_dictCompare.rst
+	  M doc/source/regtests/test_fileDictCompare.rst
+
+	* Rename a column
+
+	  SVN revision: 52521
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-04s-myint/test/test_system/test_gen_regtest_mail/mail1_quarantined.out.orig
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-04s-myint/test/test_system/test_gen_regtest_mail/mail1.out.orig
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-04s-myint/test/test_system/test_gen_regtest_mail/mail2.out.orig
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-04s-myint/test/test_system/test_gen_regtest_mail/mail3.out.orig
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-04s-myint/utils/genRegtestMail
+
+	* Swap "Display" with "Xorg"
+
+	  SVN revision: 52520
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-04s-myint/utils/genRegtestMail
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-04s-myint/test/test_system/test_gen_regtest_mail/mail1_quarantined.out.orig
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-04s-myint/test/test_system/test_gen_regtest_mail/mail1.out.orig
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-04s-myint/test/test_system/test_gen_regtest_mail/mail2.out.orig
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-04s-myint/test/test_system/test_gen_regtest_mail/mail3.out.orig
+
+	* Fix typos
+
+	  SVN revision: 52517
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-04s-myint/doc/source/regtests/test_Ddoctest.rst
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-04s-myint/doc/source/regtests/test_dictCompare.rst
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-04s-myint/doc/source/regtests/test_fileDictCompare.rst
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-04s-myint/test/test_unit/test_test_modifiers/script.py
+
+	* Format
+
+	  SVN revision: 52516
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-04s-myint/utils/genRegtestMail
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-04s-myint/utils/genRegtestHtml
+
+	* Use string formatting instead of Cheetah
+
+	  SVN revision: 52515
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-04s-myint/utils/genRegtestHtml
+
+	* Use string formatting instead of Cheetah
+
+	  SVN revision: 52514
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-04s-myint/utils/genRegtestMail
+
+	* Simplify
+
+	  SVN revision: 52513
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-04s-myint/utils/genRegtestMail
+
+	* Allow this to work when it is a symlink
+
+	  SVN revision: 52397
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-04s-myint/setup.py
+
+Thu Dec 13 10:59:52 2012  myint
+
+	* version R1-04t
+
+	* Write output when running visual perceptualdiff
+
+	  SVN revision: 52481
+	  M python/Test.py
+
+Mon Dec 10 21:32:34 2012  myint
+
+	* version R1-04s
+
+	* Sync
+
+	  SVN revision: 52353
+	  M .
+	  M test/test_system/test_gen_regtest_mail/mail1.out.orig
+	  M Makefile.yam
+	  M test/test_system/test_gen_regtest_mail/mail2.out.orig
+	  M dtest
+	  M test/test_system/test_gen_regtest_mail/mail3.out.orig
+	  M test/test_unit/test_test/script.py
+	  M test/test_unit/test_test_magic/script.py
+	  M setup.py
+	  M test/test_unit/test_test_modifiers/script.py
+	  M test/test_system/test_gen_regtest_mail/mail1_quarantined.out.orig
+
+	* Add cmp.prg
+
+	  SVN revision: 52343
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-04p-myint/setup.py
+
+	* Move Dtest stuff
+
+	  SVN revision: 52341
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-04p-myint/dtest
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-04p-myint/test/test_unit/test_test/script.py
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-04p-myint/test/test_unit/test_test_magic/script.py
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-04p-myint/test/test_unit/test_test_modifiers/script.py
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-04p-myint/Makefile.yam
+
+	* Remove useless newlines
+
+	  SVN revision: 52086
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-04p-myint/utils/genRegtestMail
+
+	* Remove redundant information
+
+	This was not added by Scott. It was removed by me before the JSC merge.
+
+	  SVN revision: 52352
+	  M utils/genRegtestMail
+
+Wed Dec  5 11:21:08 2012  jmc
+
+	* version R1-04r
+
+	* Updated.
+
+	  SVN revision: 52135
+	  M test/test_system/test_gen_regtest_mail/mail1.out.orig
+	  M test/test_system/test_gen_regtest_mail/mail2.out.orig
+	  M test/test_system/test_gen_regtest_mail/mail3.out.orig
+	  M test/test_system/test_gen_regtest_mail/mail1_quarantined.out.orig
+
+	* Added column for successes.  By Scott Nemeth.
+
+	  SVN revision: 52134
+	  M utils/genRegtestMail
+
+	* Added option to print summary.  By Scott Nemeth
+
+	  SVN revision: 52133
+	  M utils/genRegtestHtml
+
+Tue Dec  4 16:28:02 2012  jmc
+
+	* version R1-04q
+
+	* Update to docs.
+
+	  SVN revision: 52097
+	  M doc/source/main.rst
+
+Mon Dec  3 09:49:28 2012  myint
+
+	* version R1-04p
+
+	* Make use of "--email-from"
+
+	This option was added a while ago, but never used.
+
+	  SVN revision: 52047
+	  M utils/genRegtestMail
+
+	* Highlight the column the table is sorted by
+
+	  SVN revision: 52041
+	  M test/test_system/test_gen_regtest_mail/mail1.out.orig
+	  M test/test_system/test_gen_regtest_mail/mail2.out.orig
+	  M test/test_system/test_gen_regtest_mail/mail3.out.orig
+	  M utils/genRegtestMail
+	  M test/test_system/test_gen_regtest_mail/mail1_quarantined.out.orig
+
+	* Improve options
+
+	Use "-l" for listing rather than logging since the former is more often
+	used.
+
+	  SVN revision: 52037
+	  M dtest
+	  M python/Test.py
+
+	* Add link to "setup.py"
+
+	  SVN revision: 52035
+	  M Makefile.yam
+
+	* Remove irrelevant line
+
+	  SVN revision: 52034
+	  M Makefile.yam
+
+	* Do file opening idiomatically
+
+	  SVN revision: 52033
+	  M utils/genRegtestMail
+
+	* Remove trailing whitespace
+
+	  SVN revision: 52032
+	  M test/test_system/test_gen_regtest_mail/mail4.html.out.orig
+	  M test/test_system/test_dict_compare/output.orig
+	  M test/test_system/test_gen_regtest_mail/mail1_quarantined.out.orig
+	  M test/test_system/test_gen_regtest_mail/mail1.out.orig
+	  M test/test_system/test_gen_regtest_mail/mail2.out.orig
+	  M test/test_system/test_gen_regtest_mail/mail3.out.orig
+	  M test/test_system/test_gen_regtest_html/html.out.orig
+
+	* Mention sorting
+
+	  SVN revision: 52031
+	  M test/test_system/test_gen_regtest_mail/mail1_quarantined.out.orig
+	  M test/test_system/test_gen_regtest_mail/mail1.out.orig
+	  M test/test_system/test_gen_regtest_mail/mail2.out.orig
+	  M test/test_system/test_gen_regtest_mail/mail3.out.orig
+	  M utils/genRegtestMail
+
+	* Format
+
+	  SVN revision: 52030
+	  M python/killableprocess.py
+
+	* Remove unused code
+
+	  SVN revision: 52029
+	  M python/killableprocess.py
+	  M python/Test.py
+
+Fri Nov 30 14:32:32 2012  myint
+
+	* version R1-04o
+
+	* Format
+
+	  SVN revision: 52021
+	  M test/test_unit/test_test/script.py
+	  M test/test_unit/test_test_modifiers/script.py
+	  M utils/genRegtestMail
+	  M utils/genRegtestHtml
+	  M doc/source/conf.py
+
+	* Add time column
+
+	  SVN revision: 52020
+	  M test/test_system/test_gen_regtest_mail/mail3.out.orig
+	  M utils/genRegtestMail
+	  M test/test_system/test_gen_regtest_mail/mail1_quarantined.out.orig
+	  M test/test_system/test_gen_regtest_mail/mail1.out.orig
+	  M test/test_system/test_gen_regtest_mail/mail2.out.orig
+
+	* Remove redundant row
+
+	  SVN revision: 52019
+	  M utils/genRegtestMail
+	  M test/test_system/test_gen_regtest_mail/mail1_quarantined.out.orig
+	  M test/test_system/test_gen_regtest_mail/mail1.out.orig
+	  M test/test_system/test_gen_regtest_mail/mail2.out.orig
+	  M test/test_system/test_gen_regtest_mail/mail3.out.orig
+
+Tue Nov 27 12:23:27 2012  myint
+
+	* version R1-04n
+
+	* Format
+
+	  SVN revision: 51933
+	  M python/Test.py
+
+	* Simplify
+
+	  SVN revision: 51932
+	  M python/Test.py
+
+	* Narrow cases where temporary file is kept
+
+	  SVN revision: 51931
+	  M python/Test.py
+
+	* Log output on error
+
+	Without this, it is difficult to tell why a test is failing without
+	running it again.
+
+	  SVN revision: 51930
+	  M python/Test.py
+
+Wed Nov 21 15:09:07 2012  myint
+
+	* version R1-04m
+
+	* Exit early if no dtest configuration exists
+
+	  SVN revision: 51877
+	  M dtest
+
+	* Add setup
+
+	  SVN revision: 51875
+	  A python/__init__.py
+	  A setup.py
+
+Thu Nov 15 09:22:29 2012  jmc
+
+	* version R1-04l
+
+	* Fixed lists for failed tests.
+
+	  SVN revision: 51844
+	  M utils/genRegtestHtml
+
+Tue Nov 13 18:41:22 2012  myint
+
+	* version R1-04k
+
+	* Handle case of "nvidia-smi" not existing
+
+	  SVN revision: 51779
+	  M dtest
+
+Tue Nov  6 11:06:14 2012  myint
+
+	* version R1-04j
+
+	* Use runCmd() for everything
+
+	Some things were using subprocess.call() directly. This was causing the
+	$ROOTDIR to not be evaluated by the shell on "dtest -c".
+
+	  SVN revision: 51687
+	  M python/Test.py
+
+Mon Oct 29 17:00:10 2012  myint
+
+	* version R1-04i
+
+	* Remove obsolete option
+
+	  SVN revision: 51493
+	  M dtest
+	  M python/Test.py
+
+Mon Oct 29 12:36:10 2012  myint
+
+	* version R1-04h
+
+	* Move setting of environment variables
+
+	  SVN revision: 51480
+	  M dtest
+	  M python/Test.py
+
+	* Color warnings red
+
+	Also move setting of environment variable "TERM" to avoid polluting the
+	environment.
+
+	  SVN revision: 51479
+	  M dtest
+	  M python/Test.py
+
+	* Add reason
+
+	  SVN revision: 51456
+	  M python/Test.py
+
+	* Prefix ROOTDIR with "$"
+
+	  SVN revision: 51453
+	  M test/DTESTDEFS.cfg
+
+	* Put deprecation code in a separate function
+
+	  SVN revision: 51452
+	  M python/Test.py
+
+	* Add deprecation notification
+
+	  SVN revision: 51451
+	  M python/Test.py
+
+	* Make shell configurable
+
+	Default to "/bin/bash".
+
+	  SVN revision: 51450
+	  M dtest
+	  M python/Test.py
+
+	* Format
+
+	  SVN revision: 51437
+	  M utils/compareCheckpointFiles
+	  M utils/compareModelFiles
+
+	* Format
+
+	  SVN revision: 51436
+	  M .pyam/hooks/pre-save
+
+	* Remove link to report
+
+	  SVN revision: 51435
+	  M Makefile.yam
+
+	* Remove trailing whitespace
+
+	  SVN revision: 51433
+	  M doc/source/_static/sphinxdoc.css
+
+	* Define "ROOTDIR" in environment
+
+	  SVN revision: 51432
+	  M dtest
+
+Thu Oct 25 10:41:53 2012  myint
+
+	* version R1-04g
+
+	* Format
+
+	  SVN revision: 51382
+	  M utils/genRegtestMail
+
+	* Normalize option names
+
+	  SVN revision: 51381
+	  M utils/genRegtestMail
+
+	* Generalize
+
+	  SVN revision: 51380
+	  M utils/genRegtestMail
+
+	* Add test result status to email title
+
+	  SVN revision: 51379
+	  M utils/genRegtestMail
+
+	* Allow W0622
+
+	  SVN revision: 51298
+	  M test/test_code/test_pylint/script.bash
+	  M dtest
+	  A pylintrc
+
+	* Remove
+
+	  SVN revision: 51297
+	  D test/test_code/test_pylint/pylintrc
+
+Thu Oct 18 07:08:24 2012  myint
+
+	* version R1-04f
+
+	* Show succeeded tests in quarantine mode
+
+	  SVN revision: 51241
+	  M utils/genRegtestMail
+	  A test/test_system/test_gen_regtest_mail/mail1_quarantined.out.orig
+	  M test/test_system/test_gen_regtest_mail/DTESTDEFS
+
+Mon Oct 15 16:02:02 2012  myint
+
+	* version R1-04e
+
+	* Fix stupid typo
+
+	  SVN revision: 51082
+	  M test/test_system/test_gen_regtest_mail/mail1.out.orig
+	  M test/test_system/test_gen_regtest_mail/mail2.out.orig
+	  M test/test_system/test_gen_regtest_mail/mail3.out.orig
+	  M utils/genRegtestMail
+
+Mon Oct 15 15:55:16 2012  myint
+
+	* version R1-04d
+
+	* Merge
+
+	  SVN revision: 51074
+	  M .
+	  M test/test_system/test_gen_regtest_mail/mail1.out.orig
+	  M test/test_system/test_gen_regtest_mail/mail2.out.orig
+	  M test/test_system/test_gen_regtest_mail/mail3.out.orig
+	  A Todo
+	  M test/test_system/test_gen_regtest_mail
+	  M utils/genRegtestMail
+	  M test/test_system/test_gen_regtest_html
+	  M utils/genRegtestHtml
+
+	* Format
+
+	  SVN revision: 51071
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-04b-myint1/utils/genRegtestMail
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-04b-myint1/utils/genRegtestHtml
+
+	* Ignore reports
+
+	  SVN revision: 51070
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-04b-myint1/test/test_system/test_gen_regtest_mail
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-04b-myint1/test/test_system/test_gen_regtest_html
+
+	* Modernize
+
+	  SVN revision: 51069
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-04b-myint1/utils/genRegtestMail
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-04b-myint1/utils/genRegtestHtml
+
+	* Add time taken
+
+	  SVN revision: 51068
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-04b-myint1/utils/genRegtestMail
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-04b-myint1/test/test_system/test_gen_regtest_mail/mail1.out.orig
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-04b-myint1/test/test_system/test_gen_regtest_mail/mail2.out.orig
+	  M Dshell/Modules/Dtest/featureBranches/Dtest-R1-04b-myint1/test/test_system/test_gen_regtest_mail/mail3.out.orig
+
+	* Add lock note
+
+	  SVN revision: 51055
+	  A Dshell/Modules/Dtest/featureBranches/Dtest-R1-04b-myint1/Todo
+
+Thu Oct 11 11:27:40 2012  myint
+
+	* version R1-04c
+
+	* Deprecate the dangerous interpolation stuff
+
+	Use standard shell syntax instead.
+
+	  SVN revision: 50951
+	  M python/Test.py
+
+Tue Oct  9 17:17:55 2012  myint
+
+	* version R1-04b
+
+	* Remove obsolete option aliases
+
+	  SVN revision: 50861
+	  M dtest
+	  M python/Test.py
+
+Tue Oct  9 10:45:24 2012  myint
+
+	* version R1-04a
+
+	* Add option to specify maximum saturation
+
+	Default is 1. After this throttling happens.
+
+	  SVN revision: 50805
+	  M python/Test.py
+	  M dtest
+
+	* Modernize code
+
+	  SVN revision: 50486
+	  M python/killableprocess.py
+	  M doc/source/conf.py
+	  M python/Ddoctest.py
+	  M python/DCompareUtils.py
+
+Thu Sep 20 13:31:09 2012  jmc
+
+	* version R1-04
+
+	* Basic templates for local builds.
+
+	  SVN revision: 50120
+	  A doc/source/_static/sphinxdoc.css
+	  A doc/source/_templates
+	  A doc/source/_static/basic.css
+	  A doc/source/_static/default.css
+	  A doc/source/_static
+
+	* Minor documentation fixes.
+
+	  SVN revision: 50119
+	  M doc/source/regtests/test_genRegtestHtml.rst
+	  M doc/source/conf.py
+	  M doc/source/regtests/test_Ddoctest.rst
+	  M doc/source/regtests/test_dictCompare.rst
+	  M doc/source/regtests/test_fileDictCompare.rst
+
+	* Fixes for Sphinx imports.
+
+	  SVN revision: 50118
+	  A test/test_unit/__init__.py
+	  A test/test_system/__init__.py
+
+Wed Sep  5 19:49:54 2012  myint
+
+	* version R1-03z
+
+	* Remove trailing whitespace
+
+	  SVN revision: 49648
+	  M test/test_system/test_file_dict_compare/DTESTDEFS
+	  M test/test_system/test_gen_regtest_html/test_regtest.data
+	  M doc/source/usage.rst
+	  M doc/source/regtests/test_Ddoctest.rst
+	  M doc/source/regtests/test_genRegtestMail.rst
+	  M test/test_system/test_gen_regtest_html/cmpregexp.lst
+	  M Readme
+	  M test/test_system/test_gen_regtest_mail/test_regtest.data
+	  M test/test_system/test_gen_regtest_html/regtest.css
+	  M doc/source/main.rst
+	  M utils/regtest.css
+	  M doc/source/regtests/test_truthfiles.rst
+	  M doc/source/regtests/test_dictCompare.rst
+	  M doc/source/regtests/test_fileDictCompare.rst
+	  M doc/source/regtests/test_genRegtestHtml.rst
+	  M test/test_system/test_file_dict_compare/file1.txt
+	  M test/test_system/test_file_dict_compare/file2.txt
+	  M test/test_system/test_file_dict_compare/file3.txt
+	  M test/test_system/test_file_dict_compare/file4.txt
+	  M doc/source/regtests/regtests.rst
+
+Fri Aug 24 14:44:48 2012  myint
+
+	* version R1-03y
+
+	* Format
+
+	  SVN revision: 49417
+	  M doc/source/conf.py
+	  M test/test_system/test_gen_regtest_mail/mod_own.py
+	  M test/test_system/test_file_dict_compare/script.py
+	  M test/test_system/test_ddoctest/script.py
+	  M test/test_system/test_dict_compare/script.py
+	  M test/test_system/test_truthfiles/script.py
+	  M test/test_unit/test_test/script.py
+
+Tue Aug 21 20:58:38 2012  myint
+
+	* version R1-03x
+
+	* Format
+
+	  SVN revision: 49226
+	  M test/DTESTDEFS.cfg
+	  M python/Test.py
+
+Tue Aug 14 15:34:19 2012  myint
+
+	* version R1-03w
+
+	* Do not create lock while comparing
+
+	  SVN revision: 49100
+	  M dtest
+
+Tue Aug 14 12:28:16 2012  myint
+
+	* version R1-03v
+
+	* Add --ignore-lock option
+
+	  SVN revision: 49083
+	  M dtest
+	  M python/DCompareUtils.py
+	  M python/Test.py
+
+	* Add syntax test for output
+
+	  SVN revision: 49041
+	  M test/test_system/test_dtest/script.py
+	  M dtest
+
+Fri Aug 10 06:25:05 2012  myint
+
+	* version R1-03u
+
+	* Remove indentation in output
+
+	  SVN revision: 48999
+	  M dtest
+
+	* Move out lock() to Test
+
+	  SVN revision: 48998
+	  M dtest
+	  M test/test_unit/test_test/script.py
+	  M python/Test.py
+
+	* Format
+
+	  SVN revision: 48997
+	  M utils/regsummary
+	  M utils/regupdate
+	  M utils/dperceptualdiff
+	  M utils/cmp.prg
+	  M utils/compareDictsInFiles
+	  M utils/compareModelFiles
+
+	* Use future import
+
+	  SVN revision: 48996
+	  M python/TestModifiers.py
+	  M dtest
+	  M python/Test.py
+
+	* Make locking atomic via os.link()
+
+	  SVN revision: 48995
+	  M .
+	  M dtest
+
+Thu Aug  9 19:50:06 2012  myint
+
+	* version R1-03t
+
+	* Print PID, which could be helpful
+
+	  SVN revision: 48987
+	  M dtest
+
+Thu Aug  9 17:02:08 2012  myint
+
+	* version R1-03s
+
+	* Avoid clobbering another dtest instance
+
+	  SVN revision: 48979
+	  M dtest
+
+	* Enable --repeat
+
+	  SVN revision: 48978
+	  M test/test_code/test_pep8/script.bash
+
+Sun Aug  5 10:34:21 2012  myint
+
+	* version R1-03r
+
+	* Store GPU memory usage information
+
+	  SVN revision: 48935
+	  M dtest
+
+Sat Aug  4 11:55:30 2012  myint
+
+	* version R1-03q
+
+	* Color error obvious in single-process mode too
+
+	  SVN revision: 48928
+	  M dtest
+
+Mon Jul 30 09:59:07 2012  myint
+
+	* version R1-03p
+
+	* Allow job limit to be specified in configuration
+
+	  SVN revision: 48866
+	  M dtest
+
+Sat Jul 21 11:30:11 2012  myint
+
+	* version R1-03o
+
+	* Format
+
+	  SVN revision: 48558
+	  M utils/genRegtestMail
+
+	* Only print tables if rows exist
+
+	  SVN revision: 48557
+	  M utils/genRegtestMail
+
+Sat Jul 21 11:12:23 2012  myint
+
+	* version R1-03n
+
+	* Reorganize so that second table is alphabetical
+
+	  SVN revision: 48549
+	  M test/test_system/test_gen_regtest_mail/mail4.html.out.orig
+	  M utils/genRegtestMail
+	  M test/test_system/test_gen_regtest_mail/test_regtest.data
+	  M test/test_system/test_gen_regtest_mail/mail1.out.orig
+	  M test/test_system/test_gen_regtest_mail/mail2.out.orig
+	  M test/test_system/test_gen_regtest_mail/mail3.out.orig
+
+	* Reorganize before change
+
+	  SVN revision: 48548
+	  M utils/genRegtestMail
+
+	* Clean up
+
+	  SVN revision: 48547
+	  M utils/genRegtestMail
+
+Thu Jul 19 21:52:56 2012  myint
+
+	* version R1-03m
+
+	* Only put failed tests data in email
+
+	  SVN revision: 48411
+	  M dtest
+
+Mon Jul 16 09:59:41 2012  myint
+
+	* version R1-03l
+
+	* PEP 8 fixes
+
+	  SVN revision: 48208
+	  M python/DCompareUtils.py
+
+	* Add syntax check
+
+	  SVN revision: 48205
+	  A test/test_code/test_syntax
+	  A test/test_code/test_syntax/script.bash
+	  A test/test_code/test_syntax/output.orig
+
+Fri Jul  6 08:36:01 2012  myint
+
+	* version R1-03k
+
+	* Add no-match test
+
+	  SVN revision: 48088
+	  M test/test_system/test_dtest/script.py
+
+	* Move exit
+
+	  SVN revision: 48086
+	  M dtest
+
+Fri Jul  6 08:26:22 2012  myint
+
+	* version R1-03j
+
+	* Add --ignore option
+
+	It takes a Unix filename pattern as argument.
+
+	  SVN revision: 48077
+	  M test/test_system/test_dtest/script.py
+	  M dtest
+	  M python/Test.py
+
+Thu Jul  5 08:50:01 2012  myint
+
+	* version R1-03i
+
+	* Format
+
+	  SVN revision: 48047
+	  M python/Ddoctest.py
+	  M python/DCompareUtils.py
+	  M test/test_code/test_pep8/script.bash
+	  M python/killableprocess.py
+	  M python/Test.py
+	  M python/TestModifiers.py
+
+	* Implement ENV stuff correctly
+
+	  SVN revision: 48046
+	  M dtest
+	  M test/test_unit/test_test/script.py
+	  M python/Test.py
+	  M test/test_code/test_pylint/pylintrc
+
+	* Add file extension to allow syntax highlighting
+
+	  SVN revision: 48044
+	  A test/test_code/DTESTDEFS.cfg
+	  D test/test_code/DTESTDEFS
+	  A test/DTESTDEFS.cfg
+	  D test/DTESTDEFS
+	  M python/Test.py
+
+Tue Jul  3 09:52:52 2012  myint
+
+	* version R1-03h
+
+	* Rename to match convention
+
+	  SVN revision: 48018
+	  D test/test_unit/test_Test
+	  A test/test_unit/test_test
+
+	* Rename to match convention
+
+	  SVN revision: 48017
+	  A test/test_unit/test_test_magic
+	  D test/test_unit/test_TestMagic
+	  A test/test_unit/test_test_modifiers
+	  D test/test_unit/test_TestModifiers
+
+	* Rename to match convention
+
+	  SVN revision: 48016
+	  A test/test_system/test_dict_compare
+	  D test/test_system/test_dictCompare
+
+	* Rename to match convention
+
+	  SVN revision: 48015
+	  A test/test_system/test_file_dict_compare
+	  A test/test_system/test_gen_regtest_mail
+	  D test/test_system/test_Ddoctest
+	  A test/test_system/test_ddoctest
+	  D test/test_system/test_fileDictCompare
+	  D test/test_system/test_genRegtestMail
+	  A test/test_system/test_gen_regtest_html
+	  D test/test_system/test_genRegtestHtml
+	  A test/test_system/test_compare_checkpoint_files
+	  D test/test_system/test_compareCheckpointFiles
+
+	* Remove obsolete attribute
+
+	  SVN revision: 48014
+	  M python/Test.py
+	  M test/test_unit/test_Test/script.py
+
+Sun Jul  1 19:52:49 2012  myint
+
+	* version R1-03g
+
+	* Add details to email
+
+	  SVN revision: 48005
+	  M dtest
+
+Sun Jul  1 18:38:14 2012  myint
+
+	* version R1-03f
+
+	* Do not try emailing unless there are subscribers
+
+	  SVN revision: 47985
+	  M dtest
+
+Sun Jul  1 15:33:27 2012  myint
+
+	* version R1-03e
+
+	* Remove unused value
+
+	  SVN revision: 47970
+	  M dtest
+
+Sun Jul  1 15:29:28 2012  myint
+
+	* version R1-03d
+
+	* Add optional support for emailing on failure
+
+	  SVN revision: 47962
+	  M python/Test.py
+	  M dtest
+	  M test/DTESTDEFS
+
+Thu Jun 28 21:41:34 2012  myint
+
+	* version R1-03c
+
+	* Start Xorg if it is down yet DISPLAY is set
+
+	This has no affect if DISPLAY is not set.
+
+	  SVN revision: 47944
+	  M dtest
+
+Wed Jun 27 08:36:09 2012  myint
+
+	* version R1-03b
+
+	* Print relative failed test path
+
+	  SVN revision: 47922
+	  M dtest
+
+Mon Jun 25 15:46:31 2012  myint
+
+	* version R1-03a
+
+	* Print seconds not time
+
+	  SVN revision: 47849
+	  M dtest
+
+Mon Jun 25 12:34:48 2012  myint
+
+	* version R1-03
+
+	* Show status of DISPLAY
+
+	  SVN revision: 47840
+	  M utils/genRegtestMail
+	  M test/test_system/test_genRegtestMail/test_regtest.data
+	  M test/test_system/test_genRegtestMail/mail1.out.orig
+	  M test/test_system/test_genRegtestMail/mail2.out.orig
+	  M test/test_system/test_genRegtestMail/mail3.out.orig
+
+	* Add display status to data
+
+	  SVN revision: 47839
+	  M test/test_code/test_pylint/pylintrc
+	  M dtest
+
+Mon Jun 25 08:27:54 2012  myint
+
+	* version R1-02z
+
+	* Print test run time
+
+	  SVN revision: 47822
+	  M dtest
+	  M python/TestModifiers.py
+
+	* Set ignore
+
+	  SVN revision: 47796
+	  M test/test_code
+
+	* Format
+
+	  SVN revision: 47795
+	  M dtest
+
+	* Format
+
+	  SVN revision: 47794
+	  M python/Test.py
+
+	* Add test for commented out code
+
+	  SVN revision: 47793
+	  A test/test_code/test_commented_out_code/output.orig
+	  A test/test_code/test_commented_out_code
+	  A test/test_code/test_commented_out_code/script.bash
+	  A test/test_code/test_commented_out_code/check_for_commented_out_code.py
+
+	* Clean up
+
+	  SVN revision: 47792
+	  M python/Test.py
+
+	* Output errors to standard error
+
+	  SVN revision: 47791
+	  M python/Test.py
+
+Mon Jun  4 22:00:37 2012  myint
+
+	* version R1-02y
+
+	* Terminate pool on interrupt
+
+	  SVN revision: 47174
+	  M dtest
+
+	* Import print from the future
+
+	  SVN revision: 47173
+	  M dtest
+
+	* Handle KeyboardInterrupt gracefully
+
+	Also use new form of print
+
+	  SVN revision: 47172
+	  M python/Test.py
+
+	* Use new form of print
+
+	  SVN revision: 47171
+	  M dtest
+
+	* Handle KeyboardInterrupt gracefully
+
+	  SVN revision: 47170
+	  M dtest
+
+Sun Jun  3 16:46:25 2012  myint
+
+	* version R1-02x
+
+	* Format
+
+	  SVN revision: 47155
+	  M python/Ddoctest.py
+	  M dtest
+	  M python/Test.py
+
+	* Handle module name getting gracefully
+
+	  SVN revision: 47152
+	  M dtest
+
+	* Add system test for dtest
+
+	  SVN revision: 47151
+	  A test/test_system/test_dtest/script.py
+	  A test/test_system/test_dtest/output.orig
+	  A test/test_system/test_dtest
+
+	* Correct path
+
+	  SVN revision: 47150
+	  M test/test_system/test_genRegtestHtml/DTESTDEFS
+
+	* Move system test
+
+	  SVN revision: 47149
+	  D test/test_Ddoctest
+	  A test/test_system/test_Ddoctest
+
+	* Move system tests
+
+	  SVN revision: 47148
+	  A test/test_system/test_dictCompare
+	  A test/test_system/test_fileDictCompare
+	  A test/test_system/test_genRegtestMail
+	  A test/test_system/test_genRegtestHtml
+	  D test/test_compareCheckpointFiles
+	  A test/test_system
+	  A test/test_system/test_compareCheckpointFiles
+	  D test/test_truthfiles
+	  D test/test_dictCompare
+	  D test/test_fileDictCompare
+	  D test/test_genRegtestMail
+	  D test/test_genRegtestHtml
+	  A test/test_system/test_truthfiles
+
+	* Move to unit test directory
+
+	  SVN revision: 47147
+	  A test/test_unit/test_Test
+	  A test/test_unit/test_TestMagic
+	  D test/test_Test
+	  A test/test_unit
+	  A test/test_unit/test_TestModifiers
+	  D test/test_TestMagic
+	  D test/test_TestModifiers
+
+Fri Jun  1 11:09:58 2012  myint
+
+	* version R1-02w
+
+	* Add hook
+
+	  SVN revision: 47127
+	  A .pyam
+	  A .pyam/hooks
+	  A .pyam/hooks/pre-save
+
+	* Add "--fail-fast" option
+
+	This allows exiting on first error.
+
+	  SVN revision: 47126
+	  M dtest
+	  M python/Test.py
+
+	* Allow KeyboardInterrupt in multiprocess mode
+
+	  SVN revision: 47125
+	  M dtest
+
+	* Avoid printing corrupted output in multiprocess mode
+
+	This is done by printing single characters instead of multi-line status
+	messages. This only affects standard out in multiprocess mode.
+
+	  SVN revision: 47124
+	  M dtest
+
+Wed May 30 09:12:21 2012  myint
+
+	* version R1-02v
+
+	* Format
+
+	  SVN revision: 47075
+	  M python/TestMagic.py
+	  M python/TestModifiers.py
+	  M dtest
+	  M python/killableprocess.py
+	  M python/Test.py
+
+	* Format
+
+	  SVN revision: 47074
+	  M dtest
+	  M python/DCompareUtils.py
+
+Mon May 21 09:59:28 2012  myint
+
+	* version R1-02u
+
+	* Correct spelling
+
+	  SVN revision: 46948
+	  M test/test_dictCompare/script.py
+	  M python/Test.py
+
+Fri May 18 19:03:27 2012  myint
+
+	* version R1-02t
+
+	* Use new syntax
+
+	  SVN revision: 46873
+	  M python/Test.py
+
+	* Correct path
+
+	  SVN revision: 46872
+	  M dtest
+
+Thu May  3 09:12:36 2012  jmc
+
+	* version R1-02s
+
+	* SVN revision: 46651
+	  M python/Ddoctest.py
+	  M test/test_Ddoctest/script.py
+	Converted nummarray references to numpy.
+
+Sat Apr 28 22:48:16 2012  myint
+
+	* version R1-02r
+
+	* SVN revision: 46449
+	  M dtest
+	  M python/Test.py
+	Move some state changing code out of module
+
+	* SVN revision: 46448
+	  M utils/genRegtestHtml
+	  M utils/compareCheckpointFiles
+	Format
+
+	* SVN revision: 46447
+	  M utils/compareCheckpointFiles
+	Format
+
+	* SVN revision: 46446
+	  M python/DCompareUtils.py
+	Format
+
+	* SVN revision: 46445
+	  A test/test_compareCheckpointFiles
+	  A test/test_compareCheckpointFiles/script.bash
+	  A test/test_compareCheckpointFiles/beta.checkpoint
+	  A test/test_compareCheckpointFiles/DTESTDEFS
+	  A test/test_compareCheckpointFiles/one.checkpoint
+	  A test/test_compareCheckpointFiles/alpha.checkpoint
+	  A test/test_compareCheckpointFiles/output.orig
+	  A test/test_compareCheckpointFiles/two.checkpoint
+	Add tests for "compareCheckpointFiles"
+
+	* SVN revision: 46444
+	  M python/DCompareUtils.py
+	Do this correctly
+
+Fri Apr 13 16:24:49 2012  myint
+
+	* version R1-02q
+
+	* SVN revision: 46184
+	  M python/Test.py
+	Remove print
+
+	* SVN revision: 46183
+	  M python/Test.py
+	Fix absolute path problem
+
+Wed Jan 25 14:06:14 2012  myint
+
+	* version R1-02p
+
+	* SVN revision: 249747
+	  M python/Test.py
+	  M test/test_Test/script.py
+	Add back unused "val" key for backward compatibility with webpage
+
+Wed Jan  4 14:32:37 2012  myint
+
+	* version R1-02o
+
+	* SVN revision: 249312
+	  M dtest
+	Simplify
+
+Wed Jan  4 14:16:35 2012  myint
+
+	* version R1-02n
+
+	* SVN revision: 249304
+	  M dtest
+	Add support back for running tests listed on the command-line
+
+	* SVN revision: 249203
+	  M test/test_Test/script.py
+	Add more unit tests for Test.runUnitTest()
+
+	* SVN revision: 249202
+	  M python/Test.py
+	  M test/test_Test/script.py
+	Only delete files if there are no errors
+
+	* SVN revision: 249201
+	  M python/Test.py
+	  M test/test_Test/script.py
+	Remove unused "val" entry.
+
+Fri Dec 23 20:23:29 2011  myint
+
+	* version R1-02m
+
+	* SVN revision: 249193
+	  A test/test_Test
+	  M python/Test.py
+	  A test/test_Test/script.py
+	  A test/test_Test/output.orig
+	Add a few unit tests for Test module.
+	Fix DELETE bug.
+
+Fri Dec 16 09:28:05 2011  myint
+
+	* version R1-02l
+
+	* SVN revision: 248636
+	  M python/Test.py
+	  M python/TestModifiers.py
+	  M test/test_TestModifiers/script.py
+	Correct test modifiers to look at relative path. This is needed since we
+	modified test to not use chdir().
+
+	* SVN revision: 248635
+	  M dtest
+	Update parameter list.
+
+	* SVN revision: 248634
+	  M test/test_code/test_pylint/pylintrc
+	Allow variables that are only underscores (for indicating it as unused).
+
+Tue Dec 13 20:13:00 2011  myint
+
+	* version R1-02k
+
+	* SVN revision: 248419
+	  M python/Ddoctest.py
+	  M python/DCompareUtils.py
+	  M test/test_code/test_pyflakes/script.bash
+	Fix pyflakes errors. Enable pyflakes testing on all files in python
+	directory.
+
+Mon Dec 12 22:39:45 2011  myint
+
+	* version R1-02j
+
+	* SVN revision: 248288
+	  M utils/genRegtestMail
+	Only list modules with failed tests.
+
+Mon Dec 12 22:12:38 2011  myint
+
+	* version R1-02i
+
+	* SVN revision: 248280
+	  M utils/genRegtestMail
+	Use alphabetical order instead of "sorted" order.
+
+Mon Dec 12 22:04:32 2011  myint
+
+	* version R1-02h
+
+	* SVN revision: 248273
+	  M test/test_genRegtestMail/mail3.out.orig
+	  M utils/genRegtestMail
+	  M test/test_genRegtestMail/mail1.out.orig
+	  M test/test_genRegtestMail/mail2.out.orig
+	List failed tests in email.
+
+	* SVN revision: 248264
+	  M utils/genRegtestMail
+	Fix formatting.
+
+	* SVN revision: 248263
+	  M utils/genRegtestMail
+	Fix naming convention
+
+Mon Dec 12 09:53:37 2011  myint
+
+	* version R1-02g
+
+	* SVN revision: 248170
+	  M python/Ddoctest.py
+	Remove commented out code.
+
+	* SVN revision: 248169
+	  M dtest
+	Simplify file opening.
+
+	* SVN revision: 248168
+	  M dtest
+	Print failed test names if there are any.
+
+	* SVN revision: 248154
+	  M python/DCompareUtils.py
+	  M utils/compareModelFiles
+	  M utils/compareCheckpointFiles
+	Remove commented out code.
+
+	* SVN revision: 248153
+	  M dtest
+	Simplify exit call.
+
+	* SVN revision: 248152
+	  M python/killableprocess.py
+	Remove unused (and not working) code.
+
+	* SVN revision: 248151
+	  M python/DCompareUtils.py
+	  M test/test_code/test_pep8/script.bash
+	  M python/killableprocess.py
+	  M test/test_genRegtestMail/mail1.out.orig
+	  M python/Ddoctest.py
+	  M test/test_genRegtestMail/mail2.out.orig
+	  M test/test_genRegtestMail/mail3.out.orig
+	Fix PEP8 errors.
+
+	* SVN revision: 248150
+	  M utils/genRegtestMail
+	Improve formatting of table by getting rid of hard coded values.
+
+	* SVN revision: 248149
+	  M python/Test.py
+	Remove obsolete lines.
+
+	* SVN revision: 248148
+	  M dtest
+	  M python/Test.py
+	Improve behavior of --data and --log.
+
+	* SVN revision: 248147
+	  M
+	svn:ignore.
+
+	* SVN revision: 248146
+	  M python/Test.py
+	Make prompts handle EOFError and KeyboardInterrupt gracefully.
+
+	* SVN revision: 248145
+	  M dtest
+	  M python/Test.py
+	Modify --directory behavior so that running dtest in the parent
+	directory of the test directory works.
+
+	* SVN revision: 248144
+	  M Makefile.yam
+	Clean up.
+
+Sat Dec 10 18:57:45 2011  myint
+
+	* version R1-02f
+
+	* SVN revision: 248136
+	  M test
+	Set svn:ignore.
+
+	* SVN revision: 248135
+	  M python/TestMagic.py
+	  M python/TestModifiers.py
+	Add missing docstrings.
+
+	* SVN revision: 248134
+	  M test/test_code/test_pyflakes/script.bash
+	  M test/test_code/test_pep8/script.bash
+	Enable testing on more files.
+
+	* SVN revision: 248133
+	  A test/test_code/test_pylint/output.orig
+	  A test/test_code/test_pylint
+	  A test/test_code/test_pylint/script.bash
+	  A test/test_code/test_pylint/pylintrc
+	  M test/test_code/DTESTDEFS
+	Add pylint test.
+
+	* SVN revision: 248132
+	  A test/test_code/test_pyflakes/script.bash
+	  D test/test_code/test_pep8/script.sh
+	  D test/test_code/test_pyflakes/script.sh
+	  A test/test_code/test_pep8/script.bash
+	Move.
+
+	* SVN revision: 248131
+	  M dtest
+	Replace multiprocessing.SyncManager.list() with multiprocessing.Value().
+
+	* SVN revision: 248130
+	  A python/Test.py
+	  M Makefile.yam
+	  M dtest
+	Move dtest functions to Test.py.
+
+	* SVN revision: 248129
+	  M dtest
+	Remove unused variables.
+
+	* SVN revision: 248128
+	  M dtest
+	Remove more global variables.
+
+	* SVN revision: 248127
+	  M dtest
+	Remove unused variables.
+
+	* SVN revision: 248126
+	  M dtest
+	Remove unused variable.
+
+	* SVN revision: 248125
+	  M dtest
+	Move contents of main() back to top level since multiprocessing doesn't
+	support nested functions.
+
+	* SVN revision: 248124
+	  M dtest
+	Fix --quarantined. Make use of global variables explicit. Move main code
+	into main() function.
+
+	* SVN revision: 248123
+	  M dtest
+	Remove use of deprecated "string" module.
+
+	* SVN revision: 248122
+	  M dtest
+	Get rid of unused parameter.
+
+	* SVN revision: 248121
+	  M dtest
+	Rename variables to match naming convention.
+
+	* SVN revision: 248120
+	  M dtest
+	Get rid of getTestPaths(). Not sure why it is here as nothing calls it.
+	Also, no one seemed to called it in previous revisions of dtest.
+
+	* SVN revision: 248119
+	  M test/test_genRegtestMail/mail4.html.out.orig
+	  M utils/genRegtestMail
+	  M test/test_genRegtestMail/test_regtest.data
+	  M utils/genRegtestHtml
+	  M test/test_genRegtestMail/mail1.out.orig
+	  M test/test_genRegtestMail/mail2.out.orig
+	  M test/test_genRegtestMail/mail3.out.orig
+	  M dtest
+	Add support for reporting timed out tests.
+
+Fri Dec  9 23:13:53 2011  myint
+
+	* version R1-02e
+
+	* SVN revision: 248083
+	  M dtest
+	Correct the comment about the bug in Python's Pool implementation.
+
+Fri Dec  9 22:38:27 2011  myint
+
+	* version R1-02d
+
+	* SVN revision: 248071
+	  M dtest
+	Simplify
+
+Fri Dec  9 22:20:46 2011  myint
+
+	* version R1-02c
+
+	* SVN revision: 248063
+	  M dtest
+	Rename dispatchTests() to dispatchTest() and simplify it to only run
+	a single test rather than find and run tests.
+
+	* SVN revision: 248062
+	  M dtest
+	Separate out test listing function from test running function.
+
+Thu Dec  8 16:03:48 2011  myint
+
+	* version R1-02b
+
+	* SVN revision: 247892
+	  M dtest
+	Make --scale-timeout a float.
+
+Thu Dec  8 15:34:52 2011  myint
+
+	* version R1-02a
+
+	* SVN revision: 247872
+	  M dtest
+	Remove some unused code.
+
+Thu Dec  8 15:22:37 2011  myint
+
+	* version R1-02
+
+	* SVN revision: 247865
+	  M dtest
+	Set jobs to twice the CPU count if --jobs is set to 0.
+
+Thu Dec  8 11:52:46 2011  myint
+
+	* version R1-01z
+
+	* SVN revision: 247855
+	  M dtest
+	Move CPU overload ratio to correct location.
+
+	* SVN revision: 247853
+	  M dtest
+	Move the try.
+
+	* SVN revision: 247852
+	  M dtest
+	Disable pool timeout.
+
+Thu Dec  8 09:45:51 2011  myint
+
+	* version R1-01y
+
+	* SVN revision: 247846
+	  M dtest
+	Add timeout to CPU load waiting.
+
+Thu Dec  8 08:50:41 2011  myint
+
+	* version R1-01x
+
+	* SVN revision: 247836
+	  M dtest
+	Modify to not run more than one process if CPU load is greater than CPU
+	count.
+
+Wed Dec  7 20:18:09 2011  myint
+
+	* version R1-01w
+
+	* SVN revision: 247782
+	  M dtest
+	Used full path in getAbsCmp().
+
+	* SVN revision: 247779
+	  M dtest
+	Change common_directory.
+
+	* SVN revision: 247770
+	  M dtest
+	Correct some paths.
+
+	* SVN revision: 247756
+	  M dtest
+	Print relative paths.
+
+	* SVN revision: 247755
+	  M dtest
+	Remove global variable data_file.
+
+	* SVN revision: 247754
+	  M dtest
+	Remove global variable test_list.
+
+	* SVN revision: 247753
+	  M dtest
+	Set --jobs to 1 by default instead of -1.
+
+	* SVN revision: 247713
+	  M dtest
+	Correct a few paths.
+
+	* SVN revision: 247712
+	  M dtest
+	Get rid of global state in the form of the current working directory.
+	Current working directly will remain constant.
+
+	* SVN revision: 247669
+	  M dtest
+	Strip out common path.
+
+	* SVN revision: 247668
+	  D plldtest.mk
+	  M Makefile.yam
+	  M dtest
+	Fix bug where no options are passed when run in parallel mode. This
+	is accomplished by switching out the Make-based parallel processing
+	with normal Python function calls (multiprocessing). Also fix the
+	problem where --dir doesn't work properly when not run from inside the
+	module.
+
+Mon Nov 28 19:36:20 2011  myint
+
+	* version R1-01v
+
+	* SVN revision: 247018
+	  M dtest
+	Handled case in which "trep" doesn't exist.
+
+Mon Nov 14 10:47:41 2011  jain
+
+	* version R1-01u
+	BUGS:
+
+	* SVN revision: 245150
+	  M test/test_Ddoctest/output.orig
+	Updated
+
+Mon Nov 14 09:56:53 2011  jain
+
+	* version R1-01t
+	BUGS:
+
+	* SVN revision: 245134
+	  M python/Ddoctest.py
+	Updated to print out diff value even when the "want" value is a Python
+	list or tuple.
+
+Thu Oct 20 19:11:44 2011	Abhinandan Jain (jain)
+
+	* version R1-01s
+	BUGS:
+	FILES: dtest(240768)
+	Added blank lines before summary output.
+
+Mon Oct 17 13:54:49 2011	Steven Myint (myint)
+
+	* version R1-01r
+	BUGS:
+	FILES: Readme(239865)
+	Innocuous change.
+
+Sat Oct 15 16:31:38 2011	Steven Myint (myint)
+
+	* version R1-01q
+	BUGS:
+	FILES: dtest(239653)
+	Added comments.
+
+Wed Oct 12 19:47:01 2011	Steven Myint (myint)
+
+	* version R1-01p
+	BUGS:
+	FILES: dtest(239067)
+	Removed dangerous use of execfile() with global scope. Used exec()
+	with passed in (local) dictionaries instead.
+
+Tue Oct 11 16:50:33 2011	Abhinandan Jain (jain)
+
+	* version R1-01o
+	BUGS:
+	FILES: plldtest.mk(238733)
+	Made test runs quiet.
+
+Mon Oct 10 14:21:16 2011	Steven Myint (myint)
+
+	* version R1-01n
+	BUGS:
+	FILES: dtest(238177)
+	Removed junk.
+
+	FILES: dtest(238183)
+	Removed temporary files (called "trep") to avoid polluting the file
+	system.
+
+Mon Sep 26 14:52:20 2011	Abhinandan Jain (jain)
+
+	* version R1-01m
+	BUGS:
+	FILES: dtest(236224), plldtest.mk(236224)
+	Robustified for running from sandbox level.
+
+Mon Sep 26 12:12:28 2011	Abhinandan Jain (jain)
+
+	* version R1-01l
+	BUGS:
+	New files: plldtest.mk
+	FILES: Makefile.yam(236195)
+	Now export link for plldtest.mk.
+
+	FILES: dtest(236203)
+	Added -pll option for running module level regtests in parallel.
+
+	FILES: plldtest.mk(236191)
+
+
+	FILES: plldtest.mk(236204)
+	Cosmetic.
+
+Mon Sep 19 10:11:08 2011	Steven Myint (myint)
+
+	* version R1-01k
+	BUGS:
+	FILES: dtest(235316)
+	Return with exit code of 2 if there are any failures. This allows
+	running dtest in a loop until failure.
+
+Tue Sep 13 10:56:04 2011	Steven Myint (myint)
+
+	* version R1-01j
+	BUGS:
+	New files: python/TestMagic.py python/TestModifiers.py
+		test/test_TestMagic test/test_TestMagic/__init__.py
+		test/test_TestMagic/executable_elf
+		test/test_TestMagic/image.jpg test/test_TestMagic/image.png
+		test/test_TestMagic/output.orig
+		test/test_TestMagic/script.py test/test_TestModifiers
+		test/test_TestModifiers/__init__.py
+		test/test_TestModifiers/executable_elf
+		test/test_TestModifiers/executable_script.py
+		test/test_TestModifiers/output.orig
+		test/test_TestModifiers/script.py
+	FILES: Makefile.yam(234562), dtest(234562), python(234562),
+		test(234562)
+	Fixed bug in coveragepy modifier caused by incorrect transformation
+	of the test command. Moved test modifier and magic functions into
+	separate Python modules. Added unit tests.
+
+	FILES: common(234559), regexp.lst(234559), test(234559)
+	Added unit tests for TestMagic. Filtered lines with only dots.
+
+	FILES: test(234560)
+	Improved assert calls.
+
+Fri Sep  9 19:57:01 2011	Steven Myint (myint)
+
+	* version R1-01i
+	BUGS:
+	FILES: dtest(234404)
+	Fixed naming convention. Renamed --test-command-modifier to --tool.
+
+Fri Sep  9 14:59:52 2011	Steven Myint (myint)
+
+	* version R1-01h
+	BUGS:
+	FILES: dtest(234387)
+	Specified Valgrind error exit code so that Valgrind can indicate
+	test failure. Added helgrind option.
+
+Fri Sep  9 12:28:10 2011	Steven Myint (myint)
+
+	* version R1-01g
+	BUGS:
+	New files: test/test_code test/test_code/DTESTDEFS
+		test/test_code/test_pep8
+		test/test_code/test_pep8/output.orig
+		test/test_code/test_pep8/script.sh
+		test/test_code/test_pyflakes
+		test/test_code/test_pyflakes/output.orig
+		test/test_code/test_pyflakes/script.sh
+	FILES: dtest(234376)
+	Removed coverage.py stuff from runUnitTest() and related functions.
+	Instead it is passed a function that can modify the test command to
+	generate alternate tests (coverage, memory check, etc.).
+
+	FILES: dtest(234377)
+	Deprecated --coveragepy. Added more general --test-command-modifier
+	option. Added memcheck test, which builds on top of the
+	test-command modifier feature. It detect test commands that point
+	to executable ELF files (via magic) and runs Valgrind's memcheck
+	tool on the command.
+
+	FILES: test(234378)
+	Added pep8 and pyflakes tests for dtest.
+
+Wed Aug 31 22:06:53 2011	Steven Myint (myint)
+
+	* version R1-01f
+	BUGS:
+	New files: Makefile
+	FILES: Makefile.yam(233657)
+	Linked to "test/report" to force developer to run tests before
+	releasing the module.
+
+	FILES: dtest(233653)
+	Fixed formatting issues (trailing spaces, old style exceptions, too
+	many/few spaces).
+
+	FILES: dtest(233654)
+	Added --scale-timeout option for globally scaling all timeout
+	values (including those specified in config file).
+
+Tue Aug  2 15:09:17 2011	Jonathan M Cameron (jmc)
+
+	* version R1-01e
+	BUGS:
+	FILES: regupdate(231081), utils(231081)
+	Fixed issue with regupdate that it was ignoring emtpy files.
+
+Tue Aug  2 14:22:16 2011	Jonathan M Cameron (jmc)
+
+	* version R1-01d
+	BUGS:
+	FILES: dtest(231055)
+	Fixed problem that dtest was not finding the top test directory
+	(ROOTDIR) correctly.
+
+Tue Jul 26  9:27:05 2011	Steven Myint (myint)
+
+	* version R1-01c
+	BUGS:
+	New files: test/common test/common/regexp.lst
+	FILES: DTESTDEFS(230378), cmp.prg(230378), test(230378),
+		utils(230378)
+	Modified cmp.prg to check for filter file existence rather than
+	just blindly proceeding. Corrected DTESTDEFS to point to local
+	DTESTDEFS. Added regexp.lst.
+
+Mon Jul 18 14:27:41 2011	Abhinandan Jain (jain)
+
+	* version R1-01b
+	BUGS:
+	FILES: output.orig(229161), test(229161), test_Ddoctest(229161)
+	Updated
+
+Mon Jul 18  9:47:05 2011	Abhinandan Jain (jain)
+
+	* version R1-01a
+	BUGS:
+	FILES: Ddoctest.py(229015), python(229015)
+	Fixed a typo.
+
+	FILES: Makefile.yam(228835)
+	Removed trailing space on DTEST_TESTDIR lines to fix regtest rule.
+
+Mon Jul 11 15:21:02 2011	Jonathan M Cameron (jmc)
+
+	* version R1-01
+	BUGS:
+	FILES: dtest(227921)
+	Fixed output/log issue (was skipping correct quarantined item but
+	printing wrong name for it).
+
+Mon Jun 27  8:55:23 2011	Jonathan M Cameron (jmc)
+
+	* version R1-00z
+	BUGS:
+	FILES: genRegtestMail(226230), utils(226230)
+	Fixed computation of total number failed.
+
+Fri Jun 24 11:08:10 2011	Steven Myint (myint)
+
+	* version R1-00y
+	BUGS:
+	FILES: DCompareUtils.py(225984), python(225984), script.py(225984),
+		test(225984), test_dictCompare(225984)
+	Merged.
+
+	FILES: DCompareUtils.py(225614), python(225614), script.py(225614),
+		test(225614), test_dictCompare(225614)
+	Modified to reflect Dshell type names changes.
+
+Fri Jun 24 10:33:21 2011	Jonathan M Cameron (jmc)
+
+	* version R1-00x
+	BUGS:
+	FILES: genRegtestMail(225719), utils(225719)
+	Updated to show number of tests and pass rate at the top.
+
+	FILES: mail1.out.orig(225710), mail2.out.orig(225710),
+		mail3.out.orig(225710), mail4.html.out.orig(225710),
+		test(225710), test_genRegtestMail(225710)
+	Updated.
+
+Thu Jun 23 15:15:12 2011	Jonathan M Cameron (jmc)
+
+	* version R1-00w
+	BUGS:
+	FILES: Makefile(224701), doc(224701)
+	Got singlehtml working.
+
+	FILES: dtest(225148)
+	Fixed bug with DELETE= in DTESTDEFS files.
+
+Tue Jun 21 19:03:11 2011	Dimitri Zarzhitsky (dimzar)
+
+	* version R1-00v
+	BUGS:
+	New files: doc/doxy-Dtest.tag test/test_truthfiles/output.truth
+	Deleted files: test/test_truthfiles/output1
+		test/test_truthfiles/output2.orig
+		test/test_truthfiles/output2.truth
+	FILES: DTESTDEFS(224541), test(224541), test_truthfiles(224541)
+	Updated.
+
+	FILES: DTESTDEFS(224692, 224692), cmp.prg(224692),
+		compareCheckpointFiles(224692),
+		compareDictsInFiles(224692), compareModelFiles(224692),
+		conf.py(224692), doc(224692), dtest(224692),
+		genRegtestHtml(224692), genRegtestMail(224692),
+		index.rst(224692), main.rst(224692), output.orig(224692),
+		regtests(224692), regtests.rst(224692), script.py(224692),
+		source(224692), test(224692), test_Ddoctest(224692),
+		test_genRegtestHtml.rst(224692),
+		test_genRegtestMail.rst(224692), test_truthfiles(224692),
+		test_truthfiles.rst(224692), usage.rst(224692),
+		utils(224692)
+	Enabled the use of alternative truth suffixes, documented testing
+	utilities.
+
+Tue Jun 21 10:29:59 2011	Dimitri Zarzhitsky (dimzar)
+
+	* version R1-00u
+	BUGS:
+	New files: doc/source/regtests/test_Ddoctest.rst
+		doc/source/regtests/test_dictCompare.rst
+		doc/source/regtests/test_genRegtestHtml.rst
+		doc/source/regtests/test_genRegtestMail.rst
+		doc/source/regtests/test_truthfiles.rst
+	Deleted files: doc/source/testing.rst doc/source/todo.rst
+		doc/source/utilities.rst
+	FILES: compareDictsInFiles(224332), utils(224332)
+	Add the exception handling for standalone execution of
+	compareDictsInFiles.
+
+	FILES: doc(224327), index.rst(224327), main.rst(224327),
+		regtests(224327), regtests.rst(224327), source(224327),
+		usage.rst(224327)
+	Additions to Dtest documentation: flatten document structure into
+	three sections, explain Dtest utilities usage, expand regression
+	test coverage.
+
+	FILES: compareDictsInFiles(224287), doc(224287), index.rst(224287),
+		main.rst(224287), source(224287), utils(224287)
+	Incremental revisions for the documentation.
+
+Mon Jun 20 18:13:10 2011	Jonathan M Cameron (jmc)
+
+	* version R1-00t
+	BUGS:
+	New files: test/test_fileDictCompare/file1notags.txt
+		test/test_fileDictCompare/file2notags.txt
+		test/test_fileDictCompare/file4notags.txt
+	FILES: DCompareUtils.py(224276), compareDictsInFiles(224276),
+		python(224276), utils(224276)
+	Added --wholeFile option to compareDictsInFiles.
+
+	FILES: DTESTDEFS(224274), test(224274, 224275),
+		test_fileDictCompare(224274, 224275)
+	Added test for wholeFile
+
+Mon Jun 20 15:37:16 2011	Jonathan M Cameron (jmc)
+
+	* version R1-00s
+	BUGS:
+	New files: doc/source/usage.rst
+	FILES: Readme(224143), conf.py(224125), doc(224125, 224143),
+		index.rst(224143), main.rst(224143), script.py(224143),
+		source(224125, 224143), test(224143),
+		test_Ddoctest(224143), testing.rst(224143)
+	Updated.
+
+Fri Jun 17 22:28:15 2011	Steven Myint (myint)
+
+	* version R1-00r
+	BUGS:
+	FILES: DTESTDEFS(223832), output.orig(223832), test(223832),
+		test_Ddoctest(223832)
+	Updated to use python instead of Dmain.py.
+
+	FILES: dtest(223833)
+	Got rid of our own Python script detecting heuristic and used the
+	magic Python module instead.
+
+Fri Jun 17 12:52:29 2011	Dimitri Zarzhitsky (dimzar)
+
+	* version R1-00q
+	BUGS:
+	New files: doc/source/utilities.rst
+	FILES: doc(223780), genRegtestMail(223780), index.rst(223780),
+		source(223780), testing.rst(223780), utils(223780)
+	Added a new Sphinx documentation page on Dtest utilities, edited
+	the testing page for typographic omissions, fixed a spelling error
+	in the regtest mail generation script.
+
+Thu Jun 16 18:13:36 2011	Abhinandan Jain (jain)
+
+	* version R1-00p
+	BUGS:
+	FILES: dtest(223732)
+	Added import subprocess line
+
+Thu Jun 16 17:24:07 2011	Jonathan M Cameron (jmc)
+
+	* version R1-00o
+	BUGS:
+	New files: test/test_genRegtestHtml
+		test/test_genRegtestHtml/DTESTDEFS
+		test/test_genRegtestHtml/cmpregexp.lst
+		test/test_genRegtestHtml/html.out.orig
+		test/test_genRegtestHtml/regtest.css
+		test/test_genRegtestHtml/test_regtest.data
+		test/test_genRegtestMail test/test_genRegtestMail/DTESTDEFS
+		test/test_genRegtestMail/mail1.out.orig
+		test/test_genRegtestMail/mail2.out.orig
+		test/test_genRegtestMail/mail3.out.orig
+		test/test_genRegtestMail/mail4.html.out.orig
+		test/test_genRegtestMail/mod_own.py
+		test/test_genRegtestMail/test_regtest.data utils
+		utils/cmp.prg utils/compareCheckpointFiles
+		utils/compareDictsInFiles utils/compareModelFiles
+		utils/dperceptualdiff utils/genRegtestHtml
+		utils/genRegtestMail utils/regsummary utils/regtest.css
+		utils/regupdate
+	Deleted files: compareCheckpointFiles compareDictsInFiles
+		compareModelFiles dperceptualdiff regsummary regupdate
+	FILES: Makefile.yam(223703), output.orig(223703), test(223703),
+		test_Ddoctest(223703)
+	Recommit due to yam sync.
+
+	FILES: dtest(223705)
+	Minor cleanups.
+
+	New files: test/test_genRegtestHtml
+		test/test_genRegtestHtml/DTESTDEFS
+		test/test_genRegtestHtml/cmpregexp.lst
+		test/test_genRegtestHtml/html.out.orig
+		test/test_genRegtestHtml/regtest.css
+		test/test_genRegtestHtml/test_regtest.data
+		test/test_genRegtestMail test/test_genRegtestMail/DTESTDEFS
+		test/test_genRegtestMail/mail1.out.orig
+		test/test_genRegtestMail/mail2.out.orig
+		test/test_genRegtestMail/mail3.out.orig
+		test/test_genRegtestMail/mail4.html.out.orig
+		test/test_genRegtestMail/mod_own.py
+		test/test_genRegtestMail/test_regtest.data utils
+		utils/cmp.prg utils/compareCheckpointFiles
+		utils/compareDictsInFiles utils/compareModelFiles
+		utils/dperceptualdiff utils/genRegtestHtml
+		utils/genRegtestMail utils/regsummary utils/regtest.css
+		utils/regupdate
+	Deleted files: compareCheckpointFiles compareDictsInFiles
+		compareModelFiles dperceptualdiff regsummary regupdate
+	FILES: Makefile.yam(223646)
+	Move utility functions to utils directory.
+
+	FILES: Makefile.yam(223697)
+	Updated.
+
+	FILES: output.orig(223669), test(223669), test_Ddoctest(223669)
+	Updated for verbosity changes in Ddoctest.
+
+	FILES: test(223694)
+	New tests.
+
+Thu Jun 16 16:42:51 2011	Dimitri Zarzhitsky (dimzar)
+
+	* version R1-00n
+	BUGS:
+	New files: python/killableprocess.py
+	FILES: Makefile.yam(223687), dtest(223687), python(223687)
+	Separated the killableprocess functionality from the dtest script
+	into a separate Python module, and moved it into the Dutils
+	library.
+
+Thu Jun 16 10:51:21 2011	Abhinandan Jain (jain)
+
+	* version R1-00m
+	BUGS:
+	FILES: Ddoctest.py(223508), python(223508)
+	Now prints out helpful messages about the differences encountered.
+
+Wed Jun 15 15:24:49 2011	Steven Myint (myint)
+
+	* version R1-00l
+	BUGS:
+	New files: dperceptualdiff
+	FILES: Makefile.yam(223262)
+	Moved dtest dependency from dev-utils to here.
+
+Wed Jun 15 15:18:41 2011	Steven Myint (myint)
+
+	* version R1-00k
+	BUGS:
+	FILES: dtest(223248)
+	Used magic Python module (wrapper of the library used by the
+	"file" command) to detect images.
+
+Wed Jun 15  9:37:08 2011	Jonathan M Cameron (jmc)
+
+	* version R1-00j
+	BUGS:
+	New files: regsummary regupdate
+	FILES: DCompareUtils.py(223096), python(223096)
+	Fixed to recognize changes in syntax due to recent DVar refactor.
+
+	FILES: Makefile.yam(223094)
+	Moved here from dev-utils.
+
+Mon Jun  6 15:12:03 2011	Jonathan M Cameron (jmc)
+
+	* version R1-00i
+	BUGS:
+	New files: doc doc/.svnignore doc/Makefile doc/fixlinks doc/source
+		doc/source/.svnignore doc/source/conf.py doc/source/images
+		doc/source/images/coverage_webpage.png
+		doc/source/images/cppcheck_webpage.png
+		doc/source/images/functional_coverage.png
+		doc/source/images/regtest_webpage.png doc/source/index.rst
+		doc/source/main.rst doc/source/regtests
+		doc/source/regtests/regtests.rst
+		doc/source/regtests/test_fileDictCompare.rst
+		doc/source/testing.rst doc/source/todo.rst test/__init__.py
+		test/test_Ddoctest/__init__.py
+		test/test_dictCompare/__init__.py
+		test/test_fileDictCompare/__init__.py
+		test/test_truthfiles/__init__.py
+	FILES: Makefile.yam(221155)
+	Added initial skeleton documentation.
+
+	FILES: Makefile.yam(221160)
+	Copied testing.rst from Dsends Training doc to here.
+
+	FILES: test(221154), test_Ddoctest(221154),
+		test_dictCompare(221154), test_fileDictCompare(221154),
+		test_truthfiles(221154)
+	Make the directories python modules so Sphinx can find the files.
+
+Mon Jun  6 13:53:39 2011	Jonathan M Cameron (jmc)
+
+	* version R1-00h
+	BUGS:
+	FILES: dtest(221120)
+	Fixed oversight in truth suffix code.
+
+Mon Jun  6 12:15:18 2011	Jonathan M Cameron (jmc)
+
+	* version R1-00g
+	BUGS:
+	New files: test/test_Ddoctest test/test_Ddoctest/output.orig
+		test/test_Ddoctest/script.py test/test_dictCompare
+		test/test_dictCompare/checkpoint-000
+		test/test_dictCompare/checkpoint-000-mod
+		test/test_dictCompare/checkpoint-000-mod2
+		test/test_dictCompare/checkpoint-000-mod3
+		test/test_dictCompare/checkpoint-000-mod4
+		test/test_dictCompare/model.out
+		test/test_dictCompare/model.out2
+		test/test_dictCompare/model.out3
+		test/test_dictCompare/output.orig
+		test/test_dictCompare/script.py test/test_truthfiles
+		test/test_truthfiles/DTESTDEFS test/test_truthfiles/output1
+		test/test_truthfiles/output2.orig
+		test/test_truthfiles/output2.truth
+		test/test_truthfiles/script.py
+	Deleted files: test/test-Ddoctest test/test-Ddoctest/output.orig
+		test/test-Ddoctest/script.py test/test-dictCompare
+		test/test-dictCompare/checkpoint-000
+		test/test-dictCompare/checkpoint-000-mod
+		test/test-dictCompare/checkpoint-000-mod2
+		test/test-dictCompare/checkpoint-000-mod3
+		test/test-dictCompare/checkpoint-000-mod4
+		test/test-dictCompare/model.out
+		test/test-dictCompare/model.out2
+		test/test-dictCompare/model.out3
+		test/test-dictCompare/output.orig
+		test/test-dictCompare/script.py
+	FILES: dtest(221084), test(221084)
+	Added option to fallback to .orig even if truthSuffix is given.
+
+	FILES: test(221082)
+	Renamed test directories to convert to underscores.
+
+Mon Jun  6 11:21:55 2011	Abhinandan Jain (jain)
+
+	* version R1-00f
+	BUGS:
+	FILES: output.orig(221066), test(221066), test-Ddoctest(221066)
+	Updated.
+
+Mon Jun  6 11:12:31 2011	Jonathan M Cameron (jmc)
+
+	* version R1-00e
+	BUGS:
+	New files: test/test_fileDictCompare/file5.txt
+	FILES: test(221059), test_fileDictCompare(221059)
+	New file to test specifying eps.
+
+Mon Jun  6 10:53:02 2011	Jonathan M Cameron (jmc)
+
+	* version R1-00d
+	BUGS:
+	FILES: DCompareUtils.py(221033), compareCheckpointFiles(221033),
+		compareDictsInFiles(221033), compareModelFiles(221033),
+		dtest(221033), python(221033), script.py(221033),
+		test(221033), test_fileDictCompare(221033)
+	Updated to handle specifying eps.
+
+Sun Jun  5 12:30:31 2011	Abhinandan Jain (jain)
+
+	* version R1-00c
+	BUGS:
+	FILES: Ddoctest.py(220908), python(220908)
+	Tightened up the default relative and absolute tolerances to 1e-10.
+	The user can override if needed. Update the dictionary output check
+	to verify that the keys are the same. Extended to support case
+	where the expected value is a numpy.array value.
+
+	FILES: output.orig(220909), script.py(220909), test(220909),
+		test-Ddoctest(220909)
+	Added tests for numpy.array expected values. Also extended the
+	dictionary tests.
+
+	FILES: script.py(220910), test(220910), test-Ddoctest(220910)
+	Added test for dictionaries with arrays.
+
+Thu Jun  2 18:00:15 2011	Jonathan M Cameron (jmc)
+
+	* version R1-00b
+	BUGS:
+	New files: compareDictsInFiles test/test_fileDictCompare
+		test/test_fileDictCompare/DTESTDEFS
+		test/test_fileDictCompare/file1.txt
+		test/test_fileDictCompare/file2.txt
+		test/test_fileDictCompare/file3.txt
+		test/test_fileDictCompare/file4.txt
+		test/test_fileDictCompare/filebad.txt
+		test/test_fileDictCompare/output.orig
+		test/test_fileDictCompare/script.py
+	FILES: DCompareUtils.py(220636), Makefile.yam(220636),
+		python(220636)
+	Added test to compare a python dictionary in two files.
+
+	FILES: test(220634)
+	Added regtest for file dict compare.
+
+	FILES: test(220635)
+	Added tests for executable.
+
+Thu Jun  2 15:30:25 2011	Jonathan M Cameron (jmc)
+
+	* version R1-00a
+	BUGS:
+	New files: compareCheckpointFiles compareModelFiles dtest python
+		python/DCompareUtils.py python/Ddoctest.py test
+		test/DTESTDEFS test/test-Ddoctest
+		test/test-Ddoctest/output.orig test/test-Ddoctest/script.py
+		test/test-dictCompare test/test-dictCompare/checkpoint-000
+		test/test-dictCompare/checkpoint-000-mod
+		test/test-dictCompare/checkpoint-000-mod2
+		test/test-dictCompare/checkpoint-000-mod3
+		test/test-dictCompare/checkpoint-000-mod4
+		test/test-dictCompare/model.out
+		test/test-dictCompare/model.out2
+		test/test-dictCompare/model.out3
+		test/test-dictCompare/output.orig
+		test/test-dictCompare/script.py
+	FILES: Makefile.yam(220565)
+	Moved here from DshellEnv and dev-utils.
+
+Thu Jun  2 14:31:55 2011	Jonathan M Cameron (jmc)
+
+	* version R1-00
+	Created Dtest module.

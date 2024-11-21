@@ -1,0 +1,34 @@
+#!/bin/sh
+
+# See http://public.kitware.com/KWStyle/features.htm
+
+if [ $# -lt 2 ]
+then
+    echo "Usage: dkwstyle-html [src_directory] [html_output_directory]"
+    exit 1
+fi
+
+check_dir=$1
+output_dir=$2
+
+resolved_file_path=$(readlink -f "$0")
+dir_name=$(dirname "$resolved_file_path")
+style_file="$dir_name/dtest_kwstyle.xml"
+if [ -r "$style_file" ]
+then
+    mkdir -p "$output_dir"
+
+    # Skip all SWIG files and LCM files.
+    for f in `find $check_dir \( -name '*.cc' -o -name '*.h' \) -a -not -name '*swigwrap*' -a -not -name "*_lcm.*"  -o -path '*/auto' -prune -type f  -o -path '*/thirdparty' -prune -type f`;
+    do
+        echo $f >> "$output_dir/tmp_file_list"
+    done
+else
+    echo "ERROR: Could not find file style file '$style_file'."
+fi
+
+KWStyle -xml "$style_file" -D "$output_dir/tmp_file_list" -html "$output_dir"
+
+cd $output_dir
+ln -s KWSMatrix.html index.html
+exit 0

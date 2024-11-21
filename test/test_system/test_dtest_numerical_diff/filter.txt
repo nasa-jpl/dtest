@@ -1,0 +1,3 @@
+hell.*
+
+the above empty line should not cause harm

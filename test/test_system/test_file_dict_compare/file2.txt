@@ -1,0 +1,11 @@
+This is a test!
+
+<START>
+{
+    'a' : 1,
+    'c' : 'red',
+    'b' : 2.0,
+}
+<END>
+
+More random text after the dictonary.

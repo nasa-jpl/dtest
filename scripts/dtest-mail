@@ -1,0 +1,820 @@
+#!/usr/bin/env python
+"""The genRegtestMail command takes a regtest.data file (the output of a
+'dtest' run) and constructs and then sends emails based on various options."""
+from __future__ import absolute_import
+
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+
+import ast
+import io
+import os
+import platform
+import re
+import sys
+
+
+try:
+    basestring
+except NameError:
+    basestring = str
+
+
+try:
+    unicode
+except NameError:
+    unicode = str
+
+
+def numeric(text):
+    """Return True if numeric."""
+    try:
+        float(text)
+        return True
+    except ValueError:
+        return False
+
+def generateTableString(rows, highlight_last_line, force_rjust = []):
+    """Take a list of rows and generate a string representing the table."""
+    assert rows
+    assert len(rows) >= 2
+    for r in rows:
+        assert len(r) == len(rows[0])
+        for c in r:
+            assert isinstance(c, basestring)
+
+    column_lengths = [0] * len(rows[0])
+    for r in rows:
+        for ci in range(len(r)):
+            column_lengths[ci] = max(column_lengths[ci], len(unicode(r[ci])))
+
+    lines = []
+    for r in rows:
+        words = []
+        for ci in range(len(r)):
+            #if ci in force_rjust or numeric(r[ci]):
+            if ci in force_rjust:
+                # right justify
+                words.append(r[ci].rjust(column_lengths[ci]))
+            else:
+                #left justify
+                words.append(r[ci].ljust(column_lengths[ci]))
+        lines.append('  '.join(words).rstrip())
+
+    total_length = sum(column_lengths) + (2 * (len(column_lengths) - 1))
+    thick_border = '=' * total_length
+    thin_border = '-' * total_length
+    return '\n'.join([thick_border] +
+                     [lines[0]] +
+                     [thin_border] +
+                     lines[1:-1] +
+                     ([thin_border] if highlight_last_line else []) +
+                     [lines[-1]] +
+                     [thick_border])
+
+
+def generateRows(sorted_modules,
+                 mods_success,
+                 mods_failed,
+                 mods_timed_out,
+                 module_owner,
+                 mods_display,
+                 mods_time,
+                 highlight_column_index,
+                 prev_mods_success=None,
+                 prev_mods_failed=None,
+                 prev_mods_timed_out=None,):
+    """Generate rows of module result data."""
+    rows = []
+    header = ['Module', 'Total', 'Failed', 'Timed out',
+                 'Percent', 'Time', 'Owner']
+
+    if prev_mods_failed:
+        header[2] = 'Failed (+-)'
+    if prev_mods_timed_out:
+        header[3] = 'Timed out (+-)'
+
+    header[highlight_column_index] = header[highlight_column_index].upper()
+    rows.append(header)
+
+    for module in sorted_modules:
+        success = mods_success[module]
+        failed = mods_failed[module]
+        timed_out = mods_timed_out[module]
+        total = success + failed
+        owner = module_owner.get(module, 'TBD')
+        percent = 100 * success / total if total > 0 else 100
+        display = mods_display[module]
+        modulestr = module
+        if module in top_key_modules:
+            modulestr += '*'
+
+        if prev_mods_failed and prev_mods_success:
+            prev_failed = prev_mods_failed[module]
+            prev_success = prev_mods_success[module]
+            prev_total = prev_success + prev_failed
+
+            if failed-prev_failed != 0:
+                #failedstr = f"{failed} ({failed-prev_failed:+})"
+                failedstr = f"{failed:3d} ({failed-prev_failed:+})"
+            else:
+                failedstr = f"{failed:3d}"
+            totalstr = f"{total}" # f"{total} ({total-prev_total:+})"
+
+            percentstr = f"{percent:6.1f}" if percent < 100 else '   -'
+            # The changes in percent and total do not look good
+
+        elif prev_mods_failed:
+            prev_failed = prev_mods_failed[module]
+            if failed-prev_failed != 0:
+                failedstr = f"{failed:3d} ({failed-prev_failed:+})"
+            else:
+                failedstr = f"{failed:3d}"
+            totalstr  = f"{total}"
+            percentstr = f"{percent:6.1f}"  if percent < 100 else '   -'
+
+        else:
+            failedstr = f"{failed:3d}"
+            totalstr  = f"{total:3d}"
+            percentstr = f"{percent:6.1f}" if percent < 100 else '   -'
+
+        if prev_mods_timed_out:
+            prev_timed_out = prev_mods_timed_out[module]
+            if timed_out-prev_timed_out != 0:
+                timed_outstr = f"{timed_out:3d} ({timed_out-prev_timed_out:+})"
+            else:
+                timed_outstr = f"{timed_out:3d}"
+        else:
+            timed_outstr = f"{timed_out:3d}"
+
+        rows.append((modulestr, unicode(totalstr), unicode(failedstr),
+                     unicode(timed_outstr),
+                     unicode(percentstr),
+                     '%.1f' % mods_time[module],
+                   #  display if display else 'down',
+                     owner))
+    return rows
+
+
+def processOptions():
+    """Set up command line parser object."""
+    from optparse import OptionParser
+    parser = OptionParser()
+
+    parser.add_option('--data-file', '--dataFile', action='store',
+                      default='regtest.data',
+                      help='regtest data file (default: %default)')
+
+    parser.add_option('--title', action='store',
+                      default='Regression Test Summary',
+                      help='title to print above the table')
+
+    parser.add_option('--html', action='store_true',
+                      help='generate html output to this file')
+
+    parser.add_option('--url', action='store',
+                      help='URL for detailed html results '
+                           '(module name is appended for each module)')
+
+    parser.add_option('--module-owner', '--moduleOwner', action='store',
+                      help='file with Python dictionary '
+                           'containing module owner information: '
+                           '{"<module-name>": "<owner>", ...}')
+
+    parser.add_option('--file', action='store',
+                      help='file for detailed html results')
+
+    parser.add_option('--key-modules-file', action='store',
+                      help='file defining key modules')
+
+    parser.add_option('--output', action='store',
+                      help='output file for generated HTML file '
+                           '(defaults to stdout)')
+
+    parser.add_option(
+        '--email', action='store',
+        help='Email address or comma-separated list of emails to send the '
+             'summary to. If omitted, print results or write to output file.')
+
+    import getpass
+    parser.add_option(
+        '--email-from', action='store',
+        default='{user}@{host}'.format(
+            user=getpass.getuser(), host=platform.node()),
+        help='Email from this address. (default: %default)')
+
+    parser.add_option('--prev-data-file', action='store',
+                      help='previous regtest data file, for delta of errors')
+
+    (opts, args) = parser.parse_args()
+
+    return (opts, args)
+
+
+html_start = """\
+<html>
+  <head>
+  <style type="text/css">
+html {
+    background-color: #AAA;
+}
+body {
+    font-family:arial, helvetica, courier, sans-serif;
+    font-size:10pt;
+    background-color: #EEF;
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #99F;
+}
+h1, h2, h3 {
+    margin-top: 0;
+    padding-top: 0;
+}
+h1 {
+    font-size: 150%;
+}
+h2 {
+    font-size: 130%;
+    margin-top: 10px;
+}
+h3 {
+    font-size: 110%;
+}
+table {
+    cellspacing: 0;
+    cellpadding: 2;
+    background-color: black;
+}
+th, td {
+    padding-left: 4px;
+    padding-right: 4px;
+    background-color: #EEF;
+    text-align: center;
+}
+th {
+    font-size: 120%;
+    background-color: #BBF;
+    vertical-align: bottom;
+}
+th#left, td#left {
+    text-align: left;
+}
+th#right, td#right {
+    text-align: right;
+}
+td a {
+    color: blue;
+    text-decoration: none;
+}
+td a:visited { color: blue; }
+td a:hover { color: blue; text-decoration: underline; }
+tr.summary td {
+    background-color: #DDF;
+}
+div.genDate {
+    margin-top: 4px;
+    font-size: %80;
+    font-style: italic;
+}
+"""
+
+html_top = """\
+  </style>
+  </head>
+  <body>
+    <h1>{caption} ({total} tests, {percent:.1f} % pass)</h1>
+    <table>
+      <thead>
+      <tr class="coltitles">
+         <th id="left">MODULE</th> <th>TOTAL</th> <th>SUCCESS</th> <th>FAILURES</th> <th id="right">PERCENT</th> <th id="right">OWNER</th>
+      </tr>
+      </thead>
+      <tbody>
+"""
+
+html_line = """\
+<tr><td id="left">{module}</td> <td>{total}</td> <td>{success}</td> <td>{failed}</td> <td id="right">{percent}</td> <td id="right">{owner}</td></tr>
+"""
+
+html_summary = """\
+<tr class="summary"><td id="right">{module}</td> <td>{total}</td> <td>{success}</td> <td>{failed}</td> <td id="right">{percent}</td> <td></td></tr>
+"""
+
+html_table_end = """\
+      </tbody>
+    </table>
+"""
+
+html_end = """\
+  <div class="genDate">Generated: {date}</div>
+  </body>
+</html>
+"""
+
+top_key_modules = []
+
+def main(regdata, module_owner, prev_regdata=None):
+    """Main."""
+    # Collect the module names
+    modules = sorted(regdata.keys())
+
+    if prev_regdata:
+        prev_modules = sorted(prev_regdata.keys())
+    else:
+        prev_modules = []
+
+    # Scan through the modules to find the when the last doctest was run
+    import datetime
+    start_time = datetime.datetime(9999, 1, 1, 0, 0, 0)
+    end_time = datetime.datetime(2000, 1, 1, 0, 0, 0)
+    for mod in modules:
+        if regdata[mod]['start_time'] < start_time:
+            start_time = regdata[mod]['start_time']
+
+        if regdata[mod]['end_time'] > end_time:
+            end_time = regdata[mod]['end_time']
+
+    # figure out where to put the CSS file
+    css_file = 'regtest.css'
+    css_file_url = False
+    output_dir = '.'
+    if opts.output:
+        output_dir = os.path.dirname(os.path.abspath(opts.output))
+    if os.path.exists(output_dir + '/' + css_file):
+        css_file_url = css_file
+    else:
+        css_file_url = (
+            'http://dartslab.jpl.nasa.gov/internal/www/Misc/pkgRegtests/' +
+            css_file)
+
+    # load key modules info if specified
+    #key_modules = []
+    # Construct and write out the header
+    date = end_time
+
+    # Write the text/html for each module
+    mods_success = {}
+    mods_failed = {}
+    mods_timed_out = {}
+    mods_display = {}
+    mods_time = {}
+
+    prev_mods_success = {} if prev_regdata is not None else None
+    prev_mods_failed = {} if prev_regdata is not None else None
+    prev_mods_timed_out = {} if prev_regdata is not None else None
+
+
+    for module in modules:
+        mods_success[module] = 0
+        mods_failed[module] = 0
+        mods_timed_out[module] = 0
+
+        for test in sorted(regdata[module]['tests']):
+            tdata = regdata[module]['tests'][test]
+            mods_success[module]   += tdata['success']
+            mods_failed[module]    += tdata['failed']
+            mods_timed_out[module] += tdata['timed_out']
+
+        try:
+            mods_display[module] = regdata[module]['display']
+        except KeyError:
+            mods_display[module] = ''
+
+        mods_time[module] = (regdata[module]['end_time'] -
+                             regdata[module]['start_time']).total_seconds()
+
+
+        # Analyze previous data
+        # If prev_regdata was not given, omit
+        if prev_regdata is None:
+            continue
+
+        prev_mods_success[module] = 0
+        prev_mods_failed[module] = 0
+        prev_mods_timed_out[module] = 0
+
+        # If the module is new, the prev are all zero
+        if module not in prev_modules:
+            continue
+
+        for test in sorted(prev_regdata[module]['tests']):
+            prev_tdata = prev_regdata[module]['tests'][test]
+            prev_mods_success[module]   += prev_tdata['success']
+            prev_mods_failed[module]    += prev_tdata['failed']
+            prev_mods_timed_out[module] += prev_tdata['timed_out']
+
+    def sortkey(x):
+        return len(mods_failed) - mods_failed[x]
+
+    # Compute the overall totals and percentage.
+    sum_total = 0
+    sum_success = 0
+    sum_failed = 0
+    sum_timed_out = 0
+
+    sorted_modules = sorted(modules, key=sortkey)
+
+
+
+    def getTotals(modules):
+        sum_total = 0
+        sum_success = 0
+        sum_failed = 0
+        sum_timed_out = 0
+        for module in modules:
+            success = mods_success[module]
+            failed = mods_failed[module]
+            timed_out = mods_timed_out[module]
+            total = success + failed
+            sum_total += total
+            sum_failed += failed
+            sum_success += success
+            sum_timed_out += timed_out
+        sum_percent = 100 * sum_success / sum_total if sum_total > 0 else 100
+        return sum_total, sum_success, sum_failed, sum_timed_out, sum_percent
+
+    sum_total, sum_success, sum_failed, sum_timed_out, sum_percent = getTotals(sorted_modules)
+    text = '%s (%d test, %.1f%% pass)' % (
+        opts.title, sum_total, sum_percent)
+
+#    text = '%s (%d test, %.1f%% pass)\n\n' % (
+#        opts.title, sum_total, sum_percent)
+
+#    text = '%s (%d test, %.1f%% pass)' % (
+#            opts.title, sum_total, sum_percent)
+
+
+    # Compute the overall totals and percentage for prev data
+    # DOES NOT LOOK GOOD
+    # if prev_regdata is not None:
+    #     prev_sum_total = 0
+    #     prev_sum_success = 0
+    #     prev_sum_failed = 0
+    #     prev_sum_timed_out = 0
+
+    #     prev_sorted_modules = sorted(prev_modules, key=sortkey)
+    #     for module in prev_sorted_modules:
+    #         success = prev_mods_success[module]
+    #         failed = prev_mods_failed[module]
+    #         timed_out = prev_mods_timed_out[module]
+    #         total = success + failed
+    #         prev_sum_total += total
+    #         prev_sum_failed += failed
+    #         prev_sum_success += success
+    #         prev_sum_timed_out += timed_out
+    #     prev_sum_percent = 100 * prev_sum_success / prev_sum_total
+
+    #     text += ' (Last report: %d test, %.1f%% pass)' % (
+    #         prev_sum_total, prev_sum_percent)
+
+    # Extract information for each module that fails
+    all_failed_tests = {} # module -> [(name of failed test, whether run[0] != run[1], elapsed time timeout)]
+    new_failed_tests = {} # module -> [name of failed test]
+    n_new_failed_tests = 0
+
+    if sum_failed:
+        for m in modules:
+            if not mods_failed[m]:
+                continue
+
+            all_failed_tests[m] = []
+            new_failed_tests[m] = []
+
+            for test in sorted(regdata[m]['tests']):
+                if not regdata[m]['tests'][test]['failed']:
+                    continue
+
+                run_tuple = regdata[m]['tests'][test]['run']
+                run_diff = run_tuple[0] != run_tuple[1]
+
+                if regdata[m]['tests'][test]['timed_out']:
+                    elapsed = regdata[m]['tests'][test].get('elapsed_time', -1)
+                else:
+                    elapsed = False
+
+                all_failed_tests[m].append((test, run_diff, elapsed))
+
+                # If test existed before and last time it succeded
+                if (prev_regdata is not None
+                    and m in prev_regdata
+                    and test in prev_regdata[m]['tests']
+                    and not prev_regdata[m]['tests'][test]['failed']
+                ):
+                    n_new_failed_tests += 1
+                    new_failed_tests[m].append(test)
+
+    if n_new_failed_tests > 0:
+        text += f"\n\nWARNING: {n_new_failed_tests} new failed test(s) since last report."
+
+    text += '\n\n'
+
+    # Note that html does not contain info about the previous test
+    if opts.html:
+        html = html_start + html_top.format(
+            caption=opts.title,
+            regtest_css=css_file_url,
+            total=sum_total,
+            percent=sum_percent)
+
+        for module in sorted_modules:
+            success = mods_success[module]
+            failed = mods_failed[module]
+            timed_out = mods_timed_out[module]
+            total = success + failed
+            owner = module_owner.get(module, 'TBD')
+            percent = 100 * success / total if total > 0 else 100
+
+            html += html_line.format(
+                module=("""<a href="%s%s%s">%s</a>""" % (
+                        opts.url, chr(35), module, module) if opts.url
+                        else module),
+                total=total,
+                success=success,
+                failed=failed,
+                percent='%5.1f' % percent,
+                owner=owner)
+
+    # Broken modules only with most failure at top
+    broken_modules = [m for m in sorted_modules if mods_failed[m]]
+    if broken_modules:
+        if opts.key_modules_file:
+            exec(open(opts.key_modules_file).read(), globals())
+            global top_key_modules
+            top_key_modules = list(set(key_modules))
+            # print('NNN', top_key_modules)
+
+            if top_key_modules:
+                text += 'Primary broken modules (sorted by number of failures):\n'
+                key_broken = list(set(top_key_modules).intersection(set(broken_modules)))
+                sorted_key_broken = [m for m in sorted_modules if m in key_broken]
+                key_total, key_success, key_failed, key_timed_out, key_percent = getTotals(sorted_key_broken)
+                text += generateTableString(
+                    generateRows(sorted_key_broken,
+                                 mods_success=mods_success,
+                                 mods_failed=mods_failed,
+                                 mods_timed_out=mods_timed_out,
+                                 module_owner=module_owner,
+                                 mods_display=mods_display,
+                                 mods_time=mods_time,
+                                 prev_mods_success=prev_mods_success,
+                                 prev_mods_failed=prev_mods_failed,
+                                 prev_mods_timed_out=prev_mods_timed_out,
+                                 highlight_column_index=2) +
+                    [('OVERALL:', unicode(key_total),
+                      f'{key_failed:3d}',
+                      #unicode(key_timed_out),
+                      f'{key_timed_out:3d}',
+                      '%6.1f' % key_percent,
+                      #'',  #%.1f' % (end_time - start_time).total_seconds(),
+                      '', '')],
+                    force_rjust = [1,5],  # right justify Total, Time columns
+                highlight_last_line=True) + '\n\n'
+                text += 'Key modules: ' + ', '.join(sorted(top_key_modules)) + '\n\n'
+
+        text += 'Other broken modules (sorted by number of failures):\n'
+        sorted_broken = [m for m in broken_modules if m not in top_key_modules]
+        bkey_total, bkey_success, bkey_failed, bkey_timed_out, bkey_percent = getTotals(sorted_broken)
+        text += generateTableString(
+            generateRows(sorted_broken,
+                         mods_success=mods_success,
+                         mods_failed=mods_failed,
+                         mods_timed_out=mods_timed_out,
+                         module_owner=module_owner,
+                         mods_display=mods_display,
+                         mods_time=mods_time,
+                         prev_mods_success=prev_mods_success,
+                         prev_mods_failed=prev_mods_failed,
+                         prev_mods_timed_out=prev_mods_timed_out,
+                         highlight_column_index=2)  +
+            [('OVERALL:', unicode(bkey_total),
+              #unicode(bkey_failed), unicode(bkey_timed_out),
+              #'%.1f' % bkey_percent,
+                      f'{bkey_failed:3d}',
+                      f'{bkey_timed_out:3d}',
+                      '%6.1f' % bkey_percent,
+             # '',  #%.1f' % (end_time - start_time).total_seconds(),
+              '', '')],
+            force_rjust = [1,5], # right justify Total, Time columns
+            highlight_last_line=True) + '\n\n'
+
+    # All modules in alphabetical order
+    if sorted_modules:
+        text += 'All modules:\n'
+        text += generateTableString(
+            generateRows(sorted(sorted_modules),
+                         mods_success=mods_success,
+                         mods_failed=mods_failed,
+                         mods_timed_out=mods_timed_out,
+                         module_owner=module_owner,
+                         mods_display=mods_display,
+                         mods_time=mods_time,
+                         prev_mods_success=prev_mods_success,
+                         prev_mods_failed=prev_mods_failed,
+                         prev_mods_timed_out=prev_mods_timed_out,
+                         highlight_column_index=0) +
+            [('OVERALL:', unicode(sum_total),
+              #unicode(sum_failed), unicode(sum_timed_out),
+              #'%.1f' % sum_percent,
+                      f'{sum_failed:3d}',
+                      f'{sum_timed_out:3d}',
+                      '%6.1f' % sum_percent,
+              '%.1f' % (end_time - start_time).total_seconds(),
+              #'',
+              '')],
+            force_rjust = [1, 5], # right justify Total, Time columns
+            highlight_last_line=True) + '\n\n'
+
+    if sum_success and ('quarantine' in opts.title.lower()):
+        text += 'Succeeded tests:\n'
+        for m in modules:
+            if mods_success[m]:
+                text += '    {m}:\n'.format(m=m)
+                for test in sorted(regdata[m]['tests']):
+                    if regdata[m]['tests'][test]['success']:
+                        text += '        {t}\n'.format(t=test)
+        text += '\n'
+
+    failed_lines = []
+    new_failed_lines = []
+
+    if sum_failed:
+
+        failed_lines.append('Failed tests:')
+        new_failed_lines.append('New failed tests:')
+
+        for m in all_failed_tests:
+            failed_lines.append(f'    {m}   {mods_success[m]}/{mods_failed[m]}/{mods_timed_out[m]}:')
+
+            if len(new_failed_tests[m]) > 0:
+                new_failed_lines.append('    {m}:'.format(m=m))
+
+            for test, run_diff, elapsed in all_failed_tests[m]:
+                line = '        {t}'.format(t=test)
+                if run_diff:
+                    line += ' *'
+                if elapsed:
+                    line += '*' + " [%f]" % elapsed
+
+                failed_lines.append(line)
+
+                if test in new_failed_tests[m]:
+                    new_failed_lines.append(line)
+
+        if len(new_failed_lines) > 1:
+            new_failed_lines.append('')
+            new_failed_lines.append('    (*) Fatal errors')
+
+        failed_lines.append('')
+        failed_lines.append('    (*) Fatal errors')
+
+    if len(new_failed_lines) > 1:
+        text += '\n'.join(new_failed_lines + ['', ''])
+
+    text += '\n'.join(failed_lines     + ['', ''])
+
+    if opts.url:
+        text += 'URL for detailed results:\n'
+        text += '   %s\n' % opts.url
+    if opts.file:
+        text += 'File for detailed results:\n'
+        text += '   %s\n' % opts.file
+
+    text += """
+Generated: {date}
+Host: {host}
+""".format(date=date,
+           host=platform.node())
+
+    dtest_version = "?"
+    try:
+        stream = os.popen("pyam latest Dtest")
+        data = stream.read()
+        dtest_version = re.search(r"Dtest.*?\s+([^\s]*)\s*", data).group(1)
+    except:
+        pass
+
+    text += f"Dtest version: {dtest_version}\n"
+
+    if opts.html:
+        # finish up the html version
+        html += html_summary.format(
+            module='<b>OVERALL:</b>',
+            total=sum_total,
+            success=sum_success,
+            failed=sum_failed,
+            percent='%.1f' % sum_percent)
+        html += html_table_end
+        if opts.url:
+            html += '<h2>URL for detailed results:</h2>\n'
+            html += "<h3>&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"%s\">%s</a></h3>\n" % (
+                opts.url, opts.url)
+        if opts.file:
+            html += '<h2>File for detailed results:</h2>\n'
+            html += '<h3>&nbsp;&nbsp;&nbsp;&nbsp;%s\n' % opts.file
+        html += html_end.format(date=date)
+
+    if opts.email:
+        import smtplib
+
+        from email.mime.multipart import MIMEMultipart
+        from email.mime.text import MIMEText
+
+        if opts.email.find(','):
+            send_to = list(opts.email.split(','))
+        else:
+            send_to = [opts.email]
+
+        # Create message container - the correct MIME type is
+        # multipart/alternative.
+        if opts.html:
+            msg = MIMEMultipart('alternative')
+        else:
+            msg = MIMEText(text, 'plain', 'utf-8')
+
+        #passstr = '%d/%.2f' % (sum_total, sum_percent) + "%"
+        passstr = '%.2f%s/%04d' % (sum_percent, '%', sum_total)
+        msg['Subject'] = ' '.join(
+            ['[regtest]',
+             passstr,
+             #'(failed)' if sum_failed else '(succeeded)',
+             opts.title])
+
+        msg['From'] = opts.email_from
+
+        # Construct and attach the parts (if html)
+        if opts.html:
+            part1 = MIMEText(text, 'plain')
+            part2 = MIMEText(html, 'html')
+            msg.attach(part1)
+            msg.attach(part2)
+
+        # Send the email
+        s = smtplib.SMTP()
+        s.connect()
+        for recip in send_to:
+            msg['To'] = recip
+            s.sendmail(opts.email_from, [recip], msg.as_string())
+        s.close()
+
+    # Write the results to the output file
+    if opts.output:
+        with io.open(opts.output, 'w') as output_file:
+            if opts.html:
+                output_file.write(html)
+            else:
+                output_file.write(text)
+    else:
+        sys.stdout.write(text)
+
+
+if __name__ == '__main__':
+    (opts, args) = processOptions()
+
+    if opts.title:
+        opts.title = re.sub(r'\s+', ' ', opts.title)
+
+    # Load the previous regtest data (into 'regdata').
+    if opts.prev_data_file:
+        if os.path.exists(opts.prev_data_file):
+            exec(compile(io.open(opts.prev_data_file).read(), opts.prev_data_file, 'exec'))
+            assert regdata
+            prev_regdata = regdata
+            del regdata
+        else:
+            print("ERROR: Prev data file '%s' does not exist!" % opts.prev_data_file,
+                file=sys.stderr)
+            sys.exit(1)
+    else:
+        prev_regdata = None
+
+    # Load the regtest data (into 'regdata').
+    if os.path.exists(opts.data_file):
+        exec(compile(io.open(opts.data_file).read(), opts.data_file, 'exec'))
+        assert regdata
+    else:
+        print("ERROR: Data file '%s' does not exist!" % opts.data_file,
+              file=sys.stderr)
+        sys.exit(1)
+
+    # Parse the module owners
+    if opts.module_owner:
+        if os.path.exists(opts.module_owner):
+            with io.open(opts.module_owner) as owner_input_file:
+                owner_data = owner_input_file.read()
+                try:
+                    module_owner = ast.literal_eval(owner_data)
+                except SyntaxError as error:
+                    print(
+                        '"{}" should only contain a dictionary; '.format(
+                            opts.module_owner) +
+                        'the file should start with "{" and end with "}"; ' +
+                        'see syntax error below:\n{}'.format(error),
+                        file=sys.stderr)
+                    sys.exit(1)
+        else:
+            module_owner = eval(opts.module_owner)
+    else:
+        module_owner = {}
+
+    main(regdata, module_owner=module_owner, prev_regdata=prev_regdata)

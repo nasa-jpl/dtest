@@ -1,0 +1,12 @@
+--- kwsCheckMemberFunctions.cxx.old	2010-11-07 14:29:45.449887000 -0800
++++ kwsCheckMemberFunctions.cxx	2011-04-18 09:04:52.597376000 -0700
+@@ -335,7 +335,8 @@ std::string Parser::FindMemberFunction(s
+       if(functionLine.find("#define") == -1
+          && functionLine.find("_attribute_") == -1
+          && functionLine.find(" operator") == -1
+-         && functionLine.find("friend ") == -1)
++         && functionLine.find("friend ") == -1
++         && functionLine.find(" : ") == -1) // " : " case added by myint
+         {
+         // If we have a class definition: Test():Base
+         // we return the correct

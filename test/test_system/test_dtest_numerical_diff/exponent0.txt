@@ -1,0 +1,3 @@
+Try numbers with exponent: 200e0
+Try numbers with exponent: 200
+Try numbers with exponent: 200.1

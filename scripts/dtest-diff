@@ -1,0 +1,67 @@
+#!/bin/bash
+# A UNIX shell script for comparing differences between text files.
+# White space (and blank lines) are ignored, as well as expected
+# differences, which are specified as regular expressions in a
+# separate file. The first command line argument is a Boolean
+# (i.e., ~0~ or ~1~) debug flag; when enabled, unexpected
+# differences between files are printed to the screen. The
+# second argument is the text file containing regular
+# expressions, written using the GNU grep syntax; the regular
+# expressions define what text strings should match the expected
+# variance between two files, whose names are given as the third
+# and fourth arguments respectively. The script returns 1 if the
+# files contain unexpected differences, and 0 otherwise.
+
+if [ $# -ne 4 ]
+then
+    echo 'Usage: dtest-diff <debug> <filter-file> <first> <second>'
+    exit 1
+fi
+
+debug=$1
+shift
+
+reglist=$1
+shift
+if [ ! -f "$reglist" ]
+then
+    echo "Filter file '$reglist' does not exist"
+    exit 1
+fi
+
+if grep -e '^\s*$' "$reglist"
+then
+    echo "Filter file '$reglist' has an blank line (this will cause problems)"
+    exit 1
+fi
+
+file1=$1
+shift
+if [ ! -f "$file1" ]
+then
+    echo "First file '$file1' does not exist"
+    exit 1
+fi
+
+file2=$1
+shift
+if [ ! -f "$file2" ]
+then
+    echo "Second file '$file2' does not exist"
+    exit 1
+fi
+
+
+# Try the comparison with the given files
+
+res=`diff -wB $file1 $file2 | grep -E -v -f $reglist | wc -c`
+if [ $debug = "0" ]; then
+    if [ $res = "0" ]; then
+        exit 0
+    else
+        echo $res
+    fi
+else
+    diff -wB $file1 $file2 | grep -E -v -f $reglist
+fi
+exit 1

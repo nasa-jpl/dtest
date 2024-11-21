@@ -1,0 +1,226 @@
+#!/usr/bin/env python
+
+if __name__ == '__main__':
+    from Dutils import Dclick
+    from Dutils.typing import Dict, Any
+    from pathlib import Path
+    from warnings import warn
+    from humanize import naturalsize
+    import re
+    from math import ceil
+    import os
+    from pprint import pprint
+
+    @Dclick.cli.command()
+    @Dclick.option("--regtest-data", type=Dclick.DclickPath(dir_okay=False), default="regtest.data", help="Location of the regtest data file.")
+    @Dclick.option("--commit-files/--no-commit-files", type=bool, default=False, help="If enabled, will attempt to commit changes with version control software.")
+    @Dclick.option("--add-files/--no-add-files", type=bool, default=True, help="If enabled, will add newly created files to version control.")
+    @Dclick.option("--list-changed-modules/--no-list-changed-modules", type=bool, default=True, help="If enabled, will list all modules that were changed.")
+    @Dclick.option("--dry-run/--no-dry-run", type=bool, default=False, help="If enabled, will not change any files. It will only list what the differences would be as a result of the upgrade.")
+    def opts(**kwargs):
+        """Options for updating the GPU memory."""
+        return kwargs
+
+    def addFileToVersionControl(path: Path):
+        """Add a file to version control. Will try svn followed by git."""
+        parent = path.parents[0]
+        path_str = str(path)
+        exit_code = os.system(f"cd {parent} && (svn add {path_str} || git add {path_str}) &> /dev/null")
+        if exit_code != 0:
+            warn(f"Had issues adding {path_str} to version control.")
+
+    def commitFileToVersionControl(path: Path, message="Updating GPU_MEM."):
+        """Commit a file/directory to version control. Will try svn followed by git."""
+        parent = path.parents[0]
+        path_str = str(path)
+        exit_code = os.system(f"cd {parent} && (svn commit {path_str} -m \"{message}\" || (git commit {path_str} -m \"{message}\" && git push)) &> /dev/null")
+        if exit_code != 0:
+            warn(f"Had issues commiting {path_str} to version control.")
+
+    options = Dclick.cli(standalone_mode=False)
+    if isinstance(options, int):
+        import sys
+        sys.exit(options)
+    cfgobj, ctxobj = options
+
+    add_files = cfgobj["opts"]["add_files"]
+    commit_files = cfgobj["opts"]["commit_files"]
+    list_changed_modules = cfgobj["opts"]["list_changed_modules"]
+    dry_run = cfgobj["opts"]["dry_run"]
+    if dry_run:
+        add_files = False
+        commit_files = False
+
+    # Read the file
+    with open(cfgobj["opts"]["regtest_data"], "r") as f:
+        data_str: str = f.read()
+
+    # Compile the file. This should create a regdata variable
+    regdata: Dict[str, Dict[str, Any]] = {}
+    exec(data_str)
+
+    # List to track the changed modules
+    changed_modules = []
+
+    # Loop through all of the modules and update the DTESTDEFS files.
+    for module, module_data in regdata.items():
+        # Loop through the modules
+
+        # Get the root_dir
+        dark = module_data.get("root_dir",None)
+        if dark is None:
+            warn(f"Skipping module '{module}', since it does not contain a root_dir.")
+            continue
+        root_dir = Path(dark)
+
+        # Flag to track any module changes
+        module_changed = False
+
+        for test, test_data in module_data.get("tests",{}).items():
+            # Loop through the tests in a module
+            gpu_usage = test_data.get("gpu_usage",0)
+
+            # Get the full test path.
+            test_path = root_dir.joinpath(test)
+            if not test_path.exists():
+                # The test may be given as the absolute path if only one test was run.
+                test_path = Path(test)
+                if not test_path.exists():
+                    warn(f"Issues working with test '{test}' in module '{module}'. Skipping.")
+                    continue
+
+
+            if gpu_usage > 0:
+                # If the gpu_usage is > 0, then we need to update the test.
+                added_file = False
+
+                # First, get or create the DTESTDEFS.cfg file.
+                dtest_file = test_path.joinpath("DTESTDEFS.cfg")
+                if not dtest_file.exists():
+                    dark = test_path.joinpath("DTESTDEFS")
+                    if dark.exists():
+                        # Assign to use DTESTDEFS rather than DTESTDEFS.cfg if the former exists.
+                        dtest_file = dark
+                    else:
+                        # File does not exist. Create it.
+                        with open(dtest_file,"w") as f:
+                            pass
+                        added_file = True
+
+                # Next, figure out what we want to print as the new usage.
+                # We want to print out the final value to 3 decimal places, but rounded up.
+                dark = naturalsize(gpu_usage, format="%.4f")
+                match = re.match(r"(\d+[.]?\d*)(.*)", dark)
+                if match is None:
+                    warn(f"Issues working with test '{test}' in module '{module}'. gpu_usage is a bad value. Skipping.")
+                    continue
+                number = ceil(float(match.groups()[0])*1000.0)/1000.0
+                gpu_usage_str = "{:.3f}".format(number) + match.groups()[1]
+
+                # Now, we need to read the DTESTDEFS.cfg file and change GPU_MEM if it exsits. Otherwise, 
+                # we need to create it.
+                with open(dtest_file,"r") as f:
+                    dtest_file_lines = f.readlines()
+
+                gpu_mem_added = False
+
+                # Resource line is the index of the line with [RESOURCES]
+                # if -1, then we never found a [RESOURCES] line.
+                resource_line = -1
+
+                # Run line is the index of the line with [RUN]
+                # if -1, then we never found a [RUN] line.
+                run_line = -1
+
+                for k,line in enumerate(dtest_file_lines):
+                    if "[RESOURCES]" in line:
+                        resource_line = k
+                    if "[RUN]" in line:
+                        run_line = k
+                    if "GPU_MEM" in line:
+                        gpu_mem_line = line.strip()
+                        idx = line.find("GPU_MEM")
+                        dtest_file_lines[k] = line[:idx+7] + " = " + gpu_usage_str + "\n"
+                        gpu_mem_added = True
+                        break
+
+                if not gpu_mem_added:
+                    # GPU_MEM was not in the file before, we need to add it.
+                    if resource_line > -1:
+                        # [RESOURCES] already exists. Add this to that section.
+                        dtest_file_lines.insert(resource_line+1, "    GPU_MEM = " + gpu_usage_str)
+                    else:
+                        # [RESOURCES] does not exist. Add it just before [RUN] if that exists. Otherwise, add it at the end.
+                        if run_line > -1:
+                            dtest_file_lines.insert(run_line,"[RESOURCES]\n")
+                            dtest_file_lines.insert(run_line+1,"    GPU_MEM = " + gpu_usage_str + "\n\n")
+                        else:
+                            dtest_file_lines.append("[RESOURCES]\n")
+                            dtest_file_lines.append("    GPU_MEM = " + gpu_usage_str)
+
+                if dry_run:
+                    if gpu_mem_added:
+                        # GPU_MEM was in the file before at line idx
+                        new_line = "GPU_MEM = " + gpu_usage_str
+                        if new_line.strip() != gpu_mem_line.strip():
+                            print(f"Modifying GPU memory in {dtest_file}")
+                            print(f"Memory was: {gpu_mem_line.strip()}")
+                            print(f"New memory: {gpu_usage_str}\n")
+                    else:
+                        # GPU_MEM was not there previously
+                        print(f"Adding GPU memory to {dtest_file}")
+                        print(f"New memory: {gpu_usage_str}\n")
+
+                else:
+                    with open(dtest_file,"w") as f:
+                        f.write("".join(dtest_file_lines))
+
+                # Add and commit file if appropriate
+                if added_file and add_files:
+                    addFileToVersionControl(dtest_file)
+
+                module_changed = True
+
+            else:
+                # Remove the GPU memory if it exists, since the usage is now 0.
+
+                dtest_file = test_path.joinpath("DTESTDEFS.cfg")
+                if not dtest_file.exists():
+                    dtest_file = test_path.joinpath("DTESTDEFS")
+                    if not dtest_file.exists():
+                        # There is no dtest_file, so no need to do anything.
+                        continue
+
+                # Search for GPU_MEM in the file
+                with open(dtest_file,"r") as f:
+                    dtest_file_lines = f.readlines()
+
+                idx = -1
+                for k,line in enumerate(dtest_file_lines):
+                    if "GPU_MEM" in line:
+                        idx = k
+                        break
+
+                if idx >= 0:
+                    if dry_run:
+                        print(f"Removing GPU memory from {dtest_file}")
+                        print(f"Memory was: {dtest_file_lines[idx]}")
+                    else:
+                        # We found GPU_MEM. Remove the line and re-write the file.
+                        dtest_file_lines.pop(idx)
+                        with open(dtest_file,"w") as f:
+                            f.write("".join(dtest_file_lines))
+
+                    module_changed = True
+
+        if module_changed:
+            if commit_files:
+                commitFileToVersionControl(root_dir)
+
+            changed_modules.append(module)
+            if list_changed_modules:
+                print(f"Changed module: {module}")
+
+    if list_changed_modules:
+        print("A list of changed modules follows:")
+        pprint(changed_modules)

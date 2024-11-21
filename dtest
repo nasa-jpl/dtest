@@ -1,0 +1,52 @@
+#!/usr/bin/env python
+"""Script for discovering and running tests."""
+
+from Dtest.DtestCommon import *
+from functools import partial
+
+if __name__ == '__main__':
+    # Process the options
+    _args = Test.processDtestOptions()
+
+    # Modify the logger based on the options
+    modifyLogger(_args)
+
+    if _args.jobs > 1:
+        Test.parallel_mode = True
+
+        # Setup environment variables and logging 
+        setupEnvAndLogging(_args)
+
+        test_command_modifier = getTestModifier(_args)
+        run_fn = partial(run, _args, partial(dispatch, _args, test_command_modifier))
+        pool = Pool(processes=_args.jobs)
+    else:
+        pool = None
+        run_fn = None
+        Test.parallel_mode = False
+
+    # Wrap everything in a try to handle keyboard interrupts.
+    try:
+        # If running in serial, this will block. If running in parallel, it will
+        # return almost immedietly. We wait on the pool, which will join when all jobs are done.
+        dark = runTests(_args, pool, run_fn)
+        if pool is not None:
+            # This will wait until all jobs are done if running in parllel.
+            pool.close()
+            pool.join()
+    except KeyboardInterrupt:
+        if pool is not None:
+            pool.terminate()
+            pool.join()
+        sys.exit(1)
+
+    if Test.parallel_mode:
+        # If we are in parallel mode, then we have a failure_count. 
+        # Use this to determine the exit code.
+        if failure_count.value > 0:
+            sys.exit(2)
+        else:
+            sys.exit(0)
+    else:
+        # Otherwise, dark is an integer that correspond to the exit code.
+        sys.exit(dark)
