@@ -17,7 +17,6 @@ import glob, re
 from timeit import default_timer
 
 import click
-import Dutils.Dclick as Dclick
 
 import smtplib
 from email.mime.multipart import MIMEMultipart
